@@ -1,8 +1,11 @@
 spring:
+  data:
+    rest:
+      base-path: /capacityplanner/api
   datasource:
     url: jdbc:mysql://localhost:3306/capacity_planner
-    username: capacity_user
-    password: cap123
+    username: root
+    password: P@55word
   jpa:
     hibernate:
       ddl-auto: none
