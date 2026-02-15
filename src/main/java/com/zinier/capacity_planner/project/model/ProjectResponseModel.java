@@ -11,8 +11,8 @@ public class ProjectResponseModel {
 
     private Long id;
     private String name;
-    private String code;
-    private String region;
+        private String code;
+        private String region;
     private String status;
     private LocalDate startDate;
     private LocalDate endDate;

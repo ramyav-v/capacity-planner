@@ -8,5 +8,9 @@ import java.util.List;
 public class CapacityQuarterRequestModel {
     private Integer employeeId;
     private Integer projectId;
+    private String employeeName;
+    private String projectName;
+    private String region;
+    private String role;
     private List<CapacityInputDtoV1> allocations;
 }

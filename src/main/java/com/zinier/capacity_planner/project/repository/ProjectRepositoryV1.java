@@ -21,4 +21,6 @@ public interface ProjectRepositoryV1 extends JpaRepository<ProjectEntity, Long> 
     List<ProjectEntity> findByStatusAndIsActiveTrue(Status status);
 
     List<ProjectEntity> findByRegionAndStatusAndIsActiveTrue(Region region, Status status);
+
+    Long countByIsActiveTrue();
 }

@@ -25,4 +25,46 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
     List<CapacityInputEntity> findWithFilters(
             @Param("employeeId") Integer employeeId,
             @Param("projectId") Integer projectId);
+
+    @Query("SELECT COALESCE(SUM(c.allocationPct), 0) FROM CapacityInputEntity c")
+    Double getTotalAllocation();
+
+    @Query("""
+       SELECT COUNT(DISTINCT c.employeeId)
+       FROM CapacityInputEntity c
+       GROUP BY c.employeeId
+       HAVING SUM(c.allocationPct) > 1.0
+       """)
+    Long countOverUtilizedEmployees();
+
+    @Query("""
+       SELECT COUNT(DISTINCT c.employeeId)
+       FROM CapacityInputEntity c
+       GROUP BY c.employeeId
+       HAVING SUM(c.allocationPct) < 0.5
+       """)
+    Long countUnderUtilizedEmployees();
+
+    @Query("""
+    SELECT SUM(c.allocationPct)
+    FROM CapacityInputEntity c
+    WHERE c.weekStartDate BETWEEN :start AND :end
+""")
+    Long sumAllocationForQuarter(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end
+    );
+
+    @Query("""
+    SELECT e.role, SUM(c.allocationPct)
+    FROM CapacityInputEntity c, EmployeeEntity e
+    WHERE c.employeeId = e.id
+      AND c.weekStartDate BETWEEN :start AND :end
+    GROUP BY e.role
+""")
+    List<Object[]> sumAllocationGroupedByRoleForQuarter(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end);
+
+
 }

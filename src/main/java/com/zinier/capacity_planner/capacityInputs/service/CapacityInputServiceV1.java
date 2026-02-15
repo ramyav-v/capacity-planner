@@ -5,6 +5,9 @@ import com.zinier.capacity_planner.capacityInputs.dao.entity.CapacityInputEntity
 import com.zinier.capacity_planner.capacityInputs.dto.CapacityInputDtoV1;
 import com.zinier.capacity_planner.capacityInputs.model.CapacityInputResponseModel;
 import com.zinier.capacity_planner.capacityInputs.model.CapacityQuarterResponseModel;
+import com.zinier.capacity_planner.employee.dao.EmployeeDaoV1;
+import com.zinier.capacity_planner.project.dao.ProjectDaoV1;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CapacityInputServiceV1 implements CapacityInputV1 {
     public final CapacityInputDaoV1 capacityInputDaoV1;
+    public final EmployeeDaoV1  employeeDaoV1;
+    public final ProjectDaoV1 projectDaoV1;
 
     public CapacityInputResponseModel create(CapacityInputDtoV1 request) {
 
