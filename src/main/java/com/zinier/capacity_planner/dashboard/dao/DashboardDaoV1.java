@@ -6,7 +6,12 @@ import com.zinier.capacity_planner.dashboard.dto.RegionCountDtoV1;
 import com.zinier.capacity_planner.dashboard.dto.RoleCountDtoV1;
 import com.zinier.capacity_planner.dashboard.model.UtilizationStatusModel;
 
+import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity;
+import com.zinier.capacity_planner.project.dao.entity.ProjectEntity;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface DashboardDaoV1 {
 
@@ -15,5 +20,9 @@ public interface DashboardDaoV1 {
     List<RegionCountDtoV1> fetchRegionDistribution();
     List<Object[]> fetchAllocatedByRoleForQuarter();
     List<HeadcountDtoV1> fetchHeadcountByRole();
-
+    List<EmployeeEntity> fetchActiveEmployees(Long employeeId);
+    Map<Integer, Double> fetchAllocationByEmployee(LocalDate start, LocalDate end);
+    List<ProjectEntity> fetchActiveProjects();
+    Map<Integer, Double> fetchAllocationByEmployeeForProject(Integer projectId, LocalDate start, LocalDate end);
+    List<EmployeeEntity> fetchEmployeesForProject(Integer projectId, LocalDate start, LocalDate end, Long employeeId);
 }

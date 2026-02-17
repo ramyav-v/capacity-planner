@@ -2,9 +2,12 @@ package com.zinier.capacity_planner.dashboard.service;
 
 import com.zinier.capacity_planner.dashboard.dao.DashboardDaoV1;
 import com.zinier.capacity_planner.dashboard.model.*;
+import com.zinier.capacity_planner.dashboard.util.QuarterUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -126,5 +129,136 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                 )
 
                 .build();
+    }
+
+    @Override
+    public ResourceAllocationResponseModel getResourceAllocations(LocalDate weekStartDate, Long employeeId) {
+
+        var quarter = QuarterUtils.currentQuarter();
+        boolean isWeekView = weekStartDate != null;
+
+        LocalDate start = isWeekView ? weekStartDate : quarter.getStart();
+        LocalDate end = isWeekView ? weekStartDate : quarter.getEnd();
+        long weeks = isWeekView ? 1 : QuarterUtils.getWeeksInQuarter(quarter);
+
+        var employees = dashboardDaoV1.fetchActiveEmployees(employeeId);
+        var allocationByEmployee = dashboardDaoV1.fetchAllocationByEmployee(start, end);
+
+        var resources = employees.stream()
+                .map(emp -> {
+                    double totalAllocation = allocationByEmployee
+                            .getOrDefault(emp.getId().intValue(), 0.0);
+                    double utilization = weeks > 0 ? (totalAllocation / weeks) * 100 : 0;
+
+                    String status;
+                    if (utilization == 0) {
+                        status = "Available";
+                    } else if (utilization <= 50) {
+                        status = "Partial";
+                    } else if (utilization <= 100) {
+                        status = "Allocated";
+                    } else {
+                        status = "Overloaded";
+                    }
+
+                    return ResourceAllocationDetailModel.builder()
+                            .employeeId(emp.getId())
+                            .name(emp.getName())
+                            .role(emp.getRole().name())
+                            .region(emp.getRegion().name())
+                            .utilization(Math.round(utilization * 100.0) / 100.0)
+                            .status(status)
+                            .build();
+                })
+                .toList();
+
+        ResourceAllocationResponseModel.ResourceAllocationResponseModelBuilder builder =
+                ResourceAllocationResponseModel.builder()
+                        .quarter(QuarterUtils.getQuarterLabel())
+                        .viewType(isWeekView ? "WEEK" : "QUARTER")
+                        .resources(resources);
+
+        if (isWeekView) {
+            builder.weekStartDate(weekStartDate);
+        }
+
+        return builder.build();
+    }
+
+    @Override
+    public List<ProjectSummaryModel> getActiveProjects() {
+        return dashboardDaoV1.fetchActiveProjects().stream()
+                .map(p -> ProjectSummaryModel.builder()
+                        .id(p.getId())
+                        .name(p.getName())
+                        .code(p.getCode())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public ProjectAllocationResponseModel getProjectAllocations(
+            Long projectId, LocalDate weekStartDate, Long employeeId) {
+
+        var quarter = QuarterUtils.currentQuarter();
+        boolean isWeekView = weekStartDate != null;
+
+        LocalDate start = isWeekView ? weekStartDate : quarter.getStart();
+        LocalDate end = isWeekView ? weekStartDate : quarter.getEnd();
+        long weeks = isWeekView ? 1 : QuarterUtils.getWeeksInQuarter(quarter);
+
+        var project = dashboardDaoV1.fetchActiveProjects().stream()
+                .filter(p -> p.getId().equals(projectId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + projectId));
+
+        var employees = dashboardDaoV1.fetchEmployeesForProject(
+                projectId.intValue(), start, end, employeeId);
+
+        var allocationByEmployee = dashboardDaoV1
+                .fetchAllocationByEmployeeForProject(projectId.intValue(), start, end);
+
+        var resources = employees.stream()
+                .map(emp -> {
+                    double totalAllocation = allocationByEmployee
+                            .getOrDefault(emp.getId().intValue(), 0.0);
+                    double utilization = weeks > 0 ? (totalAllocation / weeks) * 100 : 0;
+
+                    String status;
+                    if (utilization == 0) {
+                        status = "Available";
+                    } else if (utilization <= 50) {
+                        status = "Partial";
+                    } else if (utilization <= 100) {
+                        status = "Allocated";
+                    } else {
+                        status = "Overloaded";
+                    }
+
+                    return ResourceAllocationDetailModel.builder()
+                            .employeeId(emp.getId())
+                            .name(emp.getName())
+                            .role(emp.getRole().name())
+                            .region(emp.getRegion().name())
+                            .utilization(Math.round(utilization * 100.0) / 100.0)
+                            .status(status)
+                            .build();
+                })
+                .toList();
+
+        ProjectAllocationResponseModel.ProjectAllocationResponseModelBuilder builder =
+                ProjectAllocationResponseModel.builder()
+                        .projectId(projectId)
+                        .projectName(project.getName())
+                        .projectCode(project.getCode())
+                        .quarter(QuarterUtils.getQuarterLabel())
+                        .viewType(isWeekView ? "WEEK" : "QUARTER")
+                        .resources(resources);
+
+        if (isWeekView) {
+            builder.weekStartDate(weekStartDate);
+        }
+
+        return builder.build();
     }
 }

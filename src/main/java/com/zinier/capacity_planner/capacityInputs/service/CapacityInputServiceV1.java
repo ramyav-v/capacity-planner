@@ -98,11 +98,20 @@ public class CapacityInputServiceV1 implements CapacityInputV1 {
                                     .map(this::toModel)
                                     .toList();
 
-                    return CapacityQuarterResponseModel.builder()
-                            .employeeId(first.getEmployeeId())
-                            .projectId(first.getProjectId())
-                            .allocations(weeks)
-                            .build();
+                    CapacityQuarterResponseModel.CapacityQuarterResponseModelBuilder builder =
+                            CapacityQuarterResponseModel.builder()
+                                    .employeeId(first.getEmployeeId())
+                                    .projectId(first.getProjectId())
+                                    .allocations(weeks);
+
+                    employeeDaoV1.findById(Long.valueOf(first.getEmployeeId()))
+                            .ifPresent(emp -> {
+                                builder.employeeName(emp.getName());
+                                builder.role(emp.getRole().name());
+                                builder.region(emp.getRegion().name());
+                            });
+
+                    return builder.build();
                 })
                 .toList();
     }

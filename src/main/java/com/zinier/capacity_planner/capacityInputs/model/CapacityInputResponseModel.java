@@ -11,8 +11,6 @@ import java.time.LocalDate;
 
 public class CapacityInputResponseModel {
     private Long id;
-    private String projectId;
-    private String employeeId;
     private LocalDate weekStartDate;
     private BigDecimal allocationPct;
 }

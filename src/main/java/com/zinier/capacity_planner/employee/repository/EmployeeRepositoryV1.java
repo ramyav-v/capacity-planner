@@ -61,4 +61,5 @@ public interface EmployeeRepositoryV1 extends JpaRepository<EmployeeEntity, Long
 """)
     List<Object[]> countHeadcountByRole();
 
+    List<EmployeeEntity> findByIdInAndIsActiveTrue(List<Long> ids);
 }

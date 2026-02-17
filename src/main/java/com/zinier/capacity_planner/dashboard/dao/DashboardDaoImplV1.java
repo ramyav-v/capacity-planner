@@ -8,9 +8,15 @@ import com.zinier.capacity_planner.dashboard.dto.RoleCountDtoV1;
 import com.zinier.capacity_planner.dashboard.util.QuarterUtils;
 import com.zinier.capacity_planner.employee.repository.EmployeeRepositoryV1;
 import com.zinier.capacity_planner.project.repository.ProjectRepositoryV1;
+import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity;
+import com.zinier.capacity_planner.project.dao.entity.ProjectEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -83,5 +89,69 @@ public class DashboardDaoImplV1 implements DashboardDaoV1 {
                 quarter.getStart(),
                 quarter.getEnd()
         );
+    }
+
+    @Override
+    public List<EmployeeEntity> fetchActiveEmployees(Long employeeId) {
+        if (employeeId != null) {
+            return employeeRepository.findById(employeeId)
+                    .filter(EmployeeEntity::getIsActive)
+                    .map(List::of)
+                    .orElse(List.of());
+        }
+        return employeeRepository.findByIsActiveTrue();
+    }
+
+    @Override
+    public Map<Integer, Double> fetchAllocationByEmployee(LocalDate start, LocalDate end) {
+        return capacityRepository.sumAllocationByEmployeeForDateRange(start, end)
+                .stream()
+                .collect(Collectors.toMap(
+                        obj -> ((Number) obj[0]).intValue(),
+                        obj -> ((Number) obj[1]).doubleValue()
+                ));
+    }
+
+    @Override
+    public List<ProjectEntity> fetchActiveProjects() {
+        return projectRepository.findByIsActiveTrue();
+    }
+
+    @Override
+    public Map<Integer, Double> fetchAllocationByEmployeeForProject(
+            Integer projectId, LocalDate start, LocalDate end) {
+        return capacityRepository
+                .sumAllocationByEmployeeForProjectAndDateRange(projectId, start, end)
+                .stream()
+                .collect(Collectors.toMap(
+                        obj -> ((Number) obj[0]).intValue(),
+                        obj -> ((Number) obj[1]).doubleValue()
+                ));
+    }
+
+    @Override
+    public List<EmployeeEntity> fetchEmployeesForProject(
+            Integer projectId, LocalDate start, LocalDate end, Long employeeId) {
+        List<Integer> employeeIds = capacityRepository
+                .findDistinctEmployeeIdsByProjectAndDateRange(projectId, start, end);
+
+        if (employeeIds.isEmpty()) {
+            return List.of();
+        }
+
+        if (employeeId != null) {
+            if (!employeeIds.contains(employeeId.intValue())) {
+                return List.of();
+            }
+            return employeeRepository.findById(employeeId)
+                    .filter(EmployeeEntity::getIsActive)
+                    .map(List::of)
+                    .orElse(List.of());
+        }
+
+        List<Long> longIds = employeeIds.stream()
+                .map(Integer::longValue)
+                .toList();
+        return employeeRepository.findByIdInAndIsActiveTrue(longIds);
     }
 }

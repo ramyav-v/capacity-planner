@@ -84,7 +84,7 @@ public class EmployeeEntity {
     }
 
     public enum EmployeeRole {
-        PM, TL, Dev, QA, Support
+        Director, Manager, PM, TL, SeniorDev, Dev, SDE, QA, BA, Designer, Support
     }
 
     public enum Company {

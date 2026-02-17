@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.temporal.ChronoUnit;
 
 public class QuarterUtils {
 
@@ -38,12 +39,20 @@ public class QuarterUtils {
         return new QuarterRange(start, end);
     }
 
+    public static long getWeeksInQuarter(QuarterRange quarter) {
+        return ChronoUnit.WEEKS.between(quarter.getStart(), quarter.getEnd().plusDays(1));
+    }
+
+    public static String getQuarterLabel() {
+        LocalDate now = LocalDate.now();
+        int q = (now.getMonthValue() - 1) / 3 + 1;
+        return "Q" + q + " " + now.getYear();
+    }
+
     @AllArgsConstructor
     @Getter
     public static class QuarterRange {
         private LocalDate start;
         private LocalDate end;
     }
-
-
 }
