@@ -1,17 +1,4 @@
 <div class="organization-page">
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb">
-    <a routerLink="/data-management" class="breadcrumb-link">Data Management</a>
-    <span class="breadcrumb-sep">/</span>
-    <a routerLink="/data-management/organization" class="breadcrumb-link">Organization</a>
-    <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current" routerLinkActive="active">
-      <ng-container *ngFor="let tab of tabs">
-        <span *ngIf="true" [routerLink]="tab.route" routerLinkActive="visible">{{ tab.label }}</span>
-      </ng-container>
-    </span>
-  </nav>
-
   <!-- Tabs -->
   <div class="tabs">
     <a

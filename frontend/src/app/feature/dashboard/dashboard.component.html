@@ -1,15 +1,4 @@
 <div class="dashboard-container">
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb">
-    <a routerLink="/dashboard" class="breadcrumb-link">Dashboard</a>
-    <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current" *ngFor="let tab of tabs">
-      <ng-container *ngIf="tab.route">
-        <a [routerLink]="tab.route" routerLinkActive="active-crumb" class="breadcrumb-link">{{ tab.label }}</a>
-      </ng-container>
-    </span>
-  </nav>
-
   <!-- Tab Navigation -->
   <div class="tab-bar">
     <a *ngFor="let tab of tabs"

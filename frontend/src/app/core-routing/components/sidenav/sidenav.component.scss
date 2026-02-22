@@ -1,17 +1,16 @@
+@import '../../../../styles/theme';
+
 $sidenav-width: 260px;
 $sidenav-collapsed-width: 60px;
-$primary-color: #5c6bc0;
-$active-bg: #eef0f8;
-$text-color: #333;
-$text-muted: #757575;
 $hover-bg: #f5f5f5;
-$border-color: #e8e8e8;
+$side-border-color: #e8e8e8;
+$active-bg: #eae8fd;
 
 .sidenav {
   width: $sidenav-width;
   height: calc(100vh - 56px);
-  background-color: #ffffff;
-  border-right: 1px solid $border-color;
+  background-color: $color-white;
+  border-right: 1px solid $side-border-color;
   position: fixed;
   top: 56px;
   left: 0;
@@ -34,7 +33,7 @@ $border-color: #e8e8e8;
   justify-content: flex-end;
   padding: 10px 14px;
   cursor: pointer;
-  color: $text-muted;
+  color: $color-muted;
   transition: background-color 0.2s;
 
   &:hover {
@@ -49,8 +48,8 @@ $border-color: #e8e8e8;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid $border-color;
-  background: #fff;
+  border: 1px solid $side-border-color;
+  background: $color-white;
 }
 
 /* Nav list */
@@ -71,7 +70,7 @@ $border-color: #e8e8e8;
   gap: 10px;
   padding: 10px 16px;
   cursor: pointer;
-  color: $text-color;
+  color: $color-heading;
   text-decoration: none;
   transition: background-color 0.15s, color 0.15s;
   font-size: 14px;
@@ -86,9 +85,9 @@ $border-color: #e8e8e8;
 
 /* Top-level parent (Dashboards, Data Management) */
 .nav-link.parent {
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
-  color: $text-color;
+  color: $color-heading;
 }
 
 .nav-icon {
@@ -98,7 +97,7 @@ $border-color: #e8e8e8;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  color: $primary-color;
+  color: $accent-color;
 }
 
 .nav-label {
@@ -111,7 +110,7 @@ $border-color: #e8e8e8;
   display: flex;
   align-items: center;
   margin-left: auto;
-  color: $text-muted;
+  color: $color-muted;
 }
 
 /* Level 2 children list */
@@ -130,7 +129,7 @@ $border-color: #e8e8e8;
   padding: 9px 16px 9px 44px;
   font-size: 14px;
   font-weight: 500;
-  color: $text-color;
+  color: $color-heading;
 }
 
 /* Leaf link at level 2 (Capacity Inputs) */
@@ -138,10 +137,10 @@ $border-color: #e8e8e8;
   padding: 9px 16px 9px 44px;
   font-size: 14px;
   font-weight: 400;
-  color: $text-muted;
+  color: $color-heading;
 
   &.active {
-    color: $primary-color;
+    color: $accent-color;
     font-weight: 600;
     background-color: transparent;
   }
@@ -167,10 +166,10 @@ $border-color: #e8e8e8;
   padding: 8px 16px 8px 68px;
   font-size: 13px;
   font-weight: 400;
-  color: $text-muted;
+  color: $color-heading;
 
   &.active {
-    color: $primary-color;
+    color: $accent-color;
     font-weight: 500;
     background-color: $active-bg;
     border-radius: 0;

@@ -1,4 +1,9 @@
+@import '../../../../../styles/theme';
+
 .overview-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 0;
 }
 
@@ -6,19 +11,19 @@
 .kpi-row {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
 }
 
 .kpi-card {
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 16px;
-  background: #fff;
-  border-radius: 12px;
+  background: $color-white;
+  border-radius: $card-radius;
   padding: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f0f0f0;
+  box-shadow: $card-shadow;
+  border: 1px solid $border-light;
   transition: box-shadow 0.2s;
 
   &:hover {
@@ -40,12 +45,16 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .kpi-title {
   font-size: 13px;
-  font-weight: 500;
-  color: #757575;
+  font-weight: 600;
+  color: $color-heading;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .kpi-value-row {
@@ -57,185 +66,180 @@
 .kpi-value {
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: $color-heading;
   line-height: 1;
 }
 
-.kpi-change {
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 4px;
-  padding: 2px 6px;
-
-  &.positive {
-    color: #2e7d32;
-    background: #e8f5e9;
-  }
-
-  &.negative {
-    color: #e53935;
-    background: #ffebee;
-  }
-}
-
-/* ========== Charts Section ========== */
-.charts-section {
-  display: flex;
-  gap: 20px;
-}
-
-/* ========== Headcount Card (Left) ========== */
-.headcount-card {
-  flex: 0 0 55%;
-  background: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f0f0f0;
-}
-
-.chart-header {
-  margin-bottom: 24px;
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin: 0 0 4px;
-}
-
-.chart-subtitle {
-  font-size: 13px;
-  color: #999;
-}
-
-
-
-/* Headcount Totals */
-.headcount-totals {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.total-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.fulltime-total {
-  background: #e53935;
-  color: #fff;
-}
-
-.contractor-total {
-  background: #5c6bc0;
-  color: #fff;
-}
-
-.total-label {
-  font-weight: 500;
-}
-
-.total-value {
-  font-weight: 700;
-}
-
-/* ========== Right Column ========== */
-.right-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Donut Charts Row */
+/* ========== Donut Charts Row ========== */
 .donut-row {
   display: flex;
-  gap: 14px;
+  gap: 16px;
 }
 
 .donut-card {
   flex: 1;
-  background: #fff;
-  border-radius: 12px;
+  min-width: 0;
+  background: $color-white;
+  border-radius: $card-radius;
   padding: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f0f0f0;
+  box-shadow: $card-shadow;
+  border: 1px solid $border-light;
   text-align: center;
+  overflow: hidden;
 }
 
 .donut-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  color: #333;
-  margin: 0 0 0;
+  color: $color-body;
+  margin: 0;
   text-align: left;
+}
+
+/* ========== Bottom Row: Headcount + Resource ========== */
+.bottom-row {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ========== Headcount Card ========== */
+.headcount-card {
+  flex: 1;
+  min-width: 0;
+  background: $color-white;
+  border-radius: $card-radius;
+  padding: 24px;
+  box-shadow: $card-shadow;
+  border: 1px solid $border-light;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  margin-bottom: 12px;
+}
+
+.chart-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: $color-heading;
+  margin: 0 0 4px;
+}
+
+.chart-subtitle {
+  font-size: 12px;
+  color: $color-heading;
+  font-weight: 600;
+}
+
+/* Headcount Totals */
+.headcount-totals {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid $border-light;
+}
+
+.total-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #f5f7fa;
+  border: 1px solid #e3e8ef;
+}
+
+.total-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fulltime-dot {
+  background: #2e2791ff;
+}
+
+.contractor-dot {
+  background: #aaa5e0ff
+}
+
+.total-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.total-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: $color-heading;
+  letter-spacing: 0.2px;
+}
+
+.total-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: $color-heading;
+  line-height: 1;
 }
 
 /* ========== Resource Allocation ========== */
 .resource-card {
-  background: #fff;
-  border-radius: 12px;
+  flex: 1;
+  min-width: 0;
+  background: $color-white;
+  border-radius: $card-radius;
   padding: 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f0f0f0;
+  box-shadow: $card-shadow;
+  border: 1px solid $border-light;
+  display: flex;
+  flex-direction: column;
 }
 
 .resource-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .resource-title {
   font-size: 15px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $color-heading;
   margin: 0;
 }
 
-.detail-link {
-  font-size: 13px;
-  color: #e53935;
-  font-weight: 500;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.role-cards-row {
+/* Role List (vertical stack) */
+.role-list {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
 }
 
-.role-card {
-  flex: 1;
-  background: #fafbfc;
-  border-radius: 10px;
-  padding: 14px;
-  border: 1px solid #eee;
+.role-item {
+  padding: 10px 0;
+  border-bottom: 1px solid $border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .role-top {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .role-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -246,34 +250,32 @@
 .role-name {
   font-size: 13px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $color-heading;
 }
 
-.role-alloc {
-  margin-bottom: 10px;
+.role-avail-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  color: $accent-color;
+  background: $accent-light;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
-.alloc-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: #999;
-  letter-spacing: 0.5px;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.alloc-bar-row {
+.role-bar-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .alloc-numbers {
-  font-size: 16px;
+  font-size: 14px;
   flex-shrink: 0;
 
   strong {
-    color: #1a1a2e;
+    color: $color-heading;
     font-weight: 700;
   }
 
@@ -283,8 +285,8 @@
   }
 
   .alloc-total {
-    color: #999;
-    font-size: 13px;
+    color: $color-heading;
+    font-size: 12px;
   }
 }
 
@@ -294,6 +296,7 @@
   background: #e8e8e8;
   border-radius: 3px;
   overflow: hidden;
+  min-width: 40px;
 }
 
 .alloc-bar-fill {
@@ -305,29 +308,10 @@
 .alloc-pct {
   font-size: 12px;
   font-weight: 700;
-  color: #333;
+  color: #2e2791;
   flex-shrink: 0;
   min-width: 32px;
   text-align: right;
-}
-
-.role-avail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #eee;
-  padding-top: 8px;
-}
-
-.avail-label {
-  font-size: 11px;
-  color: #999;
-}
-
-.avail-value {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a2e;
 }
 
 /* ========== Skeleton Loading ========== */

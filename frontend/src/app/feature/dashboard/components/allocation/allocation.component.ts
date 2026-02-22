@@ -136,10 +136,7 @@ export class AllocationComponent implements OnInit {
   }
 
   getBarColor(utilization: number): string {
-    if (utilization === 0) return '#d0d5dd';
-    if (utilization > 100) return '#e53935';
-    if (utilization < 70) return '#9e9e9e';
-    return '#5c6bc0';
+    return '#2e2791';
   }
 
   getStatus(utilization: number): string {

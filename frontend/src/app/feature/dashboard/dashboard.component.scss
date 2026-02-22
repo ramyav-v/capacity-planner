@@ -1,38 +1,7 @@
+@import '../../../styles/theme';
+
 .dashboard-container {
   padding: 0;
-}
-
-/* Breadcrumb */
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 16px;
-  font-size: 13px;
-}
-
-.breadcrumb-link {
-  color: #757575;
-  text-decoration: none;
-  transition: color 0.15s;
-
-  &:hover {
-    color: #5c6bc0;
-  }
-}
-
-.active-crumb {
-  color: #1a1a2e;
-  font-weight: 500;
-}
-
-.breadcrumb-sep {
-  color: #bbb;
-}
-
-.breadcrumb-current {
-  color: #1a1a2e;
-  font-weight: 500;
 }
 
 /* Tab Bar */
@@ -47,7 +16,7 @@
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 500;
-  color: #757575;
+  color: $color-muted;
   text-decoration: none;
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
@@ -55,13 +24,13 @@
   cursor: pointer;
 
   &:hover {
-    color: #5c6bc0;
+    color: $accent-color;
   }
 }
 
 .active-tab {
-  color: #5c6bc0;
-  border-bottom-color: #5c6bc0;
+  color: $accent-color;
+  border-bottom-color: $accent-color;
   font-weight: 600;
 }
 

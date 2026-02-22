@@ -58,9 +58,9 @@ export class OverviewComponent implements OnInit {
 
   barChartOptions: ApexChart = {
     type: 'bar',
-    height: 300,
+    height: 260,
     toolbar: { show: false },
-    fontFamily: 'Inter, sans-serif'
+    fontFamily: "'Open Sans', sans-serif"
   };
 
   barPlotOptions: ApexPlotOptions = {
@@ -73,13 +73,13 @@ export class OverviewComponent implements OnInit {
 
   barXAxis: ApexXAxis = {
     categories: [],
-    labels: { style: { fontSize: '13px', colors: '#666' } },
+    labels: { style: { fontSize: '13px', colors: '#171b1f' } },
     axisBorder: { show: false },
     axisTicks: { show: false }
   };
 
   barYAxis: ApexYAxis = {
-    labels: { style: { fontSize: '13px', colors: '#666', fontWeight: '500' } }
+    labels: { style: { fontSize: '13px', colors: '#171b1f', fontWeight: '600' } }
   };
 
   barDataLabels: ApexDataLabels = {
@@ -88,14 +88,15 @@ export class OverviewComponent implements OnInit {
     formatter: (val: number) => val > 0 ? val.toString() : ''
   };
 
-  barColors = ['#1a237e', '#7986cb'];
+  barColors = ['#2e2791ff', '#aaa5e0ff'];
 
   barLegend: ApexLegend = {
     position: 'bottom',
-    horizontalAlign: 'center',
+    horizontalAlign: 'center',  
     fontSize: '12px',
+    fontWeight: '600',
     markers: { shape: 'circle' as any },
-    labels: { colors: '#666' },
+    labels: { colors: '#171b1f' },
     itemMargin: { horizontal: 16 }
   };
 
@@ -115,8 +116,8 @@ export class OverviewComponent implements OnInit {
   // ========== Donut Charts ==========
   private donutChartBase: ApexChart = {
     type: 'donut',
-    height: 200,
-    fontFamily: 'Inter, sans-serif'
+    height: 190,
+    fontFamily: "'Open Sans', sans-serif"
   };
 
   private donutPlotBase: ApexPlotOptions = {
@@ -138,7 +139,7 @@ export class OverviewComponent implements OnInit {
     position: 'bottom',
     fontSize: '10px',
     markers: { shape: 'circle' as any },
-    labels: { colors: '#666' },
+    labels: { colors: '#171b1f' },
     itemMargin: { horizontal: 4, vertical: 2 },
     formatter: (label: string, opts: any) =>
       `${label} ${opts.w.config.series[opts.seriesIndex]}`
@@ -157,7 +158,7 @@ export class OverviewComponent implements OnInit {
     position: 'bottom',
     fontSize: '10px',
     markers: { shape: 'circle' as any },
-    labels: { colors: '#666' },
+    labels: { colors: '#171b1f' },
     itemMargin: { horizontal: 4, vertical: 2 },
     formatter: (label: string, opts: any) =>
       `${label} ${opts.w.config.series[opts.seriesIndex]}`
@@ -176,7 +177,7 @@ export class OverviewComponent implements OnInit {
     position: 'bottom',
     fontSize: '10px',
     markers: { shape: 'circle' as any },
-    labels: { colors: '#666' },
+    labels: { colors: '#171b1f' },
     itemMargin: { horizontal: 4, vertical: 2 },
     formatter: (label: string, opts: any) =>
       `${label} ${opts.w.config.series[opts.seriesIndex]}`
@@ -292,6 +293,6 @@ export class OverviewComponent implements OnInit {
   getPercentBarColor(percent: number): string {
     if (percent >= 100) return '#ef5350';
     if (percent >= 80) return '#ffa726';
-    return '#5c6bc0';
+    return '#2e2791';
   }
 }
