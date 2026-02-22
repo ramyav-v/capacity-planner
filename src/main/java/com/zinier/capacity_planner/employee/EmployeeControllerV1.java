@@ -75,7 +75,7 @@ public class EmployeeControllerV1 {
     }
 
     /**
-     * Soft-delete employee (sets is_active = false)
+     * Delete employee
      * DELETE /api/v1/employees/{id}
      */
     @DeleteMapping("/{id}")
@@ -94,7 +94,6 @@ public class EmployeeControllerV1 {
                 .region(request.getRegion())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
-                .capacityFactor(request.getCapacityFactor())
                 .build();
     }
 
@@ -108,7 +107,6 @@ public class EmployeeControllerV1 {
                 .region(model.getRegion())
                 .startDate(model.getStartDate())
                 .endDate(model.getEndDate())
-                .capacityFactor(model.getCapacityFactor())
                 .isActive(model.getIsActive())
                 .createdAt(model.getCreatedAt())
                 .updatedAt(model.getUpdatedAt())

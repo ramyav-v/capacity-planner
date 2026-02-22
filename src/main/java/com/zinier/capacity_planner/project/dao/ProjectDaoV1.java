@@ -19,4 +19,6 @@ public interface ProjectDaoV1 {
     ProjectEntity save(ProjectEntity project);
 
     boolean existsById(Long id);
+
+    void deleteById(Long id);
 }

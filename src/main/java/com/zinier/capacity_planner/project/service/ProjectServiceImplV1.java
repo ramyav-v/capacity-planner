@@ -64,10 +64,10 @@ public class ProjectServiceImplV1 implements ProjectServiceV1 {
     @Override
     @Transactional
     public void delete(Long id) {
-        ProjectEntity existing = projectDao.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found: " + id));
-        existing.setIsActive(false);
-        projectDao.save(existing);
+        if (!projectDao.existsById(id)) {
+            throw new IllegalArgumentException("Project not found: " + id);
+        }
+        projectDao.deleteById(id);
     }
 
     private ProjectResponseModel toModel(ProjectEntity entity) {

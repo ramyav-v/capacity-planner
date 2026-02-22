@@ -59,4 +59,9 @@ public class ProjectDaoImplV1 implements ProjectDaoV1 {
     public boolean existsById(Long id) {
         return repository.existsById(id);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }

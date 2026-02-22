@@ -30,24 +30,6 @@
   margin: 0;
 }
 
-.quarter-copy-btn {
-  background: none;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  padding: 5px;
-  cursor: pointer;
-  color: #757575;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-
-  &:hover {
-    background: #f5f5f5;
-    color: #333;
-  }
-}
-
 .quarter-btn {
   background: linear-gradient(135deg, #e53935, #ab47bc);
   color: #fff;
@@ -58,10 +40,16 @@
   text-align: center;
   margin-bottom: 20px;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: all 0.15s;
+  opacity: 0.6;
 
   &:hover {
-    opacity: 0.9;
+    opacity: 0.85;
+  }
+
+  &.active {
+    opacity: 1;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
   }
 }
 

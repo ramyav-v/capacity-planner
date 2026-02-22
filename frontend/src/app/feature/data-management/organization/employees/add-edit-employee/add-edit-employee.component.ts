@@ -21,7 +21,7 @@ export class AddEditEmployeeComponent implements OnInit {
 
   roles: EmployeeRole[] = ['PM', 'TL', 'Dev', 'QA', 'Support'];
   companies: EmployeeCompany[] = ['Zinier', 'Sankey', 'TopGrep'];
-  regions: EmployeeRegion[] = ['US', 'EMEA', 'AU'];
+  regions: EmployeeRegion[] = ['US', 'EMEA'];
 
   get isEditMode(): boolean {
     return !!this.employee;
@@ -55,8 +55,7 @@ export class AddEditEmployeeComponent implements OnInit {
       company: [this.employee?.company || '', Validators.required],
       region: [this.employee?.region || '', Validators.required],
       startDate: [this.employee?.startDate || '', Validators.required],
-      endDate: [this.employee?.endDate || ''],
-      capacityFactor: [this.employee?.capacityFactor ?? 1.0, [Validators.required, Validators.min(0), Validators.max(1)]]
+      endDate: [this.employee?.endDate || '']
     });
   }
 

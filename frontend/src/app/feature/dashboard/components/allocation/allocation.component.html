@@ -4,14 +4,9 @@
   <aside class="quarter-sidebar">
     <div class="quarter-header">
       <h2 class="quarter-title">{{ quarterLabel }}</h2>
-      <button class="quarter-copy-btn" title="Copy">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-        </svg>
-      </button>
     </div>
 
-    <div class="quarter-btn">
+    <div class="quarter-btn" [class.active]="selectedWeek === null" (click)="selectQuarterView()">
       <span>Quarter View</span>
     </div>
 
@@ -34,7 +29,7 @@
     <div class="main-header">
       <div class="main-title-block">
         <h1 class="main-title">{{ mainTitle }}</h1>
-        <span class="main-subtitle">{{ quarterLabel }}</span>
+        <span class="main-subtitle">{{ quarterLabel }} — {{ selectedWeek ? 'Week ' + selectedWeek : 'Quarter View' }}</span>
       </div>
       <div class="main-actions">
         <div class="search-box">

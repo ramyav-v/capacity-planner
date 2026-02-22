@@ -1,6 +1,5 @@
 package com.zinier.capacity_planner.employee.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -18,7 +17,6 @@ public class EmployeeResponseModel {
     private String region;
     private LocalDate startDate;
     private LocalDate endDate;
-    private BigDecimal capacityFactor;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

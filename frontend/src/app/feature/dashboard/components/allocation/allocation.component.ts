@@ -156,6 +156,15 @@ export class AllocationComponent implements OnInit {
     return 'status-allocated';
   }
 
+  selectQuarterView(): void {
+    this.selectedWeek = null;
+    this.selectedWeekDate = null;
+    this.loadResourceAllocations();
+    if (this.activeTab === 'project') {
+      this.loadProjectAllocations();
+    }
+  }
+
   selectWeek(week: WeekEntry): void {
     if (this.selectedWeek === week.weekNumber) {
       // Deselect = back to quarter view

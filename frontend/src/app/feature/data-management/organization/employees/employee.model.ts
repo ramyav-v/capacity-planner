@@ -1,6 +1,6 @@
 export type EmployeeRole = 'PM' | 'TL' | 'Dev' | 'QA' | 'Support';
 export type EmployeeCompany = 'Zinier' | 'Sankey' | 'TopGrep';
-export type EmployeeRegion = 'US' | 'EMEA' | 'AU';
+export type EmployeeRegion = 'US' | 'EMEA';
 
 export interface Employee {
   id: number | null;
@@ -11,7 +11,6 @@ export interface Employee {
   region: EmployeeRegion;
   startDate: string;
   endDate: string | null;
-  capacityFactor: number;
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -25,5 +24,4 @@ export interface EmployeeDto {
   region: EmployeeRegion;
   startDate: string;
   endDate: string | null;
-  capacityFactor: number;
 }

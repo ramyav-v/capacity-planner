@@ -1,6 +1,5 @@
 package com.zinier.capacity_planner.employee.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +60,6 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
         existing.setRegion(Region.valueOf(model.getRegion()));
         existing.setStartDate(model.getStartDate());
         existing.setEndDate(model.getEndDate());
-        existing.setCapacityFactor(model.getCapacityFactor() != null ? model.getCapacityFactor() : BigDecimal.ONE);
 
         return toModel(employeeDao.save(existing));
     }
@@ -69,11 +67,10 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
     @Override
     @Transactional
     public void delete(Long id) {
-        EmployeeEntity existing = employeeDao.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id));
-        // Soft delete
-        existing.setIsActive(false);
-        employeeDao.save(existing);
+        if (!employeeDao.existsById(id)) {
+            throw new IllegalArgumentException("Employee not found: " + id);
+        }
+        employeeDao.deleteById(id);
     }
 
     private EmployeeResponseModel toModel(EmployeeEntity entity) {
@@ -86,7 +83,6 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
                 .region(entity.getRegion().name())
                 .startDate(entity.getStartDate())
                 .endDate(entity.getEndDate())
-                .capacityFactor(entity.getCapacityFactor())
                 .isActive(entity.getIsActive())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -103,7 +99,6 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
                 .region(model.getRegion() != null ? Region.valueOf(model.getRegion()) : Region.US)
                 .startDate(model.getStartDate())
                 .endDate(model.getEndDate())
-                .capacityFactor(model.getCapacityFactor() != null ? model.getCapacityFactor() : BigDecimal.ONE)
                 .isActive(model.getIsActive() != null ? model.getIsActive() : true)
                 .build();
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
@@ -53,6 +53,7 @@ export class CapacityInputsComponent implements OnInit {
   private gridApi!: GridApi;
   searchText = '';
   quarterLabel = '';
+  quarterOffset = 0;
 
   columnDefs: (ColDef | ColGroupDef)[] = [];
   defaultColDef: ColDef = { resizable: true, sortable: true };
@@ -74,7 +75,8 @@ export class CapacityInputsComponent implements OnInit {
 
   constructor(
     private allocationService: AllocationService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -94,6 +96,22 @@ export class CapacityInputsComponent implements OnInit {
 
   onExport(): void {
     this.gridApi?.exportDataAsCsv({ fileName: 'allocations.csv' });
+  }
+
+  onPrevQuarter(): void {
+    this.quarterOffset--;
+    this.refreshQuarter();
+  }
+
+  onNextQuarter(): void {
+    this.quarterOffset++;
+    this.refreshQuarter();
+  }
+
+  private refreshQuarter(): void {
+    this.generateQuarterWeeks();
+    this.buildColumnDefs();
+    this.loadData();
   }
 
   onAddAllocation(): void {
@@ -161,8 +179,10 @@ export class CapacityInputsComponent implements OnInit {
 
   private generateQuarterWeeks(): void {
     const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    const baseMonth = now.getMonth() + this.quarterOffset * 3;
+    const targetDate = new Date(now.getFullYear(), baseMonth, 1);
+    const currentMonth = targetDate.getMonth();
+    const currentYear = targetDate.getFullYear();
     const quarterStartMonth = Math.floor(currentMonth / 3) * 3;
     const quarterNumber = Math.floor(quarterStartMonth / 3) + 1;
 
@@ -249,7 +269,7 @@ export class CapacityInputsComponent implements OnInit {
         editBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>`;
         editBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          parent.onEditRow(params.data);
+          parent.ngZone.run(() => parent.onEditRow(params.data));
         });
 
         const deleteBtn = document.createElement('button');
@@ -258,7 +278,7 @@ export class CapacityInputsComponent implements OnInit {
         deleteBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`;
         deleteBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          parent.onDeleteRow(params.data);
+          parent.ngZone.run(() => parent.onDeleteRow(params.data));
         });
 
         container.appendChild(editBtn);

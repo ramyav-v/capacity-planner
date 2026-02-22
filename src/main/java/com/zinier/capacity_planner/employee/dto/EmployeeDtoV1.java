@@ -1,6 +1,5 @@
 package com.zinier.capacity_planner.employee.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.Data;
 
@@ -14,5 +13,4 @@ public class EmployeeDtoV1 {
     private String region;
     private LocalDate startDate;
     private LocalDate endDate;
-    private BigDecimal capacityFactor;
 }

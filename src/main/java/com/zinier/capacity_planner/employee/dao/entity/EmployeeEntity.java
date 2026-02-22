@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -57,10 +56,6 @@ public class EmployeeEntity {
 
     private LocalDate endDate;
 
-    @Column(nullable = false, precision = 3, scale = 2)
-    @Builder.Default
-    private BigDecimal capacityFactor = BigDecimal.ONE;
-
     @Column(nullable = false)
     @Builder.Default
     private Boolean isActive = true;
@@ -92,6 +87,6 @@ public class EmployeeEntity {
     }
 
     public enum Region {
-        US, EMEA, AU
+        US, EMEA
     }
 }

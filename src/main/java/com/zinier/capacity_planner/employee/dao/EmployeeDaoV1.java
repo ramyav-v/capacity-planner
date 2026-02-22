@@ -24,4 +24,6 @@ public interface EmployeeDaoV1 {
     EmployeeEntity save(EmployeeEntity employee);
 
     boolean existsById(Long id);
+
+    void deleteById(Long id);
 }

@@ -72,6 +72,31 @@
   &::placeholder { color: #aaa; }
 }
 
+.quarter-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quarter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #fff;
+  color: #5c6bc0;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: #e8eaf6;
+    border-color: #5c6bc0;
+  }
+}
+
 .quarter-badge {
   background: #f0f1f7;
   color: #3949ab;

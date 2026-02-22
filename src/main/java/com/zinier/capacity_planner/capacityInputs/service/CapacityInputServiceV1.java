@@ -151,13 +151,19 @@ public class CapacityInputServiceV1 implements CapacityInputV1 {
 
             CapacityInputEntity existing = capacityInputDaoV1.findByEmployeeIdAndProjectIdAndWeekStartDate(employeeId, projectId, weekStartDate);
 
-            if (existing == null) {
-                throw new RuntimeException("Allocation not found for " + weekStartDate);
+            CapacityInputEntity saved;
+            if (existing != null) {
+                existing.setAllocationPct(pct);
+                saved = capacityInputDaoV1.save(existing);
+            } else {
+                CapacityInputEntity newEntity = CapacityInputEntity.builder()
+                        .employeeId(employeeId)
+                        .projectId(projectId)
+                        .weekStartDate(weekStartDate)
+                        .allocationPct(pct)
+                        .build();
+                saved = capacityInputDaoV1.save(newEntity);
             }
-
-            existing.setAllocationPct(pct);
-
-            CapacityInputEntity saved = capacityInputDaoV1.save(existing);
 
             responseList.add(toModel(saved));
         }

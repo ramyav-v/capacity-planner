@@ -71,7 +71,7 @@ public class ProjectEntity {
     }
 
     public enum Region {
-        US, EMEA, AU
+        US, EMEA
     }
 
     public enum Status {
