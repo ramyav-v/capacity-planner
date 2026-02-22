@@ -1,0 +1,382 @@
+.overview-page {
+  padding: 0;
+}
+
+/* ========== KPI Cards ========== */
+.kpi-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #757575;
+}
+
+.kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1;
+}
+
+.kpi-change {
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 2px 6px;
+
+  &.positive {
+    color: #2e7d32;
+    background: #e8f5e9;
+  }
+
+  &.negative {
+    color: #e53935;
+    background: #ffebee;
+  }
+}
+
+/* ========== Charts Section ========== */
+.charts-section {
+  display: flex;
+  gap: 20px;
+}
+
+/* ========== Headcount Card (Left) ========== */
+.headcount-card {
+  flex: 0 0 55%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.chart-subtitle {
+  font-size: 13px;
+  color: #999;
+}
+
+
+
+/* Headcount Totals */
+.headcount-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.total-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.fulltime-total {
+  background: #e53935;
+  color: #fff;
+}
+
+.contractor-total {
+  background: #5c6bc0;
+  color: #fff;
+}
+
+.total-label {
+  font-weight: 500;
+}
+
+.total-value {
+  font-weight: 700;
+}
+
+/* ========== Right Column ========== */
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Donut Charts Row */
+.donut-row {
+  display: flex;
+  gap: 14px;
+}
+
+.donut-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  text-align: center;
+}
+
+.donut-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0;
+  text-align: left;
+}
+
+/* ========== Resource Allocation ========== */
+.resource-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+}
+
+.resource-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.resource-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.detail-link {
+  font-size: 13px;
+  color: #e53935;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.role-cards-row {
+  display: flex;
+  gap: 14px;
+}
+
+.role-card {
+  flex: 1;
+  background: #fafbfc;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid #eee;
+}
+
+.role-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.role-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.role-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.role-alloc {
+  margin-bottom: 10px;
+}
+
+.alloc-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #999;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.alloc-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alloc-numbers {
+  font-size: 16px;
+  flex-shrink: 0;
+
+  strong {
+    color: #1a1a2e;
+    font-weight: 700;
+  }
+
+  .alloc-divider {
+    color: #ccc;
+    margin: 0 1px;
+  }
+
+  .alloc-total {
+    color: #999;
+    font-size: 13px;
+  }
+}
+
+.alloc-bar-track {
+  flex: 1;
+  height: 6px;
+  background: #e8e8e8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.alloc-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alloc-pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: #333;
+  flex-shrink: 0;
+  min-width: 32px;
+  text-align: right;
+}
+
+.role-avail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.avail-label {
+  font-size: 11px;
+  color: #999;
+}
+
+.avail-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* ========== Skeleton Loading ========== */
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: 6px;
+}
+
+.skeleton-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-icon-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-text {
+  display: block;
+}
+
+.skeleton-chart {
+  border-radius: 8px;
+}
+
+.skeleton-bar {
+  height: 36px;
+  border-radius: 6px;
+}
+
+.skeleton-donut {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 16px auto 0;
+}

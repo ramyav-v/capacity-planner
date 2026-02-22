@@ -1,0 +1,41 @@
+# =============================================================================
+# DEV Environment Profile
+# Activate with: --spring.profiles.active=dev
+# Or env variable: SPRING_PROFILES_ACTIVE=dev
+# =============================================================================
+
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/capacity_planner
+    username: ${DB_USERNAME:capacity_user}
+    password: ${DB_PASSWORD:cap123}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+jwt:
+  secret: ${JWT_SECRET:capacity-planner-dev-jwt-secret-key-min-32-chars}
+  expiration: 86400000
+
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:https://dev.capacityplanner.example.com}
+
+# =============================================================================
+# Environment variables to set on the dev server:
+#
+#   DB_HOST          - MySQL host (e.g., dev-db.internal.example.com)
+#   DB_PORT          - MySQL port (default: 3306)
+#   DB_USERNAME      - MySQL user
+#   DB_PASSWORD      - MySQL password
+#   JWT_SECRET       - Minimum 32-char secret key (generate with: openssl rand -base64 48)
+#   CORS_ORIGINS     - Frontend URL (e.g., https://dev.capacityplanner.example.com)
+#   SERVER_PORT      - App port (default: 8080)
+# =============================================================================

@@ -1,0 +1,196 @@
+$sidenav-width: 260px;
+$sidenav-collapsed-width: 60px;
+$primary-color: #5c6bc0;
+$active-bg: #eef0f8;
+$text-color: #333;
+$text-muted: #757575;
+$hover-bg: #f5f5f5;
+$border-color: #e8e8e8;
+
+.sidenav {
+  width: $sidenav-width;
+  height: calc(100vh - 56px);
+  background-color: #ffffff;
+  border-right: 1px solid $border-color;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+
+  &.collapsed {
+    width: $sidenav-collapsed-width;
+  }
+}
+
+/* Toggle button */
+.sidenav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: $text-muted;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid $border-color;
+  background: #fff;
+}
+
+/* Nav list */
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+/* Shared link style */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: $text-color;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+/* Top-level parent (Dashboards, Data Management) */
+.nav-link.parent {
+  font-weight: 600;
+  font-size: 15px;
+  color: $text-color;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: $primary-color;
+}
+
+.nav-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expand-icon {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: $text-muted;
+}
+
+/* Level 2 children list */
+.nav-children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-child {
+  margin: 0;
+}
+
+/* Sub-group header (Organization) */
+.nav-link.sub-group {
+  padding: 9px 16px 9px 44px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-color;
+}
+
+/* Leaf link at level 2 (Capacity Inputs) */
+.nav-link.leaf.level-2 {
+  padding: 9px 16px 9px 44px;
+  font-size: 14px;
+  font-weight: 400;
+  color: $text-muted;
+
+  &.active {
+    color: $primary-color;
+    font-weight: 600;
+    background-color: transparent;
+  }
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+/* Level 3 grandchildren list */
+.nav-grandchildren {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-grandchild {
+  margin: 0;
+}
+
+/* Leaf link at level 3 (Employees, Projects) */
+.nav-link.leaf.level-3 {
+  padding: 8px 16px 8px 68px;
+  font-size: 13px;
+  font-weight: 400;
+  color: $text-muted;
+
+  &.active {
+    color: $primary-color;
+    font-weight: 500;
+    background-color: $active-bg;
+    border-radius: 0;
+  }
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+/* Scrollbar */
+.sidenav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidenav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidenav::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}

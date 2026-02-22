@@ -1,0 +1,232 @@
+.manage-allocations {
+  padding: 0;
+}
+
+// Page header
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+// Toolbar
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box {
+  position: relative;
+  width: 260px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: #5c6bc0;
+    box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.12);
+  }
+
+  &::placeholder { color: #aaa; }
+}
+
+.quarter-badge {
+  background: #f0f1f7;
+  color: #3949ab;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: #5c6bc0;
+  color: #fff;
+  &:hover { background: #4a5ab5; }
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  color: #333;
+  &:hover { background: #f5f5f5; }
+}
+
+.btn-cancel {
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  color: #333;
+  &:hover { background: #f5f5f5; }
+}
+
+.btn-danger {
+  background: #e53935;
+  color: #fff;
+  &:hover { background: #c62828; }
+}
+
+// AG Grid
+.grid-container {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+
+  .ag-theme-alpine {
+    --ag-header-background-color: #fafafa;
+    --ag-header-foreground-color: #555;
+    --ag-header-cell-hover-background-color: #f0f0f0;
+    --ag-row-hover-color: #f8f9ff;
+    --ag-border-color: #eee;
+    --ag-font-size: 13px;
+    --ag-font-family: 'Inter', sans-serif;
+    --ag-odd-row-background-color: #fff;
+    --ag-background-color: #fff;
+    --ag-row-border-color: #f0f0f0;
+    width: 100%;
+  }
+}
+
+// Month group header (purple)
+:host ::ng-deep .month-group-header {
+  background: #5c6bc0 !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-align: center;
+  border-right: 2px solid #4a5ab5 !important;
+}
+
+// Week column header (light indigo)
+:host ::ng-deep .week-col-header {
+  background: #e8eaf6 !important;
+  color: #3949ab !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  text-align: center;
+}
+
+// Week cell values
+:host ::ng-deep .week-cell {
+  text-align: center;
+  font-weight: 500;
+  color: #333;
+}
+
+// Action buttons inside grid
+:host ::ng-deep .grid-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: #bbb;
+  transition: all 0.15s;
+
+  &:hover { background: #f0f0f0; }
+}
+
+:host ::ng-deep .grid-edit-btn:hover { color: #5c6bc0; }
+:host ::ng-deep .grid-delete-btn:hover { color: #e53935; }
+
+// Delete confirmation modal
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.confirm-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+.confirm-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.confirm-message {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

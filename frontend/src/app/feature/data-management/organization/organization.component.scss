@@ -1,0 +1,74 @@
+.organization-page {
+  padding: 0;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  color: #999;
+}
+
+.breadcrumb-link {
+  color: #757575;
+  text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    color: #5c6bc0;
+  }
+}
+
+.breadcrumb-sep {
+  color: #ccc;
+}
+
+.breadcrumb-current {
+  color: #333;
+  font-weight: 500;
+
+  span {
+    display: none;
+
+    &.visible {
+      display: inline;
+    }
+  }
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 24px;
+}
+
+.tab {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #757575;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    color: #333;
+  }
+
+  &.active {
+    color: #5c6bc0;
+    border-bottom-color: #5c6bc0;
+    font-weight: 600;
+  }
+}
+
+.tab-content {
+  padding: 0;
+}

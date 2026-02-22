@@ -3,19 +3,30 @@ spring:
     rest:
       base-path: /capacityplanner/api
   datasource:
-    url: jdbc:mysql://localhost:3306/capacity_planner
-    username: root
-    password: P@55word
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:capacity_planner}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:P@55word}
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
+management:
+  endpoints:
+    web:
+      base-path: /capacityplanner/actuator
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: when-authorized
 server:
-  port: 8080
-
+  port: ${SERVER_PORT:8080}
 jwt:
-  secret: capacity-planner-jwt-secret-key-must-be-at-least-32-chars
+  secret: ${JWT_SECRET:capacity-planner-jwt-secret-key-must-be-at-least-32-chars}
   expiration: 86400000
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:4200,http://localhost:4000}

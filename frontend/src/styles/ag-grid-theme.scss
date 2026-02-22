@@ -1,0 +1,67 @@
+/**
+ * AG Grid Theme Configuration
+ * 
+ * This file provides custom styling for AG Grid using the Theming API
+ */
+
+/* Common styles for all AG Grid themes */
+.ag-root-wrapper {
+  border: none;
+  border-radius: 0;
+}
+
+/* Alpine theme styles */
+
+.ag-header {
+  --ag-header-text-color: #9E9E9E;
+  --ag-header-font-weight: 700;
+}
+
+.ag-custom-theme-alpine {
+  /* Header styling */
+  --ag-borders: none;
+  --ag-header-background-color: #ffffff; 
+  --ag-header-foreground-color: #9e9e9e;
+  --ag-background-color: #FAFAFA;
+  --ag-selected-row-background-color: none;
+  --ag-row-hover-color: none;
+  --ag-checkbox-checked-background-color: #006C7B;
+  --ag-checkbox-checked-border-color: #006C7B;
+  --ag-checkbox-indeterminate-background-color: #fff;
+  --ag-checkbox-indeterminate-border-color: #006C7B;
+  --ag-checkbox-indeterminate-shape-color: #006C7B;
+  --ag-checkbox-border-width: 2px;
+  width: 100%;
+
+  .ag-header-cell-resize {
+    display: none !important;
+  }
+
+  /* Indeterminate checkbox styling for v34 */
+  .ag-checkbox-input-wrapper.ag-indeterminate {
+    background-color: #fff; //  !important;
+    border-color: #006C7B !important;
+    
+    .ag-checkbox-input-wrapper-icon {
+      color: #006C7B !important;
+      font-size: 13px !important;
+    }
+
+    &::after {
+      color: #006C7B !important;
+      font-size: 13px !important;
+      content: "–" !important;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1;
+    }
+  }
+
+  /* Alternative approach using the new icon class */
+  .ag-icon-indeterminate {
+    color: #006C7B !important;
+    font-size: 13px !important;
+  }
+}

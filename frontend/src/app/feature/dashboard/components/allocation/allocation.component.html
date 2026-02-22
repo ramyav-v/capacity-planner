@@ -1,0 +1,114 @@
+<div class="allocation-page">
+
+  <!-- Left Sidebar: Quarter & Week View -->
+  <aside class="quarter-sidebar">
+    <div class="quarter-header">
+      <h2 class="quarter-title">{{ quarterLabel }}</h2>
+      <button class="quarter-copy-btn" title="Copy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="quarter-btn">
+      <span>Quarter View</span>
+    </div>
+
+    <div class="week-section">
+      <span class="week-section-title">WEEK VIEW</span>
+      <ul class="week-list">
+        <li *ngFor="let week of weeks"
+            class="week-item"
+            [class.selected]="selectedWeek === week.weekNumber"
+            (click)="selectWeek(week)">
+          <span class="week-label">{{ week.label }}</span>
+          <span class="week-date">{{ week.date }}</span>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Right: Main Content -->
+  <main class="allocation-main">
+    <div class="main-header">
+      <div class="main-title-block">
+        <h1 class="main-title">{{ mainTitle }}</h1>
+        <span class="main-subtitle">{{ quarterLabel }}</span>
+      </div>
+      <div class="main-actions">
+        <div class="search-box">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          <input type="text" class="search-input" placeholder="Search resource" [(ngModel)]="searchText" />
+        </div>
+        <button class="export-btn" (click)="exportData()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="alloc-tabs">
+      <button class="alloc-tab" [class.active]="activeTab === 'resource'" (click)="switchTab('resource')">
+        Resource Allocations
+      </button>
+      <button class="alloc-tab" [class.active]="activeTab === 'project'" (click)="switchTab('project')">
+        Project Allocations
+      </button>
+    </div>
+
+    <!-- Project Cards (only in Project tab) -->
+    <div class="project-cards-strip" *ngIf="activeTab === 'project'">
+      <div *ngFor="let proj of projects"
+           class="project-card"
+           [class.selected]="selectedProjectId === proj.id"
+           (click)="selectProject(proj.id)">
+        <span class="project-card-id">{{ proj.code }}</span>
+        <span class="project-card-name">{{ proj.name }}</span>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="resource-table-wrapper">
+      <table class="resource-table">
+        <thead>
+          <tr>
+            <th class="col-resource">RESOURCE</th>
+            <th class="col-role">ROLE</th>
+            <th class="col-util">UTILIZATION %</th>
+            <th class="col-status">STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of filteredResources">
+            <td class="cell-resource">{{ r.name }}</td>
+            <td class="cell-role">{{ r.role }}</td>
+            <td class="cell-util">
+              <div class="util-bar-wrapper">
+                <div class="util-bar-track">
+                  <div class="util-bar-fill"
+                       [style.width.%]="getBarWidth(r.utilization)"
+                       [style.background]="getBarColor(r.utilization)"></div>
+                </div>
+                <span class="util-pct">{{ r.utilization }}%</span>
+              </div>
+            </td>
+            <td class="cell-status">
+              <span class="status-badge" [ngClass]="getStatusClass(r.utilization)">
+                {{ getStatus(r.utilization) }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="filteredResources.length === 0">
+            <td colspan="4" class="no-results">No resources found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,65 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 class="modal-title">{{ title }}</h2>
+      <p class="modal-subtitle">{{ subtitle }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+      <!-- Project Name -->
+      <div class="form-group">
+        <label class="form-label">Project Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter project name" />
+        <span class="form-error" *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')">
+          Project name is required
+        </span>
+      </div>
+
+      <!-- Project Code -->
+      <div class="form-group">
+        <label class="form-label">Project Code</label>
+        <input type="text" class="form-control" formControlName="code" placeholder="e.g. PRJ-001" />
+        <span class="form-error" *ngIf="form.get('code')?.touched && form.get('code')?.hasError('required')">
+          Project code is required
+        </span>
+      </div>
+
+      <!-- Region -->
+      <div class="form-group">
+        <label class="form-label">Region</label>
+        <select class="form-control" formControlName="region">
+          <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-control" formControlName="status">
+          <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <!-- Start Date -->
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input type="date" class="form-control" formControlName="startDate" />
+        <span class="form-error" *ngIf="form.get('startDate')?.touched && form.get('startDate')?.hasError('required')">
+          Start date is required
+        </span>
+      </div>
+
+      <!-- End Date -->
+      <div class="form-group">
+        <label class="form-label">End Date</label>
+        <input type="date" class="form-control" formControlName="endDate" />
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ submitLabel }}</button>
+      </div>
+    </form>
+  </div>
+</div>

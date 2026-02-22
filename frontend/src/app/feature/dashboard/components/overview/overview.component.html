@@ -1,0 +1,216 @@
+<div class="overview-page">
+
+  <!-- ========== SKELETON LOADING STATE ========== -->
+  <ng-container *ngIf="!dataLoaded">
+    <!-- KPI Skeleton -->
+    <div class="kpi-row">
+      <div class="kpi-card" *ngFor="let i of [1,2,3,4,5]">
+        <div class="skeleton skeleton-icon-circle"></div>
+        <div class="kpi-info">
+          <div class="skeleton skeleton-text" style="width: 80px; height: 12px;"></div>
+          <div class="skeleton skeleton-text" style="width: 48px; height: 24px; margin-top: 6px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Skeleton -->
+    <div class="charts-section">
+      <!-- Headcount skeleton -->
+      <div class="chart-card headcount-card">
+        <div class="skeleton skeleton-text" style="width: 140px; height: 16px;"></div>
+        <div class="skeleton skeleton-text" style="width: 200px; height: 12px; margin-top: 6px;"></div>
+        <div class="skeleton skeleton-chart" style="height: 260px; margin-top: 20px;"></div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px;">
+          <div class="skeleton skeleton-bar"></div>
+          <div class="skeleton skeleton-bar"></div>
+        </div>
+      </div>
+
+      <!-- Right column skeleton -->
+      <div class="right-column">
+        <div class="donut-row">
+          <div class="donut-card" *ngFor="let i of [1,2,3]">
+            <div class="skeleton skeleton-text" style="width: 100px; height: 12px;"></div>
+            <div class="skeleton skeleton-donut"></div>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 8px;">
+              <div class="skeleton skeleton-text" style="width: 40px; height: 10px;"></div>
+              <div class="skeleton skeleton-text" style="width: 40px; height: 10px;"></div>
+              <div class="skeleton skeleton-text" style="width: 40px; height: 10px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resource-card">
+          <div class="skeleton skeleton-text" style="width: 200px; height: 16px;"></div>
+          <div class="role-cards-row" style="margin-top: 16px;">
+            <div class="role-card" *ngFor="let i of [1,2,3,4,5]">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <div class="skeleton skeleton-icon-sm"></div>
+                <div class="skeleton skeleton-text" style="width: 36px; height: 12px;"></div>
+              </div>
+              <div class="skeleton skeleton-text" style="width: 100%; height: 6px; margin-bottom: 10px;"></div>
+              <div class="skeleton skeleton-text" style="width: 60%; height: 10px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ========== LOADED STATE ========== -->
+  <ng-container *ngIf="dataLoaded">
+
+  <!-- KPI Cards Row -->
+  <div class="kpi-row">
+    <div class="kpi-card" *ngFor="let card of kpiCards">
+      <div class="kpi-icon" [style.background]="card.iconBg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+             [attr.fill]="card.iconBg === '#e3f2fd' ? '#1565c0' :
+                          card.iconBg === '#fff8e1' ? '#f9a825' :
+                          card.iconBg === '#e8f5e9' ? '#2e7d32' :
+                          card.iconBg === '#fce4ec' ? '#e53935' : '#ef6c00'">
+          <path [attr.d]="card.icon"/>
+        </svg>
+      </div>
+      <div class="kpi-info">
+        <span class="kpi-title">{{ card.title }}</span>
+        <div class="kpi-value-row">
+          <span class="kpi-value">{{ card.value }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+
+    <!-- Left: Headcount Type (ApexCharts) -->
+    <div class="chart-card headcount-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Headcount Type</h3>
+        <span class="chart-subtitle">Split by Full-time vs Contractors</span>
+      </div>
+
+      <apx-chart
+        [series]="barChartSeries"
+        [chart]="barChartOptions"
+        [plotOptions]="barPlotOptions"
+        [xaxis]="barXAxis"
+        [yaxis]="barYAxis"
+        [dataLabels]="barDataLabels"
+        [colors]="barColors"
+        [legend]="barLegend"
+        [tooltip]="barTooltip"
+        [stroke]="barStroke"
+        [grid]="barGrid"
+      ></apx-chart>
+
+      <div class="headcount-totals">
+        <div class="total-bar fulltime-total">
+          <span class="total-label">Total Full-time</span>
+          <span class="total-value">{{ totalFullTime }}</span>
+        </div>
+        <div class="total-bar contractor-total">
+          <span class="total-label">Total Contractors</span>
+          <span class="total-value">{{ totalContractors }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+
+      <!-- Donut Charts Row (ApexCharts) -->
+      <div class="donut-row">
+        <!-- Allocation by Roles -->
+        <div class="donut-card">
+          <h4 class="donut-title">Allocation by Roles</h4>
+          <apx-chart
+            [series]="allocationSeries"
+            [chart]="allocationChart"
+            [labels]="allocationLabels"
+            [colors]="allocationColors"
+            [plotOptions]="allocationPlot"
+            [dataLabels]="allocationDataLabels"
+            [stroke]="allocationStroke"
+            [legend]="allocationLegend"
+            [tooltip]="allocationTooltip"
+          ></apx-chart>
+        </div>
+
+        <!-- Cluster Distribution -->
+        <div class="donut-card">
+          <h4 class="donut-title">Cluster Distribution</h4>
+          <apx-chart
+            [series]="clusterSeries"
+            [chart]="clusterChart"
+            [labels]="clusterLabels"
+            [colors]="clusterColors"
+            [plotOptions]="clusterPlot"
+            [dataLabels]="clusterDataLabels"
+            [stroke]="clusterStroke"
+            [legend]="clusterLegend"
+            [tooltip]="clusterTooltip"
+          ></apx-chart>
+        </div>
+
+        <!-- Utilization Status -->
+        <div class="donut-card">
+          <h4 class="donut-title">Utilization Status</h4>
+          <apx-chart
+            [series]="utilizationSeries"
+            [chart]="utilizationChart"
+            [labels]="utilizationLabels"
+            [colors]="utilizationColors"
+            [plotOptions]="utilizationPlot"
+            [dataLabels]="utilizationDataLabels"
+            [stroke]="utilizationStroke"
+            [legend]="utilizationLegend"
+            [tooltip]="utilizationTooltip"
+          ></apx-chart>
+        </div>
+      </div>
+
+      <!-- Resource Allocation by Roles -->
+      <div class="resource-card">
+        <div class="resource-header">
+          <h3 class="resource-title">Resource Allocation by Roles</h3>
+          <a class="detail-link" href="javascript:void(0)">Detailed Report</a>
+        </div>
+        <div class="role-cards-row">
+          <div class="role-card" *ngFor="let role of roleAllocations">
+            <div class="role-top">
+              <div class="role-icon" [style.background]="role.iconBg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#5c6bc0">
+                  <path [attr.d]="role.icon"/>
+                </svg>
+              </div>
+              <span class="role-name">{{ role.role }}</span>
+            </div>
+            <div class="role-alloc">
+              <span class="alloc-label">ALLOCATED</span>
+              <div class="alloc-bar-row">
+                <span class="alloc-numbers">
+                  <strong>{{ role.allocated }}</strong>
+                  <span class="alloc-divider">/</span>
+                  <span class="alloc-total">{{ role.total }}</span>
+                </span>
+                <div class="alloc-bar-track">
+                  <div class="alloc-bar-fill" [style.width.%]="role.percent" [style.background]="getPercentBarColor(role.percent)"></div>
+                </div>
+                <span class="alloc-pct">{{ role.percent }}%</span>
+              </div>
+            </div>
+            <div class="role-avail">
+              <span class="avail-label">Available People</span>
+              <span class="avail-value">{{ role.availablePeople }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </ng-container>
+</div>

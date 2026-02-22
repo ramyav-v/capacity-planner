@@ -1,0 +1,9 @@
+<div class="app-layout">
+  <app-header></app-header>
+  <div class="layout-body">
+    <app-sidenav (collapsed)="sidenavCollapsed = $event"></app-sidenav>
+    <main class="layout-content" [class.sidenav-collapsed]="sidenavCollapsed">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

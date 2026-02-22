@@ -1,0 +1,98 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-dialog-wide">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">{{ isEditMode ? 'Edit Allocation' : 'Add New Allocation' }}</h2>
+      <button class="close-btn" (click)="onClose()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+      <!-- Top fields row -->
+      <div class="fields-row">
+        <div class="field">
+          <label class="form-label">Employee Name</label>
+          <select class="form-control" formControlName="employeeId" (change)="onEmployeeChange()" [class.readonly]="isEditMode" [attr.disabled]="isEditMode ? '' : null">
+            <option value="" disabled>Select employee</option>
+            <option *ngFor="let emp of employees" [value]="emp.id">{{ emp.name }}</option>
+          </select>
+          <span class="form-error" *ngIf="form.get('employeeId')?.touched && form.get('employeeId')?.hasError('required')">
+            Required
+          </span>
+        </div>
+
+        <div class="field">
+          <label class="form-label">Project</label>
+          <select class="form-control" formControlName="projectId" [class.readonly]="isEditMode" [attr.disabled]="isEditMode ? '' : null">
+            <option value="" disabled>Select project</option>
+            <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+          </select>
+          <span class="form-error" *ngIf="form.get('projectId')?.touched && form.get('projectId')?.hasError('required')">
+            Required
+          </span>
+        </div>
+
+        <div class="field">
+          <label class="form-label">Region</label>
+          <input type="text" class="form-control readonly" [value]="selectedEmployee?.region || '—'" readonly />
+        </div>
+
+        <div class="field">
+          <label class="form-label">Role</label>
+          <input type="text" class="form-control readonly" [value]="selectedEmployee?.role || '—'" readonly />
+        </div>
+      </div>
+
+      <!-- Weekly Allocation Grid -->
+      <div class="week-grid-section">
+        <div class="week-grid-header">
+          <span class="week-grid-title">Weekly Allocation Details</span>
+          <span class="quarter-badge">{{ quarterLabel }}</span>
+        </div>
+
+        <div class="week-grid">
+          <table>
+            <thead>
+              <tr class="month-row">
+                <ng-container *ngFor="let group of monthGroups">
+                  <th [attr.colspan]="group.weeks.length" class="month-header">{{ group.label }}</th>
+                </ng-container>
+              </tr>
+              <tr class="week-row">
+                <ng-container *ngFor="let group of monthGroups">
+                  <th *ngFor="let week of group.weeks" class="week-header">{{ week.label }}</th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <ng-container *ngFor="let group of monthGroups">
+                  <td *ngFor="let week of group.weeks" class="week-cell">
+                    <input
+                      type="number"
+                      class="week-input"
+                      [value]="weekValues[week.date]"
+                      (input)="weekValues[week.date] = +$any($event.target).value"
+                      min="0"
+                      max="100"
+                      placeholder="0"
+                    />
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Allocation' : 'Save Allocation' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

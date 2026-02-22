@@ -28,11 +28,16 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
         var headcountDtos = dashboardDaoV1.fetchHeadcountByRole();
         var allocatedRaw = dashboardDaoV1.fetchAllocatedByRoleForQuarter();
 
+        int totalEmployees = metricsDto.getTotalEmployees() != null ? metricsDto.getTotalEmployees().intValue() : 0;
+        int activeProjects = metricsDto.getActiveProjects() != null ? metricsDto.getActiveProjects().intValue() : 0;
+        double totalAllocation = metricsDto.getTotalAllocation() != null ? metricsDto.getTotalAllocation() : 0.0;
+        int overUtilized = metricsDto.getOverUtilized() != null ? metricsDto.getOverUtilized().intValue() : 0;
+        int underUtilized = metricsDto.getUnderUtilized() != null ? metricsDto.getUnderUtilized().intValue() : 0;
+
         double avgUtil = 0;
 
-        if (metricsDto.getTotalEmployees() > 0 && weeks > 0) {
-            avgUtil = metricsDto.getTotalAllocation()
-                    / (metricsDto.getTotalEmployees() * weeks);
+        if (totalEmployees > 0 && weeks > 0) {
+            avgUtil = totalAllocation / (totalEmployees * weeks);
         }
 
         // Convert raw allocation query result to Map<Role, AllocatedSum>
@@ -47,11 +52,11 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                 // ================= METRICS =================
                 .metrics(
                         DashboardMetricsModel.builder()
-                                .totalEmployees(metricsDto.getTotalEmployees().intValue())
-                                .activeProjects(metricsDto.getActiveProjects().intValue())
+                                .totalEmployees(totalEmployees)
+                                .activeProjects(activeProjects)
                                 .avgUtilization(avgUtil)
-                                .overUtilization(metricsDto.getOverUtilized().intValue())
-                                .underUtilization(metricsDto.getUnderUtilized().intValue())
+                                .overUtilization(overUtilized)
+                                .underUtilization(underUtilized)
                                 .build()
                 )
 
@@ -91,11 +96,9 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                 // ================= UTILIZATION STATUS =================
                 .utilizationStatus(
                         new UtilizationStatusModel(
-                                metricsDto.getTotalEmployees().intValue()
-                                        - metricsDto.getOverUtilized().intValue()
-                                        - metricsDto.getUnderUtilized().intValue(),
-                                metricsDto.getOverUtilized().intValue(),
-                                metricsDto.getUnderUtilized().intValue()
+                                totalEmployees - overUtilized - underUtilized,
+                                overUtilized,
+                                underUtilized
                         )
                 )
 
@@ -107,15 +110,15 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                                     double allocated = allocatedByRole
                                             .getOrDefault(h.getRole(), 0.0);
 
-                                    int totalEmployees = h.getTotal().intValue();
+                                    int roleEmployees = h.getTotal().intValue();
 
-                                    double totalCapacity = totalEmployees * weeks;
+                                    double totalCapacity = roleEmployees * weeks;
 
                                     double percentage = totalCapacity == 0
                                             ? 0
                                             : allocated / totalCapacity;
 
-                                    int availableSeats = totalEmployees
+                                    int availableSeats = roleEmployees
                                             - (int) (allocated / weeks);
 
                                     return ResourceAllocationByRoleModel.builder()

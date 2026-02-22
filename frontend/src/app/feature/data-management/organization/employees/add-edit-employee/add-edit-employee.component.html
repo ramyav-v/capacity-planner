@@ -1,0 +1,100 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 class="modal-title">{{ title }}</h2>
+      <p class="modal-subtitle">{{ subtitle }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+      <!-- Name -->
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" formControlName="name" placeholder="Enter name" />
+        <span class="form-error" *ngIf="form.get('name')?.touched && form.get('name')?.hasError('required')">
+          Name is required
+        </span>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter email" />
+        <span class="form-error" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+          Email is required
+        </span>
+        <span class="form-error" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+          Enter a valid email
+        </span>
+      </div>
+
+      <!-- Role -->
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <select class="form-control" formControlName="role">
+          <option value="" disabled>Select role</option>
+          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+        </select>
+        <span class="form-error" *ngIf="form.get('role')?.touched && form.get('role')?.hasError('required')">
+          Role is required
+        </span>
+      </div>
+
+      <!-- Company -->
+      <div class="form-group">
+        <label class="form-label">Company</label>
+        <select class="form-control" formControlName="company">
+          <option value="" disabled>Select company</option>
+          <option *ngFor="let c of companies" [value]="c">{{ c }}</option>
+        </select>
+        <span class="form-error" *ngIf="form.get('company')?.touched && form.get('company')?.hasError('required')">
+          Company is required
+        </span>
+      </div>
+
+      <!-- Region -->
+      <div class="form-group">
+        <label class="form-label">Region</label>
+        <select class="form-control" formControlName="region">
+          <option value="" disabled>Select region</option>
+          <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+        </select>
+        <span class="form-error" *ngIf="form.get('region')?.touched && form.get('region')?.hasError('required')">
+          Region is required
+        </span>
+      </div>
+
+      <!-- Start Date -->
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input type="date" class="form-control" formControlName="startDate" />
+        <span class="form-error" *ngIf="form.get('startDate')?.touched && form.get('startDate')?.hasError('required')">
+          Start date is required
+        </span>
+      </div>
+
+      <!-- End Date -->
+      <div class="form-group">
+        <label class="form-label">End Date</label>
+        <input type="date" class="form-control" formControlName="endDate" />
+      </div>
+
+      <!-- Capacity Factor -->
+      <div class="form-group">
+        <label class="form-label">Capacity Factor</label>
+        <input type="number" class="form-control" formControlName="capacityFactor" step="0.1" min="0" max="1" placeholder="e.g. 1.0" />
+        <span class="form-error" *ngIf="form.get('capacityFactor')?.touched && form.get('capacityFactor')?.hasError('required')">
+          Capacity factor is required
+        </span>
+        <span class="form-error" *ngIf="form.get('capacityFactor')?.touched && (form.get('capacityFactor')?.hasError('min') || form.get('capacityFactor')?.hasError('max'))">
+          Must be between 0 and 1
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ submitLabel }}</button>
+      </div>
+    </form>
+  </div>
+</div>

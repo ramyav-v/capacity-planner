@@ -1,0 +1,229 @@
+.employees-page {
+  padding: 0;
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.search-box {
+  position: relative;
+  flex: 0 1 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: #5c6bc0;
+    box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.12);
+  }
+
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: #5c6bc0;
+  color: #fff;
+
+  &:hover {
+    background: #4a5ab5;
+  }
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  color: #333;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.btn-cancel {
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  color: #333;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.btn-danger {
+  background: #e53935;
+  color: #fff;
+
+  &:hover {
+    background: #c62828;
+  }
+}
+
+/* AG Grid container */
+.grid-container {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+
+  .ag-theme-alpine {
+    --ag-header-background-color: #fafafa;
+    --ag-header-foreground-color: #666;
+    --ag-header-cell-hover-background-color: #f0f0f0;
+    --ag-row-hover-color: #f8f9ff;
+    --ag-border-color: #eee;
+    --ag-font-size: 14px;
+    --ag-font-family: 'Inter', sans-serif;
+    --ag-odd-row-background-color: #fff;
+    --ag-background-color: #fff;
+    --ag-row-border-color: #f0f0f0;
+    --ag-selected-row-background-color: #e8eaf6;
+    width: 100%;
+  }
+}
+
+/* Grid footer */
+.grid-footer {
+  padding: 12px 0;
+  font-size: 13px;
+  color: #757575;
+}
+
+/* Action cell in grid */
+:host ::ng-deep .action-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+}
+
+:host ::ng-deep .action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: #757575;
+  transition: all 0.15s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+:host ::ng-deep .edit-btn:hover {
+  color: #5c6bc0;
+}
+
+:host ::ng-deep .delete-btn:hover {
+  color: #e53935;
+}
+
+/* Delete confirmation modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.15s ease;
+}
+
+.confirm-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  animation: slideUp 0.2s ease;
+}
+
+.confirm-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.confirm-message {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
