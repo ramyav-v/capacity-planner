@@ -21,7 +21,7 @@
   gap: 16px;
   background: $color-white;
   border-radius: $card-radius;
-  padding: 20px;
+  padding: 22px 20px;
   box-shadow: $card-shadow;
   border: 1px solid $border-light;
   transition: box-shadow 0.2s;
@@ -32,8 +32,8 @@
 }
 
 .kpi-icon {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -64,7 +64,7 @@
 }
 
 .kpi-value {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
   color: $color-heading;
   line-height: 1;
@@ -81,7 +81,7 @@
   min-width: 0;
   background: $color-white;
   border-radius: $card-radius;
-  padding: 16px;
+  padding: 20px;
   box-shadow: $card-shadow;
   border: 1px solid $border-light;
   text-align: center;
@@ -89,10 +89,10 @@
 }
 
 .donut-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  color: $color-body;
-  margin: 0;
+  color: $color-heading;
+  margin: 0 0 4px;
   text-align: left;
 }
 
@@ -332,8 +332,8 @@
 }
 
 .skeleton-icon-circle {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   flex-shrink: 0;
 }

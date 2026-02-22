@@ -116,7 +116,7 @@ export class OverviewComponent implements OnInit {
   // ========== Donut Charts ==========
   private donutChartBase: ApexChart = {
     type: 'donut',
-    height: 190,
+    height: 230,
     fontFamily: "'Open Sans', sans-serif"
   };
 
