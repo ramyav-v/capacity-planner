@@ -64,7 +64,7 @@ export class AllocationComponent implements OnInit {
     while (weekStart <= quarterEnd) {
       const month = weekStart.toLocaleString('en-US', { month: 'short' });
       const dayNum = weekStart.getDate();
-      const iso = weekStart.toISOString().split('T')[0];
+      const iso = `${weekStart.getFullYear()}-${String(weekStart.getMonth() + 1).padStart(2, '0')}-${String(weekStart.getDate()).padStart(2, '0')}`;
 
       weeks.push({
         label: `Week ${weekNum}`,
@@ -174,6 +174,7 @@ export class AllocationComponent implements OnInit {
     this.loadResourceAllocations(this.selectedWeekDate || undefined);
     if (this.activeTab === 'project') {
       this.loadProjectAllocations();
+
     }
   }
 
@@ -186,6 +187,9 @@ export class AllocationComponent implements OnInit {
   switchTab(tab: 'resource' | 'project'): void {
     this.activeTab = tab;
     this.searchText = '';
+    if (tab === 'project') {
+      this.loadProjectAllocations();
+    }
   }
 
   get mainTitle(): string {

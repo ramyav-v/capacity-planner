@@ -199,9 +199,11 @@
 /* Project Cards Strip */
 .project-cards-strip {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 20px;
-  overflow-x: auto;
+  max-height: 230px;
+  overflow-y: auto;
   padding-bottom: 4px;
 }
 

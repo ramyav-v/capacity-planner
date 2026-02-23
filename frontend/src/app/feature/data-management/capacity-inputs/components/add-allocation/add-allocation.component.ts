@@ -109,7 +109,7 @@ export class AddAllocationComponent implements OnInit {
       }
 
       while (date.getMonth() === monthIndex) {
-        const iso = date.toISOString().split('T')[0];
+        const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         const dayLabel = `${date.getDate()}-${monthNames[monthIndex]}`;
         weeks.push({ date: iso, label: dayLabel, month: monthLabel });
         this.weekValues[iso] = 0;

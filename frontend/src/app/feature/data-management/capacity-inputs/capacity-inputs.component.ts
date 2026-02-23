@@ -12,7 +12,7 @@ import {
   TextFilterModule,
   ValidationModule,
   CsvExportModule,
-  QuickFilterModule
+  QuickFilterModule,
 } from 'ag-grid-community';
 import { forkJoin } from 'rxjs';
 import { AllocationGroup, QuarterAllocationRequest } from './allocation.model';
@@ -26,7 +26,7 @@ ModuleRegistry.registerModules([
   TextFilterModule,
   ValidationModule,
   CsvExportModule,
-  QuickFilterModule
+  QuickFilterModule,
 ]);
 
 interface WeekColumn {
@@ -45,7 +45,7 @@ interface MonthGroup {
   standalone: true,
   imports: [CommonModule, FormsModule, AgGridModule, AddAllocationComponent],
   templateUrl: './capacity-inputs.component.html',
-  styleUrl: './capacity-inputs.component.scss'
+  styleUrl: './capacity-inputs.component.scss',
 })
 export class CapacityInputsComponent implements OnInit {
   @ViewChild(AddAllocationComponent) addEditDialog!: AddAllocationComponent;
@@ -76,7 +76,7 @@ export class CapacityInputsComponent implements OnInit {
   constructor(
     private allocationService: AllocationService,
     private projectService: ProjectService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -128,7 +128,11 @@ export class CapacityInputsComponent implements OnInit {
           weekData[date] = row[date];
         }
       }
-      this.addEditDialog?.populateForEdit(row.employeeId, row.projectId, weekData);
+      this.addEditDialog?.populateForEdit(
+        row.employeeId,
+        row.projectId,
+        weekData,
+      );
     });
   }
 
@@ -138,7 +142,7 @@ export class CapacityInputsComponent implements OnInit {
         this.isDialogOpen = false;
         this.loadData();
       },
-      error: (err) => console.error('Failed to save allocation', err)
+      error: (err) => console.error('Failed to save allocation', err),
     });
   }
 
@@ -148,7 +152,7 @@ export class CapacityInputsComponent implements OnInit {
         this.isDialogOpen = false;
         this.loadData();
       },
-      error: (err) => console.error('Failed to update allocation', err)
+      error: (err) => console.error('Failed to update allocation', err),
     });
   }
 
@@ -163,10 +167,12 @@ export class CapacityInputsComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.rowToDelete) {
-      this.allocationService.delete(this.rowToDelete.employeeId, this.rowToDelete.projectId).subscribe({
-        next: () => this.loadData(),
-        error: (err) => console.error('Failed to delete allocation', err)
-      });
+      this.allocationService
+        .delete(this.rowToDelete.employeeId, this.rowToDelete.projectId)
+        .subscribe({
+          next: () => this.loadData(),
+          error: (err) => console.error('Failed to delete allocation', err),
+        });
     }
     this.isDeleteConfirmOpen = false;
     this.rowToDelete = null;
@@ -186,7 +192,20 @@ export class CapacityInputsComponent implements OnInit {
     const quarterStartMonth = Math.floor(currentMonth / 3) * 3;
     const quarterNumber = Math.floor(quarterStartMonth / 3) + 1;
 
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     this.quarterLabel = `Q${quarterNumber} ${monthNames[quarterStartMonth]} - ${monthNames[quarterStartMonth + 2]} ${currentYear}`;
 
     const yearShort = String(currentYear).slice(-2);
@@ -199,14 +218,14 @@ export class CapacityInputsComponent implements OnInit {
       const weeks: WeekColumn[] = [];
 
       let date = new Date(currentYear, monthIndex, 1);
-      const dayOfWeek = date.getDay();
-      if (dayOfWeek !== 1) {
-        const daysUntilMon = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
-        date.setDate(date.getDate() + daysUntilMon);
+
+      // Move forward until it's Monday
+      while (date.getDay() !== 1) {
+        date.setDate(date.getDate() + 1);
       }
 
       while (date.getMonth() === monthIndex) {
-        const iso = date.toISOString().split('T')[0];
+        const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         const dayLabel = `${date.getDate()}-${monthNames[monthIndex]}`;
         weeks.push({ date: iso, label: dayLabel, month: monthLabel });
         weekDates.push(iso);
@@ -222,28 +241,55 @@ export class CapacityInputsComponent implements OnInit {
 
   private buildColumnDefs(): void {
     const fixedCols: ColDef[] = [
-      { headerName: 'NAME', field: 'employeeName', width: 150, pinned: 'left', filter: 'agTextColumnFilter' },
-      { headerName: 'REGION', field: 'region', width: 90, pinned: 'left', filter: 'agTextColumnFilter' },
-      { headerName: 'PROJECT', field: 'projectName', width: 140, pinned: 'left', filter: 'agTextColumnFilter' },
-      { headerName: 'ROLE', field: 'role', width: 80, pinned: 'left', filter: 'agTextColumnFilter' }
+      {
+        headerName: 'NAME',
+        field: 'employeeName',
+        width: 150,
+        pinned: 'left',
+        filter: 'agTextColumnFilter',
+      },
+      {
+        headerName: 'REGION',
+        field: 'region',
+        width: 90,
+        pinned: 'left',
+        filter: 'agTextColumnFilter',
+      },
+      {
+        headerName: 'PROJECT',
+        field: 'projectName',
+        width: 140,
+        pinned: 'left',
+        filter: 'agTextColumnFilter',
+      },
+      {
+        headerName: 'ROLE',
+        field: 'role',
+        width: 80,
+        pinned: 'left',
+        filter: 'agTextColumnFilter',
+      },
     ];
 
-    const weekGroups: ColGroupDef[] = this.monthGroups.map(group => ({
+    const weekGroups: ColGroupDef[] = this.monthGroups.map((group) => ({
       headerName: group.label,
       headerClass: 'month-group-header',
-      children: group.weeks.map(week => ({
-        headerName: week.label,
-        field: week.date,
-        width: 80,
-        headerClass: 'week-col-header',
-        cellClass: 'week-cell',
-        sortable: false,
-        filter: false,
-        valueFormatter: (params: any) => {
-          if (params.value == null) return '';
-          return params.value.toFixed(2);
-        }
-      } as ColDef))
+      children: group.weeks.map(
+        (week) =>
+          ({
+            headerName: week.label,
+            field: week.date,
+            width: 80,
+            headerClass: 'week-col-header',
+            cellClass: 'week-cell',
+            sortable: false,
+            filter: false,
+            valueFormatter: (params: any) => {
+              if (params.value == null) return '';
+              return params.value.toFixed(2);
+            },
+          }) as ColDef,
+      ),
     }));
 
     const actionCol: ColDef = {
@@ -284,7 +330,7 @@ export class CapacityInputsComponent implements OnInit {
         container.appendChild(editBtn);
         container.appendChild(deleteBtn);
         return container;
-      }
+      },
     };
 
     this.columnDefs = [...fixedCols, ...weekGroups, actionCol];
@@ -293,19 +339,25 @@ export class CapacityInputsComponent implements OnInit {
   private loadData(): void {
     forkJoin({
       projects: this.projectService.getAll(),
-      allocations: this.allocationService.getAll()
+      allocations: this.allocationService.getAll(),
     }).subscribe({
       next: ({ projects, allocations }) => {
         this.projectMap.clear();
-        projects.forEach(p => { if (p.id != null) this.projectMap.set(p.id, p); });
+        projects.forEach((p) => {
+          if (p.id != null) this.projectMap.set(p.id, p);
+        });
         this.rowData = this.buildRowData(allocations);
+        setTimeout(() => {
+          this.gridApi.setGridOption('columnDefs', this.columnDefs);
+          this.gridApi.refreshCells({ force: true });
+        });
       },
-      error: (err) => console.error('Failed to load data', err)
+      error: (err) => console.error('Failed to load data', err),
     });
   }
 
   private buildRowData(groups: AllocationGroup[]): any[] {
-    return groups.map(group => {
+    return groups.map((group) => {
       const proj = this.projectMap.get(group.projectId);
       const row: any = {
         region: group.region || '—',
@@ -313,8 +365,10 @@ export class CapacityInputsComponent implements OnInit {
         employeeName: group.employeeName || `Employee #${group.employeeId}`,
         role: group.role || '—',
         employeeId: group.employeeId,
-        projectId: group.projectId
+        projectId: group.projectId,
       };
+      console.log(this.allWeekDates);
+      console.log(group.allocations.map((a) => a.weekStartDate));
 
       for (const alloc of group.allocations) {
         row[alloc.weekStartDate] = alloc.allocationPct;
