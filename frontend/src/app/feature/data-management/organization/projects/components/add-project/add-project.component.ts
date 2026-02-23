@@ -19,7 +19,7 @@ export class AddProjectComponent implements OnInit {
 
   form!: FormGroup;
 
-  regions: ProjectRegion[] = ['US', 'EMEA'];
+  regions: ProjectRegion[] = ['US', 'EMEA', 'AU'];
   statuses: ProjectStatus[] = ['ACTIVE', 'ON_HOLD', 'COMPLETED', 'CANCELLED'];
 
   get isEditMode(): boolean {

@@ -17,6 +17,8 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
 
     void deleteByEmployeeIdAndProjectId(Integer employeeId, Integer projectId);
 
+    void deleteByEmployeeId(Integer employeeId);
+
     @Query("""
         SELECT c FROM CapacityInputEntity c
         WHERE (:employeeId IS NULL OR c.employeeId = :employeeId)

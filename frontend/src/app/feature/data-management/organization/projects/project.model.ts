@@ -1,4 +1,4 @@
-export type ProjectRegion = 'US' | 'EMEA';
+export type ProjectRegion = 'US' | 'EMEA' | 'AU';
 export type ProjectStatus = 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
 
 export interface Project {

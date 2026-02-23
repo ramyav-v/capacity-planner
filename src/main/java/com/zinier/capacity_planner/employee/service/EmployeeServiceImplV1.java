@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zinier.capacity_planner.capacityInputs.repository.CapacityInputRepositoryV1;
 import com.zinier.capacity_planner.employee.dao.EmployeeDaoV1;
 import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity;
 import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity.Company;
@@ -18,6 +19,7 @@ import com.zinier.capacity_planner.employee.model.EmployeeResponseModel;
 public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
 
     private final EmployeeDaoV1 employeeDao;
+    private final CapacityInputRepositoryV1 capacityInputRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -70,6 +72,7 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
         if (!employeeDao.existsById(id)) {
             throw new IllegalArgumentException("Employee not found: " + id);
         }
+        capacityInputRepository.deleteByEmployeeId(id.intValue());
         employeeDao.deleteById(id);
     }
 

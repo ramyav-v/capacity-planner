@@ -20,24 +20,41 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
     @Override
     public DashboardResponseModel getDashboard() {
 
-        int weeks = 13; // current quarter
+        var quarter = QuarterUtils.currentQuarter();
+        long weeks = QuarterUtils.getWeeksInQuarter(quarter);
 
-        var metricsDto = dashboardDaoV1.fetchMetrics();
         var roleDtos = dashboardDaoV1.fetchRoleDistribution();
         var regionDtos = dashboardDaoV1.fetchRegionDistribution();
         var headcountDtos = dashboardDaoV1.fetchHeadcountByRole();
         var allocatedRaw = dashboardDaoV1.fetchAllocatedByRoleForQuarter();
 
-        int totalEmployees = metricsDto.getTotalEmployees() != null ? metricsDto.getTotalEmployees().intValue() : 0;
-        int activeProjects = metricsDto.getActiveProjects() != null ? metricsDto.getActiveProjects().intValue() : 0;
-        double totalAllocation = metricsDto.getTotalAllocation() != null ? metricsDto.getTotalAllocation() : 0.0;
-        int overUtilized = metricsDto.getOverUtilized() != null ? metricsDto.getOverUtilized().intValue() : 0;
-        int underUtilized = metricsDto.getUnderUtilized() != null ? metricsDto.getUnderUtilized().intValue() : 0;
+        var employees = dashboardDaoV1.fetchActiveEmployees(null);
+        int totalEmployees = employees.size();
+        int activeProjects = dashboardDaoV1.fetchActiveProjects().size();
+
+        // Per-employee allocations scoped to current quarter
+        var allocationByEmployee = dashboardDaoV1.fetchAllocationByEmployee(
+                quarter.getStart(), quarter.getEnd());
+
+        double totalAllocation = allocationByEmployee.values().stream()
+                .mapToDouble(Double::doubleValue).sum();
 
         double avgUtil = 0;
-
         if (totalEmployees > 0 && weeks > 0) {
             avgUtil = totalAllocation / (totalEmployees * weeks);
+        }
+
+        // Compute over/under utilization from per-employee weekly averages
+        int overUtilized = 0;
+        int underUtilized = 0;
+        for (var emp : employees) {
+            double alloc = allocationByEmployee.getOrDefault(emp.getId().intValue(), 0.0);
+            double utilization = weeks > 0 ? alloc / weeks : 0;
+            if (utilization > 1.0) {
+                overUtilized++;
+            } else if (utilization < 0.5) {
+                underUtilized++;
+            }
         }
 
         // Convert raw allocation query result to Map<Role, AllocatedSum>
