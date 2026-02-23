@@ -1,0 +1,142 @@
+: "137 lines displayed"
+Total bytes processed: "17.4  kB"
+Common labels: {"app":"capacity-planner","namespace":"shared-services","service_name":"capacity-planner"}
+
+
+1771831348841	2026-02-23T07:22:28.841Z		Maximum pool size: undefined/unknown
+1771831348841	2026-02-23T07:22:28.841Z		Minimum pool size: undefined/unknown
+1771831348841	2026-02-23T07:22:28.841Z		Isolation level: undefined/unknown
+1771831348841	2026-02-23T07:22:28.841Z		Autocommit mode: undefined/unknown
+1771831348841	2026-02-23T07:22:28.841Z		Database version: 8.4.6
+1771831348841	2026-02-23T07:22:28.841Z		Database driver: undefined/unknown
+1771831348841	2026-02-23T07:22:28.841Z		Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+1771831348841	2026-02-23T07:22:28.841Z	2026-02-23T07:22:28.841Z  INFO 1 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+1771831348287	2026-02-23T07:22:28.287Z	2026-02-23T07:22:28.287Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+1771831348248	2026-02-23T07:22:28.248Z	2026-02-23T07:22:28.248Z  INFO 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@75f32817
+1771831346697	2026-02-23T07:22:26.697Z	2026-02-23T07:22:26.697Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+1771831346591	2026-02-23T07:22:26.591Z	2026-02-23T07:22:26.590Z  INFO 1 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+1771831345288	2026-02-23T07:22:25.288Z	2026-02-23T07:22:25.288Z  INFO 1 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+1771831345093	2026-02-23T07:22:25.093Z	2026-02-23T07:22:25.092Z  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+1771831344739	2026-02-23T07:22:24.739Z	2026-02-23T07:22:24.737Z  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+1771831343994	2026-02-23T07:22:23.994Z	2026-02-23T07:22:23.993Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7450 ms
+1771831343993	2026-02-23T07:22:23.993Z	2026-02-23T07:22:23.992Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+1771831343538	2026-02-23T07:22:23.538Z	2026-02-23T07:22:23.538Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+1771831343538	2026-02-23T07:22:23.538Z	2026-02-23T07:22:23.537Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+1771831343444	2026-02-23T07:22:23.444Z	2026-02-23T07:22:23.443Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+1771831340445	2026-02-23T07:22:20.445Z	2026-02-23T07:22:20.445Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 355 ms. Found 4 JPA repository interfaces.
+1771831340044	2026-02-23T07:22:20.044Z	2026-02-23T07:22:20.043Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+1771831336294	2026-02-23T07:22:16.294Z	2026-02-23T07:22:16.294Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : No active profile set, falling back to 1 default profile: "default"
+1771831336294	2026-02-23T07:22:16.294Z	2026-02-23T07:22:16.292Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : Starting CapacityPlannerApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by appuser in /app)
+1771831335989	2026-02-23T07:22:15.989Z	
+1771831335989	2026-02-23T07:22:15.989Z	 :: Spring Boot ::               (v3.5.10)
+1771831335989	2026-02-23T07:22:15.989Z	
+1771831335989	2026-02-23T07:22:15.989Z	 =========|_|==============|___/=/_/_/_/
+1771831335989	2026-02-23T07:22:15.989Z	  '  |____| .__|_| |_|_| |_\__, | / / / /
+1771831335989	2026-02-23T07:22:15.989Z	 \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+1771831335989	2026-02-23T07:22:15.989Z	( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+1771831335989	2026-02-23T07:22:15.989Z	 /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+1771831335989	2026-02-23T07:22:15.989Z	  .   ____          _            __ _ _
+1771831335989	2026-02-23T07:22:15.989Z	
+1771831330865	2026-02-23T07:22:10.865Z	2026-02-23T07:22:10.865Z  INFO 1 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+1771831330793	2026-02-23T07:22:10.793Z	2026-02-23T07:22:10.793Z  INFO 1 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+1771831330791	2026-02-23T07:22:10.791Z	2026-02-23T07:22:10.791Z  INFO 1 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+1771831330787	2026-02-23T07:22:10.787Z	2026-02-23T07:22:10.787Z  INFO 1 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+1771831330785	2026-02-23T07:22:10.785Z	2026-02-23T07:22:10.784Z  INFO 1 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+1771831310245	2026-02-23T07:21:50.245Z	2026-02-23T07:21:50.244Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+1771831310243	2026-02-23T07:21:50.243Z	2026-02-23T07:21:50.243Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+1771831310243	2026-02-23T07:21:50.243Z	2026-02-23T07:21:50.243Z  INFO 1 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+1771831309841	2026-02-23T07:21:49.841Z	2026-02-23T07:21:49.840Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : Started CapacityPlannerApplication in 28.722 seconds (process running for 31.057)
+1771831309744	2026-02-23T07:21:49.744Z	2026-02-23T07:21:49.744Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+1771831307867	2026-02-23T07:21:47.867Z	2026-02-23T07:21:47.867Z  INFO 1 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+1771831307758	2026-02-23T07:21:47.758Z	2026-02-23T07:21:47.758Z  WARN 1 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+1771831307647	2026-02-23T07:21:47.647Z	2026-02-23T07:21:47.647Z  WARN 1 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+1771831307647	2026-02-23T07:21:47.647Z	2026-02-23T07:21:47.647Z  INFO 1 --- [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+1771831302441	2026-02-23T07:21:42.441Z	2026-02-23T07:21:42.440Z  INFO 1 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+1771831300744	2026-02-23T07:21:40.744Z	2026-02-23T07:21:40.743Z  INFO 1 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+1771831300670	2026-02-23T07:21:40.670Z	2026-02-23T07:21:40.670Z  INFO 1 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+1771831295639	2026-02-23T07:21:35.639Z		Maximum pool size: undefined/unknown
+1771831295639	2026-02-23T07:21:35.639Z		Minimum pool size: undefined/unknown
+1771831295639	2026-02-23T07:21:35.639Z		Isolation level: undefined/unknown
+1771831295639	2026-02-23T07:21:35.639Z		Autocommit mode: undefined/unknown
+1771831295639	2026-02-23T07:21:35.639Z		Database version: 8.4.6
+1771831295639	2026-02-23T07:21:35.639Z		Database driver: undefined/unknown
+1771831295639	2026-02-23T07:21:35.639Z		Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+1771831295639	2026-02-23T07:21:35.639Z	2026-02-23T07:21:35.639Z  INFO 1 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+1771831295138	2026-02-23T07:21:35.138Z	2026-02-23T07:21:35.137Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+1771831295074	2026-02-23T07:21:35.074Z	2026-02-23T07:21:35.073Z  INFO 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@75f32817
+1771831293269	2026-02-23T07:21:33.269Z	2026-02-23T07:21:33.269Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+1771831293170	2026-02-23T07:21:33.170Z	2026-02-23T07:21:33.170Z  INFO 1 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+1771831291753	2026-02-23T07:21:31.753Z	2026-02-23T07:21:31.753Z  INFO 1 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+1771831291572	2026-02-23T07:21:31.572Z	2026-02-23T07:21:31.571Z  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+1771831291243	2026-02-23T07:21:31.243Z	2026-02-23T07:21:31.242Z  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+1771831290539	2026-02-23T07:21:30.539Z	2026-02-23T07:21:30.538Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6700 ms
+1771831290538	2026-02-23T07:21:30.538Z	2026-02-23T07:21:30.537Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+1771831290047	2026-02-23T07:21:30.047Z	2026-02-23T07:21:30.046Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+1771831290046	2026-02-23T07:21:30.046Z	2026-02-23T07:21:30.046Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+1771831289976	2026-02-23T07:21:29.976Z	2026-02-23T07:21:29.975Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+1771831287568	2026-02-23T07:21:27.568Z	2026-02-23T07:21:27.568Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 330 ms. Found 4 JPA repository interfaces.
+1771831287173	2026-02-23T07:21:27.173Z	2026-02-23T07:21:27.173Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+1771831283569	2026-02-23T07:21:23.569Z	2026-02-23T07:21:23.569Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : No active profile set, falling back to 1 default profile: "default"
+1771831283568	2026-02-23T07:21:23.568Z	2026-02-23T07:21:23.566Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : Starting CapacityPlannerApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by appuser in /app)
+1771831283248	2026-02-23T07:21:23.248Z	
+1771831283248	2026-02-23T07:21:23.248Z	 :: Spring Boot ::               (v3.5.10)
+1771831283248	2026-02-23T07:21:23.248Z	
+1771831283248	2026-02-23T07:21:23.248Z	 =========|_|==============|___/=/_/_/_/
+1771831283248	2026-02-23T07:21:23.248Z	  '  |____| .__|_| |_|_| |_\__, | / / / /
+1771831283248	2026-02-23T07:21:23.248Z	 \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+1771831283248	2026-02-23T07:21:23.248Z	( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+1771831283248	2026-02-23T07:21:23.248Z	 /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+1771831283248	2026-02-23T07:21:23.248Z	  .   ____          _            __ _ _
+1771831283248	2026-02-23T07:21:23.248Z	
+1771831129395	2026-02-23T07:18:49.395Z	2026-02-23T07:18:49.394Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+1771831129393	2026-02-23T07:18:49.393Z	2026-02-23T07:18:49.393Z  INFO 1 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+1771831129393	2026-02-23T07:18:49.393Z	2026-02-23T07:18:49.393Z  INFO 1 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+1771831125989	2026-02-23T07:18:45.989Z	2026-02-23T07:18:45.988Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : Started CapacityPlannerApplication in 33.426 seconds (process running for 36.191)
+1771831125963	2026-02-23T07:18:45.963Z	2026-02-23T07:18:45.962Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+1771831123788	2026-02-23T07:18:43.788Z	2026-02-23T07:18:43.787Z  INFO 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/capacityplanner/actuator'
+1771831122590	2026-02-23T07:18:42.590Z	2026-02-23T07:18:42.589Z  INFO 1 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+1771831122395	2026-02-23T07:18:42.395Z	2026-02-23T07:18:42.394Z  WARN 1 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+1771831122195	2026-02-23T07:18:42.195Z	2026-02-23T07:18:42.195Z  WARN 1 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+1771831122194	2026-02-23T07:18:42.194Z	2026-02-23T07:18:42.194Z  INFO 1 --- [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+1771831117090	2026-02-23T07:18:37.090Z	2026-02-23T07:18:37.090Z  INFO 1 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+1771831114981	2026-02-23T07:18:34.981Z	2026-02-23T07:18:34.981Z  INFO 1 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+1771831114978	2026-02-23T07:18:34.978Z	2026-02-23T07:18:34.977Z  INFO 1 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+1771831109762	2026-02-23T07:18:29.762Z		Maximum pool size: undefined/unknown
+1771831109762	2026-02-23T07:18:29.762Z		Minimum pool size: undefined/unknown
+1771831109762	2026-02-23T07:18:29.762Z		Isolation level: undefined/unknown
+1771831109762	2026-02-23T07:18:29.762Z		Autocommit mode: undefined/unknown
+1771831109762	2026-02-23T07:18:29.762Z		Database version: 8.4.6
+1771831109762	2026-02-23T07:18:29.762Z		Database driver: undefined/unknown
+1771831109762	2026-02-23T07:18:29.762Z		Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+1771831109762	2026-02-23T07:18:29.762Z	2026-02-23T07:18:29.762Z  INFO 1 --- [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+1771831109095	2026-02-23T07:18:29.095Z	2026-02-23T07:18:29.095Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+1771831109093	2026-02-23T07:18:29.093Z	2026-02-23T07:18:29.093Z  INFO 1 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6081f330
+1771831107486	2026-02-23T07:18:27.486Z	2026-02-23T07:18:27.486Z  INFO 1 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+1771831107286	2026-02-23T07:18:27.286Z	2026-02-23T07:18:27.285Z  INFO 1 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+1771831105899	2026-02-23T07:18:25.899Z	2026-02-23T07:18:25.899Z  INFO 1 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+1771831105770	2026-02-23T07:18:25.770Z	2026-02-23T07:18:25.769Z  INFO 1 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+1771831105566	2026-02-23T07:18:25.566Z	2026-02-23T07:18:25.564Z  INFO 1 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+1771831104283	2026-02-23T07:18:24.283Z	2026-02-23T07:18:24.282Z  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8789 ms
+1771831104271	2026-02-23T07:18:24.271Z	2026-02-23T07:18:24.271Z  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+1771831103765	2026-02-23T07:18:23.765Z	2026-02-23T07:18:23.765Z  INFO 1 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+1771831103765	2026-02-23T07:18:23.765Z	2026-02-23T07:18:23.765Z  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+1771831103664	2026-02-23T07:18:23.664Z	2026-02-23T07:18:23.664Z  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+1771831100970	2026-02-23T07:18:20.970Z	2026-02-23T07:18:20.969Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 303 ms. Found 4 JPA repository interfaces.
+1771831100596	2026-02-23T07:18:20.596Z	2026-02-23T07:18:20.595Z  INFO 1 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+1771831095196	2026-02-23T07:18:15.196Z	2026-02-23T07:18:15.196Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : No active profile set, falling back to 1 default profile: "default"
+1771831095195	2026-02-23T07:18:15.195Z	2026-02-23T07:18:15.193Z  INFO 1 --- [           main] c.z.c.CapacityPlannerApplication         : Starting CapacityPlannerApplication v0.0.1-SNAPSHOT using Java 21.0.10 with PID 1 (/app/app.jar started by appuser in /app)
+1771831094796	2026-02-23T07:18:14.796Z	
+1771831094796	2026-02-23T07:18:14.796Z	 :: Spring Boot ::               (v3.5.10)
+1771831094795	2026-02-23T07:18:14.795Z	
+1771831094795	2026-02-23T07:18:14.795Z	 =========|_|==============|___/=/_/_/_/
+1771831094795	2026-02-23T07:18:14.795Z	  '  |____| .__|_| |_|_| |_\__, | / / / /
+1771831094795	2026-02-23T07:18:14.795Z	 \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+1771831094795	2026-02-23T07:18:14.795Z	( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+1771831094795	2026-02-23T07:18:14.795Z	 /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+1771831094795	2026-02-23T07:18:14.795Z	  .   ____          _            __ _ _
+1771831094795	2026-02-23T07:18:14.795Z	
+1771831089040	2026-02-23T07:18:09.040Z	2026-02-23T07:18:09.040Z  INFO 1 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+1771831088966	2026-02-23T07:18:08.966Z	2026-02-23T07:18:08.966Z  INFO 1 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+1771831088962	2026-02-23T07:18:08.962Z	2026-02-23T07:18:08.962Z  INFO 1 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+1771831088946	2026-02-23T07:18:08.946Z	2026-02-23T07:18:08.946Z  INFO 1 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+1771831088883	2026-02-23T07:18:08.883Z	2026-02-23T07:18:08.882Z  INFO 1 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
