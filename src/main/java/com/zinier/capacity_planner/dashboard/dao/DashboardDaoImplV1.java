@@ -154,4 +154,26 @@ public class DashboardDaoImplV1 implements DashboardDaoV1 {
                 .toList();
         return employeeRepository.findByIdInAndIsActiveTrue(longIds);
     }
+
+    @Override
+    public Map<Integer, Long> fetchWeekCountByEmployee(LocalDate start, LocalDate end) {
+        return capacityRepository.countWeeksByEmployeeForDateRange(start, end)
+                .stream()
+                .collect(Collectors.toMap(
+                        obj -> ((Number) obj[0]).intValue(),
+                        obj -> ((Number) obj[1]).longValue()
+                ));
+    }
+
+    @Override
+    public Map<Integer, Long> fetchWeekCountByEmployeeForProject(
+            Integer projectId, LocalDate start, LocalDate end) {
+        return capacityRepository
+                .countWeeksByEmployeeForProjectAndDateRange(projectId, start, end)
+                .stream()
+                .collect(Collectors.toMap(
+                        obj -> ((Number) obj[0]).intValue(),
+                        obj -> ((Number) obj[1]).longValue()
+                ));
+    }
 }

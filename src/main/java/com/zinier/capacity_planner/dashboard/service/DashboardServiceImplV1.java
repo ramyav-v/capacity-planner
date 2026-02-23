@@ -21,7 +21,6 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
     public DashboardResponseModel getDashboard() {
 
         var quarter = QuarterUtils.currentQuarter();
-        long weeks = QuarterUtils.getWeeksInQuarter(quarter);
 
         var roleDtos = dashboardDaoV1.fetchRoleDistribution();
         var regionDtos = dashboardDaoV1.fetchRegionDistribution();
@@ -35,27 +34,29 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
         // Per-employee allocations scoped to current quarter
         var allocationByEmployee = dashboardDaoV1.fetchAllocationByEmployee(
                 quarter.getStart(), quarter.getEnd());
+        var weekCountByEmployee = dashboardDaoV1.fetchWeekCountByEmployee(
+                quarter.getStart(), quarter.getEnd());
 
-        double totalAllocation = allocationByEmployee.values().stream()
-                .mapToDouble(Double::doubleValue).sum();
-
-        double avgUtil = 0;
-        if (totalEmployees > 0 && weeks > 0) {
-            avgUtil = totalAllocation / (totalEmployees * weeks);
-        }
-
-        // Compute over/under utilization from per-employee weekly averages
+        // Compute per-employee utilization and aggregate
+        double totalUtil = 0;
         int overUtilized = 0;
         int underUtilized = 0;
         for (var emp : employees) {
             double alloc = allocationByEmployee.getOrDefault(emp.getId().intValue(), 0.0);
-            double utilization = weeks > 0 ? alloc / weeks : 0;
+            long empWeeks = weekCountByEmployee.getOrDefault(emp.getId().intValue(), 0L);
+            double utilization = empWeeks > 0 ? alloc / empWeeks : 0;
+            totalUtil += utilization;
             if (utilization > 1.0) {
                 overUtilized++;
             } else if (utilization < 0.5) {
                 underUtilized++;
             }
         }
+
+        double avgUtil = totalEmployees > 0 ? totalUtil / totalEmployees : 0;
+
+        // Total weeks in quarter for role-level aggregate
+        long quarterWeeks = QuarterUtils.getWeeksInQuarter(quarter);
 
         // Convert raw allocation query result to Map<Role, AllocatedSum>
         Map<String, Double> allocatedByRole = allocatedRaw.stream()
@@ -129,14 +130,14 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
 
                                     int roleEmployees = h.getTotal().intValue();
 
-                                    double totalCapacity = roleEmployees * weeks;
+                                    double totalCapacity = roleEmployees * quarterWeeks;
 
                                     double percentage = totalCapacity == 0
                                             ? 0
                                             : allocated / totalCapacity;
 
                                     int availableSeats = roleEmployees
-                                            - (int) (allocated / weeks);
+                                            - (int) (allocated / quarterWeeks);
 
                                     return ResourceAllocationByRoleModel.builder()
                                             .role(h.getRole())
@@ -159,16 +160,20 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
 
         LocalDate start = isWeekView ? weekStartDate : quarter.getStart();
         LocalDate end = isWeekView ? weekStartDate : quarter.getEnd();
-        long weeks = isWeekView ? 1 : QuarterUtils.getWeeksInQuarter(quarter);
 
         var employees = dashboardDaoV1.fetchActiveEmployees(employeeId);
         var allocationByEmployee = dashboardDaoV1.fetchAllocationByEmployee(start, end);
+        var weekCountByEmployee = isWeekView
+                ? Map.<Integer, Long>of()
+                : dashboardDaoV1.fetchWeekCountByEmployee(start, end);
 
         var resources = employees.stream()
                 .map(emp -> {
                     double totalAllocation = allocationByEmployee
                             .getOrDefault(emp.getId().intValue(), 0.0);
-                    double utilization = weeks > 0 ? (totalAllocation / weeks) * 100 : 0;
+                    long empWeeks = isWeekView ? 1
+                            : weekCountByEmployee.getOrDefault(emp.getId().intValue(), 0L);
+                    double utilization = empWeeks > 0 ? (totalAllocation / empWeeks) * 100 : 0;
 
                     String status;
                     if (utilization == 0) {
@@ -225,7 +230,6 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
 
         LocalDate start = isWeekView ? weekStartDate : quarter.getStart();
         LocalDate end = isWeekView ? weekStartDate : quarter.getEnd();
-        long weeks = isWeekView ? 1 : QuarterUtils.getWeeksInQuarter(quarter);
 
         var project = dashboardDaoV1.fetchActiveProjects().stream()
                 .filter(p -> p.getId().equals(projectId))
@@ -237,12 +241,18 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
 
         var allocationByEmployee = dashboardDaoV1
                 .fetchAllocationByEmployeeForProject(projectId.intValue(), start, end);
+        var weekCountByEmployee = isWeekView
+                ? Map.<Integer, Long>of()
+                : dashboardDaoV1.fetchWeekCountByEmployeeForProject(
+                        projectId.intValue(), start, end);
 
         var resources = employees.stream()
                 .map(emp -> {
                     double totalAllocation = allocationByEmployee
                             .getOrDefault(emp.getId().intValue(), 0.0);
-                    double utilization = weeks > 0 ? (totalAllocation / weeks) * 100 : 0;
+                    long empWeeks = isWeekView ? 1
+                            : weekCountByEmployee.getOrDefault(emp.getId().intValue(), 0L);
+                    double utilization = empWeeks > 0 ? (totalAllocation / empWeeks) * 100 : 0;
 
                     String status;
                     if (utilization == 0) {

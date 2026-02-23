@@ -100,4 +100,26 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
             @Param("projectId") Integer projectId,
             @Param("start") LocalDate start,
             @Param("end") LocalDate end);
+
+    @Query("""
+        SELECT c.employeeId, COUNT(DISTINCT c.weekStartDate)
+        FROM CapacityInputEntity c
+        WHERE c.weekStartDate BETWEEN :start AND :end
+        GROUP BY c.employeeId
+    """)
+    List<Object[]> countWeeksByEmployeeForDateRange(
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end);
+
+    @Query("""
+        SELECT c.employeeId, COUNT(DISTINCT c.weekStartDate)
+        FROM CapacityInputEntity c
+        WHERE c.projectId = :projectId
+          AND c.weekStartDate BETWEEN :start AND :end
+        GROUP BY c.employeeId
+    """)
+    List<Object[]> countWeeksByEmployeeForProjectAndDateRange(
+            @Param("projectId") Integer projectId,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end);
 }

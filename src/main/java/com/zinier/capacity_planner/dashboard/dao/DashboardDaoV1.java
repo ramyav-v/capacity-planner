@@ -25,4 +25,6 @@ public interface DashboardDaoV1 {
     List<ProjectEntity> fetchActiveProjects();
     Map<Integer, Double> fetchAllocationByEmployeeForProject(Integer projectId, LocalDate start, LocalDate end);
     List<EmployeeEntity> fetchEmployeesForProject(Integer projectId, LocalDate start, LocalDate end, Long employeeId);
+    Map<Integer, Long> fetchWeekCountByEmployee(LocalDate start, LocalDate end);
+    Map<Integer, Long> fetchWeekCountByEmployeeForProject(Integer projectId, LocalDate start, LocalDate end);
 }
