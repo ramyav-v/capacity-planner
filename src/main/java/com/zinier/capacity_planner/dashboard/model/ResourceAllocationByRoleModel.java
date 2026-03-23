@@ -2,6 +2,8 @@ package com.zinier.capacity_planner.dashboard.model;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,4 +14,5 @@ public class ResourceAllocationByRoleModel {
     private Integer allocated;
     private Integer availableSeats;
     private Double percentage;
+    private List<String> availableNames;
 }

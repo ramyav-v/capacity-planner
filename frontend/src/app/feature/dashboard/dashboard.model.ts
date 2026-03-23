@@ -26,17 +26,22 @@ export interface HeadcountItem {
 export interface RoleDistribution {
   role: string;
   count: number;
+  names: string[];
 }
 
 export interface ClusterDistribution {
   region: string;
   count: number;
+  names: string[];
 }
 
 export interface UtilizationStatus {
   optimal: number;
   overUtilized: number;
   underUtilized: number;
+  optimalNames: string[];
+  overUtilizedNames: string[];
+  underUtilizedNames: string[];
 }
 
 export interface ResourceAllocationByRole {
@@ -44,6 +49,7 @@ export interface ResourceAllocationByRole {
   allocated: number;
   availableSeats: number;
   percentage: number;
+  availableNames: string[];
 }
 
 // GET /dashboard/allocations

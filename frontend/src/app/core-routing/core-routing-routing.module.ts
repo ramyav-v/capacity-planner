@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
+import { roleGuard } from '../auth/guards/role.guard';
 
 export const CORE_ROUTES: Routes = [
   {
@@ -35,6 +36,8 @@ export const CORE_ROUTES: Routes = [
       },
       {
         path: 'data-management',
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'SUPER_ADMIN'] },
         loadComponent: () =>
           import('../feature/data-management/data-management.component')
             .then(c => c.DataManagementComponent),
@@ -76,6 +79,14 @@ export const CORE_ROUTES: Routes = [
             pathMatch: 'full'
           }
         ]
+      },
+      {
+        path: 'user-management',
+        canActivate: [roleGuard],
+        data: { roles: ['SUPER_ADMIN'] },
+        loadComponent: () =>
+          import('../feature/user-management/users/users.component')
+            .then(c => c.UsersComponent)
       },
       {
         path: '',

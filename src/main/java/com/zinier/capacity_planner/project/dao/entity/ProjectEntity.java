@@ -75,6 +75,6 @@ public class ProjectEntity {
     }
 
     public enum Status {
-        ACTIVE, ON_HOLD, COMPLETED, CANCELLED
+        ACTIVE, ON_HOLD, COMPLETED, CANCELLED, TO_BE_STARTED
     }
 }

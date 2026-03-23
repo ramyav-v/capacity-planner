@@ -6,6 +6,7 @@ import lombok.Data;
 public class AppUserDtoV1 {
     private String username;
     private String password;
+    private String email;
     private String fullName;
     private String userRole;
     private Long employeeId;

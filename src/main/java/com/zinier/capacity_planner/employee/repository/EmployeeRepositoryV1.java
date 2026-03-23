@@ -57,6 +57,7 @@ public interface EmployeeRepositoryV1 extends JpaRepository<EmployeeEntity, Long
            SUM(CASE WHEN e.company <> 'Zinier' THEN 1 ELSE 0 END),
            COUNT(e)
     FROM EmployeeEntity e
+    WHERE e.isActive = true
     GROUP BY e.role
 """)
     List<Object[]> countHeadcountByRole();

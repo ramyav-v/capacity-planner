@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class AppUserResponseModel {
     private Long id;
     private String username;
+    private String email;
     private String fullName;
     private String userRole;
     private Long employeeId;

@@ -13,7 +13,7 @@ import {
   CsvExportModule,
   QuickFilterModule
 } from 'ag-grid-community';
-import { Employee, EmployeeDto } from './employee.model';
+import { Employee, EmployeeDto, EmployeeCompany, EmployeeRegion } from './employee.model';
 import { EmployeeService } from './services/employee.service';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 
@@ -37,6 +37,13 @@ export class EmployeesComponent implements OnInit {
 
   private gridApi!: GridApi<Employee>;
   searchText = '';
+
+  // Filters
+  allData: Employee[] = [];
+  filterCompany: EmployeeCompany | '' = '';
+  filterRegion: EmployeeRegion | '' = '';
+  companies: EmployeeCompany[] = ['Zinier', 'Sankey', 'TopGrep'];
+  regions: EmployeeRegion[] = ['US', 'EMEA'];
 
   // Dialog state
   isDialogOpen = false;
@@ -229,10 +236,22 @@ export class EmployeesComponent implements OnInit {
     this.employeeToDelete = null;
   }
 
+  onFilterChange(): void {
+    let filtered = this.allData;
+    if (this.filterCompany) {
+      filtered = filtered.filter(e => e.company === this.filterCompany);
+    }
+    if (this.filterRegion) {
+      filtered = filtered.filter(e => e.region === this.filterRegion);
+    }
+    this.rowData = filtered;
+  }
+
   private loadEmployees(): void {
     this.employeeService.getAll(undefined, undefined, true).subscribe({
       next: (employees) => {
-        this.rowData = employees;
+        this.allData = employees;
+        this.onFilterChange();
       },
       error: (err) => {
         console.error('Failed to load employees', err);

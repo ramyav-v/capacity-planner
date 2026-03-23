@@ -17,15 +17,34 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, request).pipe(
-      tap(response => {
-        localStorage.setItem(this.TOKEN_KEY, response.token);
-        localStorage.setItem(this.USER_KEY, JSON.stringify({
-          username: response.username,
-          fullName: response.fullName,
-          role: response.role
-        }));
-      })
+      tap(response => this.storeAuthData(response))
     );
+  }
+
+  ssoCallback(code: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/sso/callback`, { code }).pipe(
+      tap(response => this.storeAuthData(response))
+    );
+  }
+
+  redirectToOktaLogin(): void {
+    const params = new URLSearchParams({
+      client_id: environment.OKTA_CLIENT_ID,
+      redirect_uri: environment.OKTA_REDIRECT_URI,
+      scope: 'openid email profile',
+      response_type: 'code',
+      state: Math.random().toString(36).substring(2),
+    });
+    window.location.href = `${environment.OKTA_ISSUER_URI}/oauth2/v1/authorize?${params.toString()}`;
+  }
+
+  private storeAuthData(response: LoginResponse): void {
+    localStorage.setItem(this.TOKEN_KEY, response.token);
+    localStorage.setItem(this.USER_KEY, JSON.stringify({
+      username: response.username,
+      fullName: response.fullName,
+      role: response.role
+    }));
   }
 
   logout(): void {

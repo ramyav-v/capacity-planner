@@ -4,18 +4,34 @@
       <div class="login-logo">
         <img src="assets/img/logo.png" alt="Zinier" class="logo-img" />
       </div>
-      <h1 class="login-title">Capacity Planner</h1>
+      <h1 class="login-title">Z-Planner</h1>
       <p class="login-subtitle">Sign in to your account</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
-      <div class="alert alert-error" *ngIf="errorMessage">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-        </svg>
-        <span>{{ errorMessage }}</span>
-      </div>
+    <div class="alert alert-error" *ngIf="errorMessage">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <span>{{ errorMessage }}</span>
+    </div>
 
+    <!-- SSO Button (primary) -->
+    <button class="btn-sso" (click)="onSsoLogin()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      Sign in with SSO
+    </button>
+
+    <!-- Toggle for credential login -->
+    <button class="credentials-toggle" (click)="showCredentials = !showCredentials">
+      {{ showCredentials ? 'Hide' : 'Sign in with credentials' }}
+    </button>
+
+    <!-- Credentials form (hidden by default) -->
+    <form *ngIf="showCredentials" [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
         <label class="form-label" for="username">Username</label>
         <input

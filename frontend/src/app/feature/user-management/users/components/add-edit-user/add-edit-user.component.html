@@ -1,0 +1,78 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onBackdropClick($event)">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 class="modal-title">{{ title }}</h2>
+      <p class="modal-subtitle">{{ subtitle }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+      <!-- Username -->
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          [class.disabled]="isEditMode"
+          formControlName="username"
+          placeholder="Enter username"
+        />
+        <span class="form-error" *ngIf="form.get('username')?.touched && form.get('username')?.hasError('required')">
+          Username is required
+        </span>
+      </div>
+
+      <!-- Email (required for SSO login) -->
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" formControlName="email" placeholder="Enter company email" />
+        <span class="form-error" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+          Email is required
+        </span>
+        <span class="form-error" *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+          Enter a valid email address
+        </span>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">
+          Password
+          <span class="label-hint">(optional — SSO users don't need a password)</span>
+        </label>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          [placeholder]="isEditMode ? '••••••••' : 'Enter password (optional)'"
+        />
+      </div>
+
+      <!-- Full Name -->
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-control" formControlName="fullName" placeholder="Enter full name" />
+        <span class="form-error" *ngIf="form.get('fullName')?.touched && form.get('fullName')?.hasError('required')">
+          Full name is required
+        </span>
+      </div>
+
+      <!-- Role -->
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <select class="form-control" formControlName="userRole">
+          <option value="" disabled>Select role</option>
+          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+        </select>
+        <span class="form-error" *ngIf="form.get('userRole')?.touched && form.get('userRole')?.hasError('required')">
+          Role is required
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" (click)="onClose()">Cancel</button>
+        <button type="submit" class="btn btn-primary">{{ submitLabel }}</button>
+      </div>
+    </form>
+  </div>
+</div>

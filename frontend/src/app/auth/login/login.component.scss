@@ -46,9 +46,67 @@
   margin: 0;
 }
 
+.alert-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $input-radius;
+  color: #dc2626;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+// SSO Button — primary action
+.btn-sso {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: $input-radius;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: $font-family;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  background: $btn-primary-bg;
+  color: $btn-primary-text;
+
+  &:hover {
+    background: $btn-primary-hover;
+  }
+}
+
+// Toggle link for credential login
+.credentials-toggle {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: $color-muted;
+  font-size: 13px;
+  font-family: $font-family;
+  cursor: pointer;
+  padding: 16px 0 0;
+  text-align: center;
+
+  &:hover {
+    color: $color-heading;
+  }
+}
+
+// Credentials form
 .login-form {
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
 }
 
 .form-group {
@@ -79,19 +137,6 @@
   margin-top: 4px;
 }
 
-.alert-error {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: $input-radius;
-  color: #dc2626;
-  font-size: 13px;
-  margin-bottom: 20px;
-}
-
 .btn-login {
   width: 100%;
   padding: 12px;
@@ -101,13 +146,14 @@
   font-family: $font-family;
   cursor: pointer;
   transition: all 0.15s;
-  border: none;
-  background: $btn-primary-bg;
-  color: $btn-primary-text;
+  border: 1px solid #e2e8f0;
+  background: $color-white;
+  color: $color-heading;
   margin-top: 8px;
 
   &:hover:not(:disabled) {
-    background: $btn-primary-hover;
+    background: #f8fafc;
+    border-color: #cbd5e1;
   }
 
   &:disabled {
@@ -125,8 +171,8 @@
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  border-top-color: $color-heading;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }

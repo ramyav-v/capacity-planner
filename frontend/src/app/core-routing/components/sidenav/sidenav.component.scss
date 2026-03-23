@@ -88,6 +88,11 @@ $active-bg: #eae8fd;
   font-weight: 700;
   font-size: 15px;
   color: $color-heading;
+
+  &.active {
+    color: $accent-color;
+    background-color: $active-bg;
+  }
 }
 
 .nav-icon {

@@ -15,6 +15,7 @@ export class LoginComponent {
   form: FormGroup;
   errorMessage = '';
   isLoading = false;
+  showCredentials = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +31,10 @@ export class LoginComponent {
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  onSsoLogin(): void {
+    this.authService.redirectToOktaLogin();
   }
 
   onSubmit(): void {

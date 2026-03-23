@@ -37,19 +37,44 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
         var weekCountByEmployee = dashboardDaoV1.fetchWeekCountByEmployee(
                 quarter.getStart(), quarter.getEnd());
 
+        // Group employee names by role and region
+        Map<String, List<String>> namesByRole = employees.stream()
+                .collect(Collectors.groupingBy(
+                        emp -> emp.getRole().name(),
+                        Collectors.mapping(emp -> emp.getName(), Collectors.toList())
+                ));
+
+        Map<String, List<String>> namesByRegion = employees.stream()
+                .collect(Collectors.groupingBy(
+                        emp -> emp.getRegion().name(),
+                        Collectors.mapping(emp -> emp.getName(), Collectors.toList())
+                ));
+
         // Compute per-employee utilization and aggregate
         double totalUtil = 0;
         int overUtilized = 0;
         int underUtilized = 0;
+        List<String> optimalNames = new java.util.ArrayList<>();
+        List<String> overUtilizedNames = new java.util.ArrayList<>();
+        List<String> underUtilizedNames = new java.util.ArrayList<>();
+        // Track per-employee utilization by role (name -> utilization) for available names
+        Map<String, List<Map.Entry<String, Double>>> utilByRole = new java.util.HashMap<>();
         for (var emp : employees) {
             double alloc = allocationByEmployee.getOrDefault(emp.getId().intValue(), 0.0);
             long empWeeks = weekCountByEmployee.getOrDefault(emp.getId().intValue(), 0L);
             double utilization = empWeeks > 0 ? alloc / empWeeks : 0;
             totalUtil += utilization;
+            utilByRole
+                    .computeIfAbsent(emp.getRole().name(), k -> new java.util.ArrayList<>())
+                    .add(Map.entry(emp.getName(), utilization));
             if (utilization > 1.0) {
                 overUtilized++;
+                overUtilizedNames.add(emp.getName());
             } else if (utilization < 0.5) {
                 underUtilized++;
+                underUtilizedNames.add(emp.getName());
+            } else {
+                optimalNames.add(emp.getName());
             }
         }
 
@@ -96,7 +121,8 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                         roleDtos.stream()
                                 .map(r -> new RoleDistributionModel(
                                         r.getRole(),
-                                        r.getCount().intValue()
+                                        r.getCount().intValue(),
+                                        namesByRole.getOrDefault(r.getRole(), List.of())
                                 ))
                                 .toList()
                 )
@@ -106,18 +132,22 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                         regionDtos.stream()
                                 .map(r -> new ClusterDistributionModel(
                                         r.getRegion(),
-                                        r.getCount().intValue()
+                                        r.getCount().intValue(),
+                                        namesByRegion.getOrDefault(r.getRegion(), List.of())
                                 ))
                                 .toList()
                 )
 
                 // ================= UTILIZATION STATUS =================
                 .utilizationStatus(
-                        new UtilizationStatusModel(
-                                totalEmployees - overUtilized - underUtilized,
-                                overUtilized,
-                                underUtilized
-                        )
+                        UtilizationStatusModel.builder()
+                                .optimal(totalEmployees - overUtilized - underUtilized)
+                                .overUtilized(overUtilized)
+                                .underUtilized(underUtilized)
+                                .optimalNames(optimalNames)
+                                .overUtilizedNames(overUtilizedNames)
+                                .underUtilizedNames(underUtilizedNames)
+                                .build()
                 )
 
                 // ================= RESOURCE ALLOCATION BY ROLE =================
@@ -136,14 +166,26 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                                             ? 0
                                             : allocated / totalCapacity;
 
-                                    int availableSeats = roleEmployees
-                                            - (int) (allocated / quarterWeeks);
+                                    int allocatedHeadcount = quarterWeeks > 0
+                                            ? (int) Math.round(allocated / quarterWeeks)
+                                            : 0;
+
+                                    int availableSeats = Math.max(roleEmployees - allocatedHeadcount, 0);
+
+                                    // Pick the least-utilized employees, limited to availableSeats count
+                                    List<String> availNames = utilByRole.getOrDefault(h.getRole(), List.of())
+                                            .stream()
+                                            .sorted(java.util.Comparator.comparingDouble(Map.Entry::getValue))
+                                            .limit(availableSeats)
+                                            .map(Map.Entry::getKey)
+                                            .toList();
 
                                     return ResourceAllocationByRoleModel.builder()
                                             .role(h.getRole())
-                                            .allocated((int) allocated)
+                                            .allocated(allocatedHeadcount)
                                             .availableSeats(availableSeats)
                                             .percentage(percentage)
+                                            .availableNames(availNames)
                                             .build();
                                 })
                                 .toList()

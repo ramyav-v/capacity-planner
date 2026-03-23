@@ -15,4 +15,6 @@ public interface AppUserRepositoryV1 extends JpaRepository<AppUserEntity, Long> 
     List<AppUserEntity> findByIsActiveTrue();
 
     boolean existsByUsername(String username);
+
+    Optional<AppUserEntity> findByEmailAndIsActiveTrue(String email);
 }

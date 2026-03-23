@@ -10,7 +10,7 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  appName = 'Capacity Planner';
+  appName = 'Z-Planner';
 
   constructor(private authService: AuthService) {}
 

@@ -37,3 +37,8 @@ jwt:
 app:
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:4200,http://localhost:4000}
+okta:
+  issuer-uri: ${OKTA_ISSUER_URI:https://zinier.okta.com}
+  client-id: ${OKTA_CLIENT_ID:0oaw4a7gask36zscI4x7}
+  client-secret: ${OKTA_CLIENT_SECRET:p9oJKv2HIEM13OMy6ZjN5b-HYcnZ8F_9mhILvaU1lfjSGyeo4oIzdKxqO0Tjj4yY}
+  redirect-uri: ${OKTA_REDIRECT_URI:http://localhost:4200/auth/callback}

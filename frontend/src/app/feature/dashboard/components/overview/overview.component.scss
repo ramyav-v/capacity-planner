@@ -96,6 +96,38 @@
   text-align: left;
 }
 
+.donut-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  margin-top: 4px;
+}
+
+.donut-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: $color-heading;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+}
+
+.donut-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 /* ========== Bottom Row: Headcount + Resource ========== */
 .bottom-row {
   display: flex;
@@ -262,6 +294,15 @@
   padding: 2px 8px;
   border-radius: 10px;
   white-space: nowrap;
+
+  &.clickable {
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #c8e6c9;
+    }
+  }
 }
 
 .role-bar-row {
@@ -363,4 +404,89 @@
   height: 120px;
   border-radius: 50%;
   margin: 16px auto 0;
+}
+
+/* ========== Names Popup Overlay ========== */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  width: 320px;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.popup-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.popup-count {
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+}
+
+.popup-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #999;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.popup-list {
+  overflow-y: auto;
+  padding: 8px 20px 16px;
+}
+
+.popup-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 13px;
+  color: $color-heading;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.popup-index {
+  font-size: 11px;
+  color: #aaa;
+  min-width: 20px;
+  text-align: right;
 }

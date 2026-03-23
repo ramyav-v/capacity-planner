@@ -16,6 +16,8 @@
   box-shadow: $card-shadow;
   padding: 20px;
   align-self: flex-start;
+  position: sticky;
+  top: 0;
 }
 
 .quarter-header {

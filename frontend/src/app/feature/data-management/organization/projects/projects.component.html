@@ -1,7 +1,11 @@
 <div class="projects-page">
+  <div class="sticky-top">
   <!-- Page header -->
   <div class="page-header">
-    <h1 class="page-title">Projects</h1>
+    <div class="title-row">
+      <h1 class="page-title">Projects</h1>
+      <span class="count-badge">{{ rowData.length }}</span>
+    </div>
     <button class="btn btn-primary" (click)="onAddProject()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -12,17 +16,27 @@
 
   <!-- Toolbar -->
   <div class="toolbar">
-    <div class="search-box">
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-      </svg>
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Search projects by name..."
-        [(ngModel)]="searchText"
-        (ngModelChange)="onSearchChange()"
-      />
+    <div class="toolbar-left">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search projects by name..."
+          [(ngModel)]="searchText"
+          (ngModelChange)="onSearchChange()"
+        />
+      </div>
+      <select class="filter-select" [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()">
+        <option value="">All Statuses</option>
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="filterRegion" (ngModelChange)="onFilterChange()">
+        <option value="">All Regions</option>
+        <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
+      </select>
     </div>
     <button class="btn btn-outline" (click)="onDownloadCsv()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -30,6 +44,7 @@
       </svg>
       Export
     </button>
+  </div>
   </div>
 
   <!-- AG Grid -->
@@ -39,10 +54,10 @@
       [rowData]="rowData"
       [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef"
+      [domLayout]="'autoHeight'"
       [animateRows]="true"
       [rowHeight]="52"
       [headerHeight]="44"
-      [domLayout]="'autoHeight'"
       [pagination]="false"
       [suppressCellFocus]="true"
       (gridReady)="onGridReady($event)"

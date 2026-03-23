@@ -96,6 +96,13 @@
         [legend]="allocationLegend"
         [tooltip]="allocationTooltip"
       ></apx-chart>
+      <div class="donut-legend">
+        <span class="donut-legend-item" *ngFor="let label of allocationLabels; let i = index"
+              (click)="showNamesPopup(label, allocationNames[i], allocationColors[i])">
+          <span class="donut-legend-dot" [style.background]="allocationColors[i]"></span>
+          {{ label }} {{ allocationSeries[i] }}
+        </span>
+      </div>
     </div>
 
     <div class="donut-card">
@@ -111,6 +118,13 @@
         [legend]="clusterLegend"
         [tooltip]="clusterTooltip"
       ></apx-chart>
+      <div class="donut-legend">
+        <span class="donut-legend-item" *ngFor="let label of clusterLabels; let i = index"
+              (click)="showNamesPopup(label, clusterNames[i], clusterColors[i])">
+          <span class="donut-legend-dot" [style.background]="clusterColors[i]"></span>
+          {{ label }} {{ clusterSeries[i] }}
+        </span>
+      </div>
     </div>
 
     <div class="donut-card">
@@ -126,6 +140,13 @@
         [legend]="utilizationLegend"
         [tooltip]="utilizationTooltip"
       ></apx-chart>
+      <div class="donut-legend">
+        <span class="donut-legend-item" *ngFor="let label of utilizationLabels; let i = index"
+              (click)="showNamesPopup(label, utilizationNames[i], utilizationColors[i])">
+          <span class="donut-legend-dot" [style.background]="utilizationColors[i]"></span>
+          {{ label }} {{ utilizationSeries[i] }}
+        </span>
+      </div>
     </div>
   </div>
 
@@ -185,7 +206,11 @@
               </svg>
             </div>
             <span class="role-name">{{ role.role }}</span>
-            <span class="role-avail-badge">{{ role.availablePeople }} avail</span>
+            <span class="role-avail-badge"
+                  [class.clickable]="role.availablePeople > 0"
+                  (click)="role.availablePeople > 0 && showNamesPopup(role.role + ' - Available', role.availableNames, '#26a69a')">
+              {{ role.availablePeople }} avail
+            </span>
           </div>
           <div class="role-bar-row">
             <span class="alloc-numbers">
@@ -205,4 +230,21 @@
   </div>
 
   </ng-container>
+
+  <!-- Names Popup Overlay -->
+  <div class="popup-overlay" *ngIf="popupVisible" (click)="closePopup()">
+    <div class="popup-card" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <span class="popup-title" [style.color]="popupColor">{{ popupLabel }}</span>
+        <span class="popup-count">{{ popupNames.length }} people</span>
+        <button class="popup-close" (click)="closePopup()">&times;</button>
+      </div>
+      <div class="popup-list">
+        <div class="popup-name" *ngFor="let name of popupNames; let i = index">
+          <span class="popup-index">{{ i + 1 }}</span>
+          <span>{{ name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

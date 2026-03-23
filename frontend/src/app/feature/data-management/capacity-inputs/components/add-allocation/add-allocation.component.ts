@@ -43,6 +43,7 @@ export class AddAllocationComponent implements OnInit {
   quarterLabel = '';
 
   isEditMode = false;
+  validationError = '';
 
   constructor(
     private fb: FormBuilder,
@@ -122,6 +123,25 @@ export class AddAllocationComponent implements OnInit {
     this.monthGroups = groups;
   }
 
+  onWeekValueChange(date: string, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = parseFloat(input.value);
+
+    if (isNaN(value) || value < 0) {
+      value = 0;
+      input.value = '0';
+      this.validationError = 'Value must be between 0.0 and 1.0';
+    } else if (value > 1) {
+      value = 1;
+      input.value = '1';
+      this.validationError = 'Value cannot exceed 1.0 — maximum allocation per resource is 100%.';
+    } else {
+      this.validationError = '';
+    }
+
+    this.weekValues[date] = value;
+  }
+
   onSubmit(): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
@@ -161,6 +181,7 @@ export class AddAllocationComponent implements OnInit {
 
   resetForm(): void {
     this.isEditMode = false;
+    this.validationError = '';
     this.buildForm();
     this.selectedEmployee = null;
     this.generateQuarterWeeks();

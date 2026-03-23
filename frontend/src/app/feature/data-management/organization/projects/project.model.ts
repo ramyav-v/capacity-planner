@@ -1,5 +1,5 @@
 export type ProjectRegion = 'US' | 'EMEA' | 'AU';
-export type ProjectStatus = 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
+export type ProjectStatus = 'ACTIVE' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED' | 'TO_BE_STARTED';
 
 export interface Project {
   id: number | null;

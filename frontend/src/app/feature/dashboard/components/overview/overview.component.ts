@@ -33,6 +33,7 @@ export interface RoleAllocation {
   total: number;
   percent: number;
   availablePeople: number;
+  availableNames: string[];
 }
 
 @Component({
@@ -127,6 +128,10 @@ export class OverviewComponent implements OnInit {
   private donutDataLabelsOff: ApexDataLabels = { enabled: false };
   private donutStroke: ApexStroke = { show: false };
 
+  // Shared donut helpers — hide built-in legend (we render our own clickable one)
+  private donutLegend: ApexLegend = { show: false };
+  private donutTooltip: ApexTooltip = { y: { formatter: (v: number) => v + ' people' } };
+
   // Allocation by Roles
   allocationSeries: ApexNonAxisChartSeries = [];
   allocationChart: ApexChart = { ...this.donutChartBase };
@@ -135,16 +140,9 @@ export class OverviewComponent implements OnInit {
   allocationPlot: ApexPlotOptions = { ...this.donutPlotBase };
   allocationDataLabels: ApexDataLabels = { ...this.donutDataLabelsOff };
   allocationStroke: ApexStroke = { ...this.donutStroke };
-  allocationLegend: ApexLegend = {
-    position: 'bottom',
-    fontSize: '10px',
-    markers: { shape: 'circle' as any },
-    labels: { colors: '#171b1f' },
-    itemMargin: { horizontal: 4, vertical: 2 },
-    formatter: (label: string, opts: any) =>
-      `${label} ${opts.w.config.series[opts.seriesIndex]}`
-  };
-  allocationTooltip: ApexTooltip = { y: { formatter: (v: number) => v + ' people' } };
+  allocationLegend: ApexLegend = { ...this.donutLegend };
+  allocationNames: string[][] = [];
+  allocationTooltip: ApexTooltip = { ...this.donutTooltip };
 
   // Cluster Distribution
   clusterSeries: ApexNonAxisChartSeries = [];
@@ -154,16 +152,9 @@ export class OverviewComponent implements OnInit {
   clusterPlot: ApexPlotOptions = { ...this.donutPlotBase };
   clusterDataLabels: ApexDataLabels = { ...this.donutDataLabelsOff };
   clusterStroke: ApexStroke = { ...this.donutStroke };
-  clusterLegend: ApexLegend = {
-    position: 'bottom',
-    fontSize: '10px',
-    markers: { shape: 'circle' as any },
-    labels: { colors: '#171b1f' },
-    itemMargin: { horizontal: 4, vertical: 2 },
-    formatter: (label: string, opts: any) =>
-      `${label} ${opts.w.config.series[opts.seriesIndex]}`
-  };
-  clusterTooltip: ApexTooltip = { y: { formatter: (v: number) => v + ' people' } };
+  clusterLegend: ApexLegend = { ...this.donutLegend };
+  clusterNames: string[][] = [];
+  clusterTooltip: ApexTooltip = { ...this.donutTooltip };
 
   // Utilization Status
   utilizationSeries: ApexNonAxisChartSeries = [];
@@ -173,16 +164,15 @@ export class OverviewComponent implements OnInit {
   utilizationPlot: ApexPlotOptions = { ...this.donutPlotBase };
   utilizationDataLabels: ApexDataLabels = { ...this.donutDataLabelsOff };
   utilizationStroke: ApexStroke = { ...this.donutStroke };
-  utilizationLegend: ApexLegend = {
-    position: 'bottom',
-    fontSize: '10px',
-    markers: { shape: 'circle' as any },
-    labels: { colors: '#171b1f' },
-    itemMargin: { horizontal: 4, vertical: 2 },
-    formatter: (label: string, opts: any) =>
-      `${label} ${opts.w.config.series[opts.seriesIndex]}`
-  };
-  utilizationTooltip: ApexTooltip = { y: { formatter: (v: number) => v + ' people' } };
+  utilizationLegend: ApexLegend = { ...this.donutLegend };
+  utilizationNames: string[][] = [];
+  utilizationTooltip: ApexTooltip = { ...this.donutTooltip };
+
+  // Names popup state
+  popupVisible = false;
+  popupLabel = '';
+  popupNames: string[] = [];
+  popupColor = '';
 
   // ========== Role Allocation Cards ==========
   private readonly roleIcons: Record<string, { icon: string; iconBg: string }> = {
@@ -262,14 +252,21 @@ export class OverviewComponent implements OnInit {
     // Allocation by Roles donut
     this.allocationLabels = data.allocationByRole.map(r => r.role);
     this.allocationSeries = data.allocationByRole.map(r => r.count);
+    this.allocationNames = data.allocationByRole.map(r => r.names || []);
 
     // Cluster Distribution donut
     this.clusterLabels = data.clusterDistribution.map(c => c.region);
     this.clusterSeries = data.clusterDistribution.map(c => c.count);
+    this.clusterNames = data.clusterDistribution.map(c => c.names || []);
 
     // Utilization Status donut
     const u = data.utilizationStatus;
     this.utilizationSeries = [u.optimal, u.overUtilized, u.underUtilized];
+    this.utilizationNames = [
+      u.optimalNames || [],
+      u.overUtilizedNames || [],
+      u.underUtilizedNames || []
+    ];
 
     // Resource Allocation by Role cards
     this.roleAllocations = data.resourceAllocationByRole.map(r => {
@@ -283,7 +280,8 @@ export class OverviewComponent implements OnInit {
         allocated: r.allocated,
         total: total,
         percent: pct,
-        availablePeople: r.availableSeats
+        availablePeople: r.availableSeats,
+        availableNames: r.availableNames || []
       };
     });
 
@@ -294,5 +292,16 @@ export class OverviewComponent implements OnInit {
     if (percent >= 100) return '#ef5350';
     if (percent >= 80) return '#ffa726';
     return '#2e2791';
+  }
+
+  showNamesPopup(label: string, names: string[], color: string): void {
+    this.popupLabel = label;
+    this.popupNames = names || [];
+    this.popupColor = color;
+    this.popupVisible = true;
+  }
+
+  closePopup(): void {
+    this.popupVisible = false;
   }
 }

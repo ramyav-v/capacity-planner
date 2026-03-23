@@ -47,7 +47,9 @@ public class AppUserServiceImplV1 implements AppUserServiceV1 {
 
         AppUserEntity entity = AppUserEntity.builder()
                 .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(request.getPassword() != null && !request.getPassword().isBlank()
+                        ? passwordEncoder.encode(request.getPassword()) : null)
+                .email(request.getEmail())
                 .fullName(request.getFullName())
                 .userRole(role)
                 .employeeId(request.getEmployeeId())
@@ -64,6 +66,7 @@ public class AppUserServiceImplV1 implements AppUserServiceV1 {
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));
 
         existing.setFullName(request.getFullName());
+        existing.setEmail(request.getEmail());
         existing.setUserRole(parseUserRole(request.getUserRole()));
         existing.setEmployeeId(request.getEmployeeId());
 
@@ -87,6 +90,7 @@ public class AppUserServiceImplV1 implements AppUserServiceV1 {
         return AppUserResponseModel.builder()
                 .id(entity.getId())
                 .username(entity.getUsername())
+                .email(entity.getEmail())
                 .fullName(entity.getFullName())
                 .userRole(entity.getUserRole().name())
                 .employeeId(entity.getEmployeeId())

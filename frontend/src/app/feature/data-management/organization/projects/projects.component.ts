@@ -13,7 +13,7 @@ import {
   CsvExportModule,
   QuickFilterModule
 } from 'ag-grid-community';
-import { Project, ProjectDto } from './project.model';
+import { Project, ProjectDto, ProjectStatus, ProjectRegion } from './project.model';
 import { ProjectService } from './services/project.service';
 import { AddProjectComponent } from './components/add-project/add-project.component';
 
@@ -37,6 +37,13 @@ export class ProjectsComponent implements OnInit {
 
   private gridApi!: GridApi<Project>;
   searchText = '';
+
+  // Filters
+  allData: Project[] = [];
+  filterStatus: ProjectStatus | '' = '';
+  filterRegion: ProjectRegion | '' = '';
+  statuses: ProjectStatus[] = ['ACTIVE', 'ON_HOLD', 'COMPLETED', 'CANCELLED', 'TO_BE_STARTED'];
+  regions: ProjectRegion[] = ['US', 'EMEA', 'AU'];
 
   // Dialog state
   isDialogOpen = false;
@@ -84,6 +91,8 @@ export class ProjectsComponent implements OnInit {
             bgColor = '#e3f2fd'; textColor = '#1565c0'; break;
           case 'CANCELLED':
             bgColor = '#ffebee'; textColor = '#c62828'; break;
+          case 'TO_BE_STARTED':
+            bgColor = '#f3e5f5'; textColor = '#7b1fa2'; break;
           default:
             bgColor = '#f5f5f5'; textColor = '#616161';
         }
@@ -262,10 +271,22 @@ export class ProjectsComponent implements OnInit {
     this.projectToDelete = null;
   }
 
+  onFilterChange(): void {
+    let filtered = this.allData;
+    if (this.filterStatus) {
+      filtered = filtered.filter(p => p.status === this.filterStatus);
+    }
+    if (this.filterRegion) {
+      filtered = filtered.filter(p => p.region === this.filterRegion);
+    }
+    this.rowData = filtered;
+  }
+
   private loadProjects(): void {
-    this.projectService.getAll(undefined, undefined, true).subscribe({
+    this.projectService.getAll(undefined, undefined, undefined).subscribe({
       next: (projects) => {
-        this.rowData = projects;
+        this.allData = projects;
+        this.onFilterChange();
       },
       error: (err) => {
         console.error('Failed to load projects', err);

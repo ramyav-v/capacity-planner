@@ -4,6 +4,14 @@
   padding: 0;
 }
 
+.sticky-top {
+  position: sticky;
+  top: -20px; // offset layout-content padding
+  z-index: 10;
+  background: $color-bg;
+  padding-top: 20px;
+}
+
 /* Page header */
 .page-header {
   display: flex;
@@ -16,6 +24,26 @@
   @include page-title;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 20px;
+  background: $accent-light;
+  color: $accent-color;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 /* Toolbar */
 .toolbar {
   display: flex;
@@ -25,9 +53,16 @@
   gap: 12px;
 }
 
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
 .search-box {
   position: relative;
-  flex: 0 1 320px;
+  flex: 0 1 280px;
 }
 
 .search-icon {
@@ -41,6 +76,23 @@
 .search-input {
   @include search-input;
   font-size: 13px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid $search-border;
+  border-radius: $input-radius;
+  font-size: 13px;
+  font-family: $font-family;
+  color: $color-body;
+  background: $color-white;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: $search-focus-border;
+  }
 }
 
 /* Buttons */
@@ -71,7 +123,6 @@
     --ag-selected-row-background-color: #{$accent-light};
     width: 100%;
   }
-
 }
 
 :host ::ng-deep .ag-header-cell-label {

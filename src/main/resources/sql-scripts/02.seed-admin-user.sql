@@ -22,7 +22,7 @@ USE capacity_planner;
 -- Generated using BCryptPasswordEncoder (strength 10)
 INSERT INTO app_user (username, password, full_name, user_role, is_active)
 SELECT 'admin',
-       '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy',
+       '$2a$10$AQ0O/qkbBRnazeMcmb7EyeVpM/S0Wzs2JFYkWSGLp5dy3MCfxzzOy',
        'System Admin',
        'SUPER_ADMIN',
        TRUE

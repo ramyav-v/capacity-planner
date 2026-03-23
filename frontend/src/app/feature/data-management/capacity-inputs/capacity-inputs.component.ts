@@ -95,7 +95,15 @@ export class CapacityInputsComponent implements OnInit {
   }
 
   onExport(): void {
-    this.gridApi?.exportDataAsCsv({ fileName: 'allocations.csv' });
+    const allColumns = this.gridApi?.getColumns() || [];
+    const exportKeys = allColumns
+      .map(c => c.getColId())
+      .filter(id => id !== '_actions');
+    this.gridApi?.exportDataAsCsv({
+      fileName: 'allocations.csv',
+      columnKeys: exportKeys,
+      skipColumnGroupHeaders: true,
+    });
   }
 
   onPrevQuarter(): void {

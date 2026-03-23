@@ -38,8 +38,11 @@ public class AppUserEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column(unique = true, length = 200)
+    private String email;
 
     @Column(length = 150)
     private String fullName;

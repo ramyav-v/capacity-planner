@@ -41,7 +41,7 @@ public class ProjectServiceImplV1 implements ProjectServiceV1 {
     public ProjectResponseModel create(ProjectResponseModel model) {
         ProjectEntity entity = toEntity(model);
         entity.setId(null);
-        entity.setIsActive(true);
+        entity.setIsActive(Status.ACTIVE == entity.getStatus());
         return toModel(projectDao.save(entity));
     }
 
@@ -57,6 +57,7 @@ public class ProjectServiceImplV1 implements ProjectServiceV1 {
         existing.setStatus(Status.valueOf(model.getStatus()));
         existing.setStartDate(model.getStartDate());
         existing.setEndDate(model.getEndDate());
+        existing.setIsActive(Status.ACTIVE == existing.getStatus());
 
         return toModel(projectDao.save(existing));
     }
