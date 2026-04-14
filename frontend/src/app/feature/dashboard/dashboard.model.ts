@@ -86,3 +86,27 @@ export interface ProjectAllocationResponse {
   weekStartDate: string | null;
   resources: ResourceAllocationDetail[];
 }
+
+// GET /dashboard/hiring-gap
+export interface HiringGapResponse {
+  viewType: 'QUARTER' | 'CUSTOM';
+  quarter: string | null;
+  startDate: string;
+  endDate: string;
+  byRole: HiringGapByRole[];
+  byProject: HiringGapByProject[];
+}
+
+export interface HiringGapByRole {
+  role: string;
+  availableFte: number;
+  requiredFte: number;
+  gap: number;
+}
+
+export interface HiringGapByProject {
+  projectId: number;
+  projectName: string;
+  projectCode: string;
+  roleGaps: HiringGapByRole[];
+}

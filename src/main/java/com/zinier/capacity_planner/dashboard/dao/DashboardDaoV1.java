@@ -27,4 +27,9 @@ public interface DashboardDaoV1 {
     List<EmployeeEntity> fetchEmployeesForProject(Integer projectId, LocalDate start, LocalDate end, Long employeeId);
     Map<Integer, Long> fetchWeekCountByEmployee(LocalDate start, LocalDate end);
     Map<Integer, Long> fetchWeekCountByEmployeeForProject(Integer projectId, LocalDate start, LocalDate end);
+
+    // Hiring Gap
+    Map<String, Double> fetchAllocationByRoleForDateRange(LocalDate start, LocalDate end);
+    Map<Integer, Map<String, Double>> fetchAllocationByProjectAndRoleForDateRange(LocalDate start, LocalDate end);
+    Map<Integer, Map<String, Long>> fetchHeadcountByProjectAndRoleForDateRange(LocalDate start, LocalDate end);
 }

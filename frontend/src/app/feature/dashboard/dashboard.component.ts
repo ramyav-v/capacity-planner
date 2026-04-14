@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 export class DashboardComponent {
   tabs = [
     { label: 'Overview', route: 'overview' },
-    { label: 'Allocations', route: 'allocation' }
+    { label: 'Allocations', route: 'allocation' },
+    { label: 'Hiring Gap', route: 'hiring-gap' }
   ];
 }

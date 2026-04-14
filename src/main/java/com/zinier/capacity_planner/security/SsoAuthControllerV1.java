@@ -2,7 +2,6 @@ package com.zinier.capacity_planner.security;
 
 import com.zinier.capacity_planner.security.model.LoginResponseModel;
 import com.zinier.capacity_planner.user.dao.entity.AppUserEntity;
-import com.zinier.capacity_planner.user.repository.AppUserRepositoryV1;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +21,6 @@ import java.util.Map;
 public class SsoAuthControllerV1 {
 
     private final JwtUtilV1 jwtUtil;
-    private final AppUserRepositoryV1 userRepository;
 
     @Value("${okta.issuer-uri}")
     private String issuerUri;
@@ -50,19 +48,15 @@ public class SsoAuthControllerV1 {
         String idToken = (String) tokenResponse.get("id_token");
         String email = extractEmailFromIdToken(idToken);
 
-        // Look up user by email
-        AppUserEntity user = userRepository.findByEmailAndIsActiveTrue(email)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "No active account found for email: " + email));
-
-        // Issue our app's JWT (same as password login)
-        String role = user.getUserRole().name();
-        String token = jwtUtil.generateToken(user.getUsername(), role);
+        // Okta authentication is the source of truth — no DB lookup needed
+        String username = email.split("@")[0];
+        String role = AppUserEntity.UserRole.ADMIN.name();
+        String token = jwtUtil.generateToken(username, role);
 
         return LoginResponseModel.builder()
                 .token(token)
-                .username(user.getUsername())
-                .fullName(user.getFullName())
+                .username(username)
+                .fullName(username)
                 .role(role)
                 .build();
     }

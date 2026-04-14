@@ -3,6 +3,7 @@ package com.zinier.capacity_planner.dashboard.service;
 import com.zinier.capacity_planner.dashboard.dao.DashboardDaoV1;
 import com.zinier.capacity_planner.dashboard.model.*;
 import com.zinier.capacity_planner.dashboard.util.QuarterUtils;
+import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -261,6 +262,104 @@ public class DashboardServiceImplV1 implements DashboardServiceV1 {
                         .code(p.getCode())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public HiringGapResponseModel getHiringGap(LocalDate startDate, LocalDate endDate) {
+
+        var quarter = QuarterUtils.currentQuarter();
+        boolean isCustomRange = startDate != null && endDate != null;
+
+        LocalDate start = isCustomRange ? startDate : quarter.getStart();
+        LocalDate end = isCustomRange ? endDate : quarter.getEnd();
+        long weeksInRange = java.time.temporal.ChronoUnit.WEEKS.between(start, end.plusDays(1));
+        if (weeksInRange < 1) weeksInRange = 1;
+
+        // Available FTE per role = count of active employees in that role
+        Map<String, Long> headcountByRole = dashboardDaoV1.fetchActiveEmployees(null)
+                .stream()
+                .collect(java.util.stream.Collectors.groupingBy(
+                        emp -> emp.getRole().name(),
+                        java.util.stream.Collectors.counting()
+                ));
+
+        // Required FTE per role = sum(allocationPct) / weeksInRange
+        Map<String, Double> allocationByRole = dashboardDaoV1
+                .fetchAllocationByRoleForDateRange(start, end);
+
+        // All roles — union of both maps
+        java.util.Set<String> allRoles = new java.util.HashSet<>();
+        allRoles.addAll(headcountByRole.keySet());
+        allRoles.addAll(allocationByRole.keySet());
+
+        final long finalWeeksInRange = weeksInRange;
+        List<HiringGapByRoleModel> byRole = allRoles.stream()
+                .sorted()
+                .map(role -> {
+                    double available = headcountByRole.getOrDefault(role, 0L).doubleValue();
+                    double required = allocationByRole.getOrDefault(role, 0.0) / finalWeeksInRange;
+                    double gap = available - required;
+                    return HiringGapByRoleModel.builder()
+                            .role(role)
+                            .availableFte(Math.round(available * 100.0) / 100.0)
+                            .requiredFte(Math.round(required * 100.0) / 100.0)
+                            .gap(Math.round(gap * 100.0) / 100.0)
+                            .build();
+                })
+                .toList();
+
+        // By project — available FTE = employees actually assigned to that project per role
+        Map<Integer, Map<String, Double>> allocationByProjectAndRole = dashboardDaoV1
+                .fetchAllocationByProjectAndRoleForDateRange(start, end);
+        Map<Integer, Map<String, Long>> headcountByProjectAndRole = dashboardDaoV1
+                .fetchHeadcountByProjectAndRoleForDateRange(start, end);
+
+        List<HiringGapByProjectModel> byProject = dashboardDaoV1.fetchActiveProjects()
+                .stream()
+                .filter(p -> allocationByProjectAndRole.containsKey(p.getId().intValue()))
+                .map(p -> {
+                    Map<String, Double> roleAlloc = allocationByProjectAndRole
+                            .getOrDefault(p.getId().intValue(), Map.of());
+                    Map<String, Long> roleHeadcount = headcountByProjectAndRole
+                            .getOrDefault(p.getId().intValue(), Map.of());
+
+                    List<HiringGapByRoleModel> roleGaps = roleAlloc.entrySet().stream()
+                            .sorted(Map.Entry.comparingByKey())
+                            .map(e -> {
+                                double available = roleHeadcount
+                                        .getOrDefault(e.getKey(), 0L).doubleValue();
+                                double required = e.getValue() / finalWeeksInRange;
+                                double gap = available - required;
+                                return HiringGapByRoleModel.builder()
+                                        .role(e.getKey())
+                                        .availableFte(Math.round(available * 100.0) / 100.0)
+                                        .requiredFte(Math.round(required * 100.0) / 100.0)
+                                        .gap(Math.round(gap * 100.0) / 100.0)
+                                        .build();
+                            })
+                            .toList();
+
+                    return HiringGapByProjectModel.builder()
+                            .projectId(p.getId())
+                            .projectName(p.getName())
+                            .projectCode(p.getCode())
+                            .roleGaps(roleGaps)
+                            .build();
+                })
+                .toList();
+
+        HiringGapResponseModel.HiringGapResponseModelBuilder builder = HiringGapResponseModel.builder()
+                .viewType(isCustomRange ? "CUSTOM" : "QUARTER")
+                .startDate(start)
+                .endDate(end)
+                .byRole(byRole)
+                .byProject(byProject);
+
+        if (!isCustomRange) {
+            builder.quarter(QuarterUtils.getQuarterLabel());
+        }
+
+        return builder.build();
     }
 
     @Override

@@ -1,0 +1,140 @@
+<div class="hiring-gap-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Hiring Gap Summary</h1>
+      <span class="page-subtitle">{{ isCustomRange ? (startDate + ' → ' + endDate) : quarterLabel }}</span>
+    </div>
+    <div class="header-actions">
+      <button class="export-btn" (click)="exportData()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+        Export
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="range-toggle">
+      <button class="range-btn" [class.active]="!isCustomRange" (click)="toggleCustomRange(false)">
+        Quarter View
+      </button>
+      <button class="range-btn" [class.active]="isCustomRange" (click)="toggleCustomRange(true)">
+        Custom Range
+      </button>
+    </div>
+
+    <div class="date-inputs" *ngIf="isCustomRange">
+      <input type="date" class="date-input" [(ngModel)]="startDate" />
+      <span class="date-sep">to</span>
+      <input type="date" class="date-input" [(ngModel)]="endDate" />
+      <button class="apply-btn" (click)="applyDateRange()" [disabled]="!startDate || !endDate">
+        Apply
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="gap-tabs">
+    <button class="gap-tab" [class.active]="activeTab === 'role'" (click)="switchTab('role')">
+      By Role
+    </button>
+    <button class="gap-tab" [class.active]="activeTab === 'project'" (click)="switchTab('project')">
+      By Project
+    </button>
+  </div>
+
+  <!-- BY ROLE TABLE -->
+  <div *ngIf="activeTab === 'role'" class="table-wrapper">
+    <table class="gap-table">
+      <thead>
+        <tr>
+          <th class="col-role">ROLE</th>
+          <th class="col-fte">AVAILABLE FTE</th>
+          <th class="col-fte">REQUIRED FTE</th>
+          <th class="col-gap">FTE GAP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of byRole">
+          <td class="cell-role">{{ r.role }}</td>
+          <td class="cell-fte">{{ r.availableFte }}</td>
+          <td class="cell-fte">{{ r.requiredFte }}</td>
+          <td class="cell-gap">
+            <span class="gap-badge" [ngClass]="getGapClass(r.gap)">
+              {{ getGapLabel(r.gap) }}
+            </span>
+          </td>
+        </tr>
+        <tr *ngIf="byRole.length === 0">
+          <td colspan="4" class="no-results">No data available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BY PROJECT TABLE -->
+  <div *ngIf="activeTab === 'project'" class="project-list">
+    <div *ngFor="let project of byProject" class="project-block">
+
+      <!-- Project Header Row -->
+      <div class="project-row" (click)="toggleProject(project.projectId)">
+        <div class="project-info">
+          <span class="project-name">{{ project.projectName }}</span>
+        </div>
+        <div class="project-meta">
+          <span class="chevron" [class.open]="expandedProjectId === project.projectId">▾</span>
+        </div>
+      </div>
+
+      <!-- Expanded Role Gaps -->
+      <div class="role-gap-rows" *ngIf="expandedProjectId === project.projectId">
+        <table class="gap-table inner-table">
+          <thead>
+            <tr>
+              <th class="col-role">ROLE</th>
+              <th class="col-fte">AVAILABLE FTE</th>
+              <th class="col-fte">REQUIRED FTE</th>
+              <th class="col-gap">FTE GAP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of project.roleGaps">
+              <td class="cell-role">{{ r.role }}</td>
+              <td class="cell-fte">{{ r.availableFte }}</td>
+              <td class="cell-fte">{{ r.requiredFte }}</td>
+              <td class="cell-gap">
+                <span class="gap-badge" [ngClass]="getGapClass(r.gap)">
+                  {{ getGapLabel(r.gap) }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="byProject.length === 0" class="no-results">No project data available</div>
+  </div>
+
+</div>
+
+<!-- Names Popup Overlay -->
+<div class="popup-overlay" *ngIf="popupVisible" (click)="closePopup()">
+  <div class="popup-card" (click)="$event.stopPropagation()">
+    <div class="popup-header">
+      <span class="popup-title">{{ popupLabel }}</span>
+      <span class="popup-count">{{ popupNames.length }} roles</span>
+      <button class="popup-close" (click)="closePopup()">&times;</button>
+    </div>
+    <div class="popup-list">
+      <div class="popup-name" *ngFor="let name of popupNames; let i = index">
+        <span class="popup-index">{{ i + 1 }}</span>
+        <span>{{ name }}</span>
+      </div>
+    </div>
+  </div>
+</div>

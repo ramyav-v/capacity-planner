@@ -28,6 +28,12 @@ export const CORE_ROUTES: Routes = [
                 .then(c => c.AllocationComponent)
           },
           {
+            path: 'hiring-gap',
+            loadComponent: () =>
+              import('../feature/dashboard/components/hiring-gap/hiring-gap.component')
+                .then(c => c.HiringGapComponent)
+          },
+          {
             path: '',
             redirectTo: 'overview',
             pathMatch: 'full'

@@ -44,7 +44,7 @@ public class SecurityConfigV1 {
                     .requestMatchers(
                         "/", "/index.html", "/favicon.ico",
                         "/*.js", "/*.css", "/*.woff2",
-                        "/assets/**"
+                        "/assets/**", "/auth/callback"
                     ).permitAll()
                     .requestMatchers("/capacityplanner/actuator/health/**").permitAll()
                     .requestMatchers("/capacityplanner/api/v1/auth/**").permitAll()

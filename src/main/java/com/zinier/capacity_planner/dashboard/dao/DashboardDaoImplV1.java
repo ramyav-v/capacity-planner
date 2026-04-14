@@ -176,4 +176,44 @@ public class DashboardDaoImplV1 implements DashboardDaoV1 {
                         obj -> ((Number) obj[1]).longValue()
                 ));
     }
+
+    @Override
+    public Map<String, Double> fetchAllocationByRoleForDateRange(LocalDate start, LocalDate end) {
+        return capacityRepository.sumAllocationGroupedByRoleForQuarter(start, end)
+                .stream()
+                .collect(Collectors.toMap(
+                        obj -> obj[0].toString(),
+                        obj -> ((Number) obj[1]).doubleValue()
+                ));
+    }
+
+    @Override
+    public Map<Integer, Map<String, Double>> fetchAllocationByProjectAndRoleForDateRange(
+            LocalDate start, LocalDate end) {
+        Map<Integer, Map<String, Double>> result = new java.util.HashMap<>();
+        capacityRepository.sumAllocationGroupedByProjectAndRoleForDateRange(start, end)
+                .forEach(obj -> {
+                    int projectId = ((Number) obj[0]).intValue();
+                    String role = obj[1].toString();
+                    double allocation = ((Number) obj[2]).doubleValue();
+                    result.computeIfAbsent(projectId, k -> new java.util.HashMap<>())
+                            .put(role, allocation);
+                });
+        return result;
+    }
+
+    @Override
+    public Map<Integer, Map<String, Long>> fetchHeadcountByProjectAndRoleForDateRange(
+            LocalDate start, LocalDate end) {
+        Map<Integer, Map<String, Long>> result = new java.util.HashMap<>();
+        capacityRepository.countEmployeesGroupedByProjectAndRoleForDateRange(start, end)
+                .forEach(obj -> {
+                    int projectId = ((Number) obj[0]).intValue();
+                    String role = obj[1].toString();
+                    long count = ((Number) obj[2]).longValue();
+                    result.computeIfAbsent(projectId, k -> new java.util.HashMap<>())
+                            .put(role, count);
+                });
+        return result;
+    }
 }

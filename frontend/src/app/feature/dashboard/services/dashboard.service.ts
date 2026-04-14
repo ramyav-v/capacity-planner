@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
   DashboardResponse,
+  HiringGapResponse,
   ResourceAllocationResponse,
   ProjectSummary,
   ProjectAllocationResponse
@@ -37,5 +38,12 @@ export class DashboardService {
     if (weekStartDate) params = params.set('weekStartDate', weekStartDate);
     if (employeeId) params = params.set('employeeId', employeeId.toString());
     return this.http.get<ProjectAllocationResponse>(`${this.apiUrl}/projects/${projectId}/allocations`, { params });
+  }
+
+  getHiringGap(startDate?: string, endDate?: string): Observable<HiringGapResponse> {
+    let params = new HttpParams();
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+    return this.http.get<HiringGapResponse>(`${this.apiUrl}/hiring-gap`, { params });
   }
 }

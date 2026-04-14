@@ -1,6 +1,7 @@
 package com.zinier.capacity_planner.dashboard;
 
 import com.zinier.capacity_planner.dashboard.model.DashboardResponseModel;
+import com.zinier.capacity_planner.dashboard.model.HiringGapResponseModel;
 import com.zinier.capacity_planner.dashboard.model.ProjectAllocationResponseModel;
 import com.zinier.capacity_planner.dashboard.model.ProjectSummaryModel;
 import com.zinier.capacity_planner.dashboard.model.ResourceAllocationResponseModel;
@@ -45,6 +46,13 @@ public class DashboardControllerV1 {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStartDate,
             @RequestParam(required = false) Long employeeId) {
         return dashboardService.getProjectAllocations(projectId, weekStartDate, employeeId);
+    }
+
+    @GetMapping("/hiring-gap")
+    public HiringGapResponseModel getHiringGap(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return dashboardService.getHiringGap(startDate, endDate);
     }
 }
 

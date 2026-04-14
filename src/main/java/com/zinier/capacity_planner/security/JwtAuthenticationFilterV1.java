@@ -1,25 +1,40 @@
 package com.zinier.capacity_planner.security;
 
+import com.zinier.capacity_planner.user.dao.entity.AppUserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilterV1 extends OncePerRequestFilter {
 
     private final JwtUtilV1 jwtUtil;
-    private final AppUserDetailsServiceV1 userDetailsService;
+
+    private List<SimpleGrantedAuthority> buildAuthoritiesFromRole(String role) {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_VIEWER"));
+        if (AppUserEntity.UserRole.ADMIN.name().equals(role) ||
+                AppUserEntity.UserRole.SUPER_ADMIN.name().equals(role)) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        if (AppUserEntity.UserRole.SUPER_ADMIN.name().equals(role)) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"));
+        }
+        return authorities;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -38,14 +53,13 @@ public class JwtAuthenticationFilterV1 extends OncePerRequestFilter {
 
         try {
             String username = jwtUtil.extractUsername(token);
+            String role = jwtUtil.extractRole(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                if (jwtUtil.isTokenValid(token, userDetails.getUsername())) {
+                if (jwtUtil.isTokenValid(token, username)) {
+                    List<SimpleGrantedAuthority> authorities = buildAuthoritiesFromRole(role);
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(
-                                    userDetails, null, userDetails.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(username, null, authorities);
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
