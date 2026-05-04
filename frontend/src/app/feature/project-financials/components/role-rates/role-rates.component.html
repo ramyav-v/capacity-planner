@@ -1,0 +1,91 @@
+<div class="rates-page">
+  <div class="rates-card">
+    <div class="rates-header">
+      <div>
+        <h2 class="rates-title">Role Cost Configuration</h2>
+        <p class="rates-subtitle">
+          <strong>Margin Rate</strong> = what client is billed (Non-Discounted plan).
+          <strong>Cost Rate</strong> = what resource costs internally (Discounted plan).
+          <strong>Total Hours</strong> = standard hours for this role — drives the Non-Discounted cost baseline.
+        </p>
+      </div>
+      <button class="add-btn" (click)="showAddForm = !showAddForm">+ Add Role Rate</button>
+    </div>
+
+    <div class="add-form" *ngIf="showAddForm">
+      <h3 class="add-form-title">New Role Rate</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <input type="text" class="form-input" [(ngModel)]="newRate.role" placeholder="e.g. Dev, QA, PM" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Margin Rate ($/hr)</label>
+          <input type="number" class="form-input" [(ngModel)]="newRate.marginRate" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cost Rate ($/hr)</label>
+          <input type="number" class="form-input" [(ngModel)]="newRate.costRate" min="0" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hours / Week</label>
+          <input type="number" class="form-input" [(ngModel)]="newRate.hoursPerWeek" min="1" max="80" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Hours</label>
+          <input type="number" class="form-input" [(ngModel)]="newRate.totalHours" min="0" placeholder="standard hrs" />
+        </div>
+        <div class="form-actions">
+          <button class="save-btn" (click)="saveNew()">Save</button>
+          <button class="cancel-btn" (click)="showAddForm = false">Cancel</button>
+        </div>
+      </div>
+      <p class="form-error" *ngIf="saveError">{{ saveError }}</p>
+    </div>
+
+    <table class="rates-table">
+      <thead>
+        <tr>
+          <th>ROLE</th>
+          <th>MARGIN RATE ($/HR)</th>
+          <th>COST RATE ($/HR)</th>
+          <th>HOURS / WEEK</th>
+          <th>TOTAL HOURS</th>
+          <th>WEEKLY (MARGIN)</th>
+          <th>WEEKLY (COST)</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rate of rates">
+          <ng-container *ngIf="editingRole !== rate.role">
+            <td class="cell-role">{{ rate.role }}</td>
+            <td>${{ rate.marginRate ?? 0 }}/hr</td>
+            <td>${{ rate.costRate }}/hr</td>
+            <td>{{ rate.hoursPerWeek }} hrs</td>
+            <td>{{ rate.totalHours != null ? rate.totalHours + ' hrs' : '—' }}</td>
+            <td class="cell-weekly">${{ ((rate.marginRate ?? 0) * rate.hoursPerWeek) | number:'1.0-0' }}</td>
+            <td class="cell-weekly">${{ (rate.costRate * rate.hoursPerWeek) | number:'1.0-0' }}</td>
+            <td class="cell-action"><button class="edit-btn" (click)="startEdit(rate)">Edit</button></td>
+          </ng-container>
+          <ng-container *ngIf="editingRole === rate.role">
+            <td class="cell-role">{{ rate.role }}</td>
+            <td><input type="number" class="inline-input" [(ngModel)]="editBuffer.marginRate" min="0" /></td>
+            <td><input type="number" class="inline-input" [(ngModel)]="editBuffer.costRate" min="0" /></td>
+            <td><input type="number" class="inline-input" [(ngModel)]="editBuffer.hoursPerWeek" min="1" max="80" /></td>
+            <td><input type="number" class="inline-input" [(ngModel)]="editBuffer.totalHours" min="0" placeholder="hrs" /></td>
+            <td class="cell-weekly">${{ ((editBuffer.marginRate ?? 0) * (editBuffer.hoursPerWeek ?? 0)) | number:'1.0-0' }}</td>
+            <td class="cell-weekly">${{ ((editBuffer.costRate ?? 0) * (editBuffer.hoursPerWeek ?? 0)) | number:'1.0-0' }}</td>
+            <td class="cell-action">
+              <button class="save-btn-sm" (click)="saveEdit()">Save</button>
+              <button class="cancel-btn-sm" (click)="cancelEdit()">Cancel</button>
+            </td>
+          </ng-container>
+        </tr>
+        <tr *ngIf="rates.length === 0">
+          <td colspan="8" class="no-data">No role rates configured yet. Add one above.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -80,6 +80,7 @@ public class ProjectServiceImplV1 implements ProjectServiceV1 {
                 .status(entity.getStatus().name())
                 .startDate(entity.getStartDate())
                 .endDate(entity.getEndDate())
+                .psFee(entity.getPsFee())
                 .isActive(entity.getIsActive())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -95,6 +96,7 @@ public class ProjectServiceImplV1 implements ProjectServiceV1 {
                 .status(model.getStatus() != null ? Status.valueOf(model.getStatus()) : Status.ACTIVE)
                 .startDate(model.getStartDate())
                 .endDate(model.getEndDate())
+                .psFee(model.getPsFee())
                 .isActive(model.getIsActive() != null ? model.getIsActive() : true)
                 .build();
     }

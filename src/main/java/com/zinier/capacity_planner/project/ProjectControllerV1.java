@@ -88,6 +88,7 @@ public class ProjectControllerV1 {
                 .status(request.getStatus())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
+                .psFee(request.getPsFee())
                 .build();
     }
 }

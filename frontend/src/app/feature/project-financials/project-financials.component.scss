@@ -1,0 +1,31 @@
+@import '../../../styles/_theme';
+
+.financials-container { padding: 0; }
+
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $color-muted;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+  cursor: pointer;
+  &:hover { color: $accent-color; }
+}
+
+.active-tab {
+  color: $accent-color;
+  border-bottom-color: $accent-color;
+  font-weight: 600;
+}
+
+.tab-content { padding: 0; }

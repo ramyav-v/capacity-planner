@@ -50,6 +50,8 @@ public class SecurityConfigV1 {
                     .requestMatchers("/capacityplanner/api/v1/auth/**").permitAll()
                     .requestMatchers("/capacityplanner/api/v1/users/**")
                         .hasRole("SUPER_ADMIN")
+                    .requestMatchers("/capacityplanner/api/v1/financials/**")
+                        .hasRole("ADMIN")
                     .requestMatchers(HttpMethod.GET, "/capacityplanner/api/v1/**")
                         .hasRole("VIEWER")
                     .requestMatchers(HttpMethod.POST, "/capacityplanner/api/v1/**")

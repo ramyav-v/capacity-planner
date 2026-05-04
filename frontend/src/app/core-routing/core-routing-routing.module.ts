@@ -87,6 +87,35 @@ export const CORE_ROUTES: Routes = [
         ]
       },
       {
+        path: 'project-financials',
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'SUPER_ADMIN'] },
+        loadComponent: () =>
+          import('../feature/project-financials/project-financials.component')
+            .then(c => c.ProjectFinancialsComponent),
+        children: [
+          {
+            path: 'overview',
+            loadComponent: () =>
+              import('../feature/project-financials/components/financials-list/financials-list.component')
+                .then(c => c.FinancialsListComponent)
+          },
+          {
+            path: 'role-rates',
+            canActivate: [roleGuard],
+            data: { roles: ['ADMIN', 'SUPER_ADMIN'] },
+            loadComponent: () =>
+              import('../feature/project-financials/components/role-rates/role-rates.component')
+                .then(c => c.RoleRatesComponent)
+          },
+          {
+            path: '',
+            redirectTo: 'overview',
+            pathMatch: 'full'
+          }
+        ]
+      },
+      {
         path: 'user-management',
         canActivate: [roleGuard],
         data: { roles: ['SUPER_ADMIN'] },

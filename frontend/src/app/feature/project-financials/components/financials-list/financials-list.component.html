@@ -1,0 +1,209 @@
+<div class="financials-page">
+  <div class="table-card">
+    <div class="table-header">
+      <h2 class="table-title">Project Financials</h2>
+    </div>
+
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th class="col-project">PROJECT</th>
+          <th class="col-fee">PS FEE (BUDGET)</th>
+          <th class="col-cost">NON-DISC. COST<span class="th-sub">At Margin Rate</span></th>
+          <th class="col-margin">NON-DISC. MARGIN</th>
+          <th class="col-cost">DISC. COST<span class="th-sub">At Cost Rate</span></th>
+          <th class="col-margin">DISC. MARGIN</th>
+          <th class="col-expand"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let project of projects">
+
+          <tr class="project-row" (click)="toggleProject(project)"
+              [class.expanded]="expandedProjectId === project.projectId">
+            <td class="cell-name">{{ project.projectName }}</td>
+
+            <!-- PS Fee inline edit -->
+            <td class="cell-fee" (click)="$event.stopPropagation()">
+              <ng-container *ngIf="editingPsFeeId !== project.projectId">
+                <span class="fee-value">{{ fc(project.psFee) }}</span>
+                <button class="edit-fee-btn" (click)="startEditPsFee(project, $event)" title="Edit">✎</button>
+              </ng-container>
+              <ng-container *ngIf="editingPsFeeId === project.projectId">
+                <input class="fee-input" type="number" [(ngModel)]="psFeeBuffer" min="0" (click)="$event.stopPropagation()" />
+                <button class="confirm-btn" (click)="savePsFee(project, $event)">✓</button>
+                <button class="x-btn" (click)="cancelPsFeeEdit($event)">✕</button>
+              </ng-container>
+            </td>
+
+            <td class="cell-cost">{{ fc(project.forecastedCostNonDisc) }}</td>
+            <td class="cell-margin" [ngClass]="marginClass(project.marginNonDisc)">
+              {{ fc(project.marginNonDisc) }}<br>
+              <span class="pct">{{ fmPct(project.marginPctNonDisc) }}</span>
+            </td>
+            <td class="cell-cost">{{ fc(project.forecastedCostDisc) }}</td>
+            <td class="cell-margin" [ngClass]="marginClass(project.marginDisc)">
+              {{ fc(project.marginDisc) }}<br>
+              <span class="pct">{{ fmPct(project.marginPctDisc) }}</span>
+            </td>
+            <td class="cell-expand">
+              <span class="chevron" [class.open]="expandedProjectId === project.projectId">▾</span>
+            </td>
+          </tr>
+
+          <!-- Detail Panel -->
+          <tr *ngIf="expandedProjectId === project.projectId" class="detail-row">
+            <td colspan="7">
+              <div class="detail-loading" *ngIf="loadingDetailId === project.projectId">Loading...</div>
+              <ng-container *ngIf="loadingDetailId !== project.projectId">
+
+                <!-- ── Summary bar ─────────────────────────────────────── -->
+                <div class="summary-bar" *ngIf="project.psFee">
+                  <div class="summary-item">
+                    <span class="s-label">PS Fee</span>
+                    <span class="s-value">{{ fc(project.psFee) }}</span>
+                  </div>
+                  <div class="summary-item">
+                    <span class="s-label">Non-Disc. Total</span>
+                    <span class="s-value">{{ fc(project.forecastedCostNonDisc) }}</span>
+                  </div>
+                  <div class="summary-item" [ngClass]="marginClass(project.marginNonDisc)">
+                    <span class="s-label">Non-Disc. Margin</span>
+                    <span class="s-value">{{ fc(project.marginNonDisc) }} ({{ fmPct(project.marginPctNonDisc) }})</span>
+                  </div>
+                  <div class="summary-divider"></div>
+                  <div class="summary-item">
+                    <span class="s-label">Disc. Total</span>
+                    <span class="s-value">{{ fc(project.forecastedCostDisc) }}</span>
+                  </div>
+                  <div class="summary-item" [ngClass]="marginClass(project.marginDisc)">
+                    <span class="s-label">Disc. Margin</span>
+                    <span class="s-value">{{ fc(project.marginDisc) }} ({{ fmPct(project.marginPctDisc) }})</span>
+                  </div>
+                </div>
+
+                <!-- ── Resource Plan Manager ──────────────────────────── -->
+                <div class="plan-section-header">
+                  <span>Resource Plan</span>
+                  <button class="add-plan-btn"
+                          *ngIf="addingPlanForProject !== project.projectId"
+                          (click)="startAddPlan(project.projectId)">+ Add Resource</button>
+                </div>
+
+                <table class="plan-table">
+                  <thead>
+                    <tr>
+                      <th>ROLE</th>
+                      <th>TOTAL HOURS</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let p of getResourcePlan(project.projectId)" class="plan-row">
+                      <td class="plan-role">{{ p.role }}</td>
+                      <td>{{ p.totalHours }} hrs</td>
+                      <td>
+                        <button class="del-btn" (click)="deletePlan(p.id!, project.projectId)">✕</button>
+                      </td>
+                    </tr>
+
+                    <!-- Add-row form -->
+                    <tr *ngIf="addingPlanForProject === project.projectId" class="plan-add-row">
+                      <td>
+                        <select class="plan-input" [(ngModel)]="newPlanRow[project.projectId].role">
+                          <option value="">— select role —</option>
+                          <option *ngFor="let r of availableRoles" [value]="r.role">{{ r.role }}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input class="plan-input plan-input-num" type="number"
+                               [(ngModel)]="newPlanRow[project.projectId].totalHours"
+                               min="1" placeholder="total hrs" />
+                      </td>
+                      <td class="plan-add-actions">
+                        <button class="save-plan-btn" (click)="saveNewPlan(project.projectId)">Save</button>
+                        <button class="cancel-plan-btn" (click)="cancelAddPlan(project.projectId)">Cancel</button>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="getResourcePlan(project.projectId).length === 0 && addingPlanForProject !== project.projectId">
+                      <td colspan="3" class="no-data">No resource plan yet — click "+ Add Resource" to start.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- ── Table 1: Non-Discounted (from Role Rates) ──────── -->
+                <div class="section-label">Non-Discounted Plan — Margin Rate ($/hr)
+                  <span class="section-hint">Hours from Role Rates</span>
+                </div>
+                <table class="role-table">
+                  <thead>
+                    <tr>
+                      <th>ROLE</th>
+                      <th>MARGIN RATE ($/HR)</th>
+                      <th>TOTAL HOURS</th>
+                      <th>FORECAST TOTAL COST</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of getNonDiscBreakdown(project.projectId)">
+                      <td class="role-name">{{ r.role }}</td>
+                      <td>${{ r.rate }}/hr</td>
+                      <td>{{ r.totalHours }} hrs</td>
+                      <td class="role-cost">{{ fc(r.forecastedCost) }}</td>
+                    </tr>
+                    <tr *ngIf="getNonDiscBreakdown(project.projectId).length === 0">
+                      <td colspan="4" class="no-data">Set Total Hours on roles in Role Rates to populate this table.</td>
+                    </tr>
+                    <tr *ngIf="getNonDiscBreakdown(project.projectId).length > 0" class="total-row">
+                      <td colspan="2" class="total-label">TOTAL</td>
+                      <td>{{ getTotalHoursNonDisc(project.projectId) }} hrs</td>
+                      <td class="role-cost">{{ fc(project.forecastedCostNonDisc) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- ── Table 2: Discounted (from Resource Plan) ───────── -->
+                <div class="section-label section-label-disc">Discounted Plan — Cost Rate ($/hr)
+                  <span class="section-hint-disc">Hours from Resource Plan above</span>
+                </div>
+                <table class="role-table role-table-disc">
+                  <thead>
+                    <tr>
+                      <th>ROLE</th>
+                      <th>COST RATE ($/HR)</th>
+                      <th>TOTAL HOURS</th>
+                      <th>FORECAST TOTAL COST</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of getDiscBreakdown(project.projectId)">
+                      <td class="role-name">{{ r.role }}</td>
+                      <td>${{ r.rate }}/hr</td>
+                      <td>{{ r.totalHours }} hrs</td>
+                      <td class="role-cost">{{ fc(r.forecastedCost) }}</td>
+                    </tr>
+                    <tr *ngIf="getDiscBreakdown(project.projectId).length === 0">
+                      <td colspan="4" class="no-data">Add resources to the Resource Plan above to see cost breakdown.</td>
+                    </tr>
+                    <tr *ngIf="getDiscBreakdown(project.projectId).length > 0" class="total-row">
+                      <td colspan="2" class="total-label">TOTAL</td>
+                      <td>{{ getTotalHoursDisc(project.projectId) }} hrs</td>
+                      <td class="role-cost">{{ fc(project.forecastedCostDisc) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </ng-container>
+            </td>
+          </tr>
+
+        </ng-container>
+
+        <tr *ngIf="projects.length === 0">
+          <td colspan="7" class="no-data">No projects found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -50,6 +51,9 @@ public class ProjectEntity {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    @Column(precision = 15, scale = 2)
+    private BigDecimal psFee;
 
     @Column(nullable = false)
     @Builder.Default

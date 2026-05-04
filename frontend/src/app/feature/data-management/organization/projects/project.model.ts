@@ -9,6 +9,7 @@ export interface Project {
   status: ProjectStatus;
   startDate: string;
   endDate: string | null;
+  psFee?: number | null;
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -21,4 +22,5 @@ export interface ProjectDto {
   status: ProjectStatus;
   startDate: string;
   endDate: string | null;
+  psFee?: number | null;
 }

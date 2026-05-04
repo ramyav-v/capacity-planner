@@ -1,0 +1,13 @@
+<div class="financials-container">
+  <div class="tab-bar">
+    <a *ngFor="let tab of tabs"
+       class="tab"
+       [routerLink]="tab.route"
+       routerLinkActive="active-tab">
+      {{ tab.label }}
+    </a>
+  </div>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,190 @@
+@import '../../../../../styles/_theme';
+
+.rates-page { display: flex; flex-direction: column; gap: 24px; }
+
+.rates-card {
+  background: $color-white;
+  border: 1px solid $border-light;
+  border-radius: $card-radius;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+}
+
+.rates-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.rates-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: $color-heading;
+  margin: 0 0 4px;
+}
+
+.rates-subtitle {
+  font-size: 13px;
+  color: $color-subtle;
+  margin: 0;
+}
+
+.add-btn {
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  background: $btn-primary-hover;
+  color: $btn-primary-text;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover { opacity: 0.85; }
+}
+
+/* Add Form */
+.add-form {
+  padding: 20px 24px;
+  background: #f8f9ff;
+  border-bottom: 1px solid #e8eaf6;
+}
+
+.add-form-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: $color-heading;
+  margin: 0 0 14px;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: $color-subtle;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-input {
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid $btn-outline-border;
+  border-radius: 6px;
+  color: $color-body;
+  outline: none;
+  &:focus { border-color: $accent-color; }
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 2px;
+}
+
+.form-error {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #e53935;
+}
+
+/* Table */
+.rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: $color-subtle;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-bottom: 1px solid #eee;
+    background: #fafafa;
+  }
+
+  tbody tr {
+    transition: background 0.12s;
+    &:hover { background: #fafbfe; }
+
+    td {
+      padding: 14px 24px;
+      border-bottom: 1px solid #f2f2f2;
+      color: $color-body;
+      vertical-align: middle;
+    }
+  }
+}
+
+.cell-role  { font-weight: 600; color: $color-heading; }
+.cell-weekly { font-weight: 700; color: $color-heading; }
+.cell-action { text-align: right; white-space: nowrap; }
+
+.edit-btn {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: none;
+  border: 1px solid $btn-outline-border;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $color-heading;
+  &:hover { background: #f0f0f0; }
+}
+
+.inline-input {
+  width: 90px;
+  padding: 6px 8px;
+  font-size: 13px;
+  border: 1px solid $btn-outline-border;
+  border-radius: 6px;
+  &:focus { border-color: $accent-color; outline: none; }
+}
+
+.save-btn, .save-btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: $btn-primary-hover;
+  color: $btn-primary-text;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  &:hover { opacity: 0.85; }
+}
+
+.cancel-btn, .cancel-btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: none;
+  border: 1px solid $btn-outline-border;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $color-body;
+  &:hover { background: #f0f0f0; }
+}
+
+.no-data {
+  text-align: center;
+  padding: 32px !important;
+  color: $color-subtle;
+  font-size: 13px;
+}

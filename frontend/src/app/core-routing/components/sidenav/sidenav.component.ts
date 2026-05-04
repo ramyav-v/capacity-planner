@@ -38,7 +38,8 @@ export class SidenavComponent implements OnInit {
       expanded: true,
       children: [
         { label: 'Overview', route: '/dashboard/overview' },
-        { label: 'Allocations', route: '/dashboard/allocation' }
+        { label: 'Allocations', route: '/dashboard/allocation' },
+        { label: 'Hiring Gap', route: '/dashboard/hiring-gap' }
       ]
     },
     {
@@ -57,6 +58,12 @@ export class SidenavComponent implements OnInit {
         },
         { label: 'Capacity Inputs', route: '/data-management/capacity-inputs' }
       ]
+    },
+    {
+      label: 'Project Financials',
+      icon: 'attach_money',
+      route: '/project-financials',
+      roles: ['ADMIN', 'SUPER_ADMIN']
     },
     {
       label: 'User Management',

@@ -74,6 +74,7 @@
 <!-- Add Allocation Dialog -->
 <app-add-allocation
   [isOpen]="isDialogOpen"
+  [quarterOffset]="quarterOffset"
   (saveQuarter)="onSaveQuarter($event)"
   (updateQuarter)="onUpdateQuarter($event)"
   (close)="onCloseDialog()"

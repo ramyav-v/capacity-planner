@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QuarterAllocationRequest } from '../../allocation.model';
@@ -25,8 +25,9 @@ interface MonthGroup {
   templateUrl: './add-allocation.component.html',
   styleUrl: './add-allocation.component.scss'
 })
-export class AddAllocationComponent implements OnInit {
+export class AddAllocationComponent implements OnInit, OnChanges {
   @Input() isOpen = false;
+  @Input() quarterOffset = 0;
   @Output() saveQuarter = new EventEmitter<QuarterAllocationRequest>();
   @Output() updateQuarter = new EventEmitter<QuarterAllocationRequest>();
   @Output() close = new EventEmitter<void>();
@@ -57,6 +58,12 @@ export class AddAllocationComponent implements OnInit {
     this.generateQuarterWeeks();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['quarterOffset'] && !changes['quarterOffset'].firstChange) {
+      this.generateQuarterWeeks();
+    }
+  }
+
   private loadDropdowns(): void {
     this.employeeService.getAll().subscribe({
       next: (data) => this.employees = data,
@@ -82,8 +89,10 @@ export class AddAllocationComponent implements OnInit {
 
   private generateQuarterWeeks(): void {
     const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    const baseMonth = now.getMonth() + this.quarterOffset * 3;
+    const targetDate = new Date(now.getFullYear(), baseMonth, 1);
+    const currentMonth = targetDate.getMonth();
+    const currentYear = targetDate.getFullYear();
 
     const quarterStartMonth = Math.floor(currentMonth / 3) * 3;
     const quarterNumber = Math.floor(quarterStartMonth / 3) + 1;
