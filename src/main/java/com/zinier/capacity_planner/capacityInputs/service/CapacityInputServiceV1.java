@@ -145,11 +145,18 @@ public class CapacityInputServiceV1 implements CapacityInputV1 {
         for (Map<String, Object> allocation : allocations) {
 
             String dateStr = (String) allocation.get("weekStartDate");
-            java.time.LocalDate weekStartDate = java.time.LocalDate.parse(dateStr);  // dont use full class path import and use function check all places in this class
+            LocalDate weekStartDate = LocalDate.parse(dateStr);
 
-            java.math.BigDecimal pct = new java.math.BigDecimal(allocation.get("allocationPct").toString());
+            BigDecimal pct = new BigDecimal(allocation.get("allocationPct").toString());
 
             CapacityInputEntity existing = capacityInputDaoV1.findByEmployeeIdAndProjectIdAndWeekStartDate(employeeId, projectId, weekStartDate);
+
+            if (pct.compareTo(BigDecimal.ZERO) == 0) {
+                if (existing != null) {
+                    capacityInputDaoV1.deleteById(existing.getId());
+                }
+                continue;
+            }
 
             CapacityInputEntity saved;
             if (existing != null) {

@@ -13,7 +13,7 @@ import {
   CsvExportModule,
   QuickFilterModule
 } from 'ag-grid-community';
-import { Employee, EmployeeDto, EmployeeCompany, EmployeeRegion } from './employee.model';
+import { Employee, EmployeeDto, EmployeeCompany, EmployeeRegion, EmployeeRole } from './employee.model';
 import { EmployeeService } from './services/employee.service';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 
@@ -42,8 +42,11 @@ export class EmployeesComponent implements OnInit {
   allData: Employee[] = [];
   filterCompany: EmployeeCompany | '' = '';
   filterRegion: EmployeeRegion | '' = '';
+  filterRole = '';
+  filterStatus = '';
   companies: EmployeeCompany[] = ['Zinier', 'Sankey', 'TopGrep'];
   regions: EmployeeRegion[] = ['US', 'EMEA'];
+  roles: EmployeeRole[] = ['PM', 'TL', 'Dev', 'QA', 'Support'];
 
   // Dialog state
   isDialogOpen = false;
@@ -94,6 +97,18 @@ export class EmployeesComponent implements OnInit {
         if (!params.value) return '';
         const date = new Date(params.value);
         return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+    },
+    {
+      headerName: 'STATUS',
+      field: 'isActive',
+      flex: 1,
+      sortable: true,
+      cellRenderer: (params: any) => {
+        const badge = document.createElement('span');
+        badge.classList.add('status-badge', params.value ? 'status-active' : 'status-inactive');
+        badge.textContent = params.value ? 'Active' : 'Inactive';
+        return badge;
       }
     },
     {
@@ -244,11 +259,18 @@ export class EmployeesComponent implements OnInit {
     if (this.filterRegion) {
       filtered = filtered.filter(e => e.region === this.filterRegion);
     }
+    if (this.filterRole) {
+      filtered = filtered.filter(e => e.role === this.filterRole);
+    }
+    if (this.filterStatus !== '') {
+      const active = this.filterStatus === 'active';
+      filtered = filtered.filter(e => e.isActive === active);
+    }
     this.rowData = filtered;
   }
 
   private loadEmployees(): void {
-    this.employeeService.getAll(undefined, undefined, true).subscribe({
+    this.employeeService.getAll().subscribe({
       next: (employees) => {
         this.allData = employees;
         this.onFilterChange();

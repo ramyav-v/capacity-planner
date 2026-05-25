@@ -2,7 +2,6 @@ package com.zinier.capacity_planner.capacityInputs.dao;
 
 import com.zinier.capacity_planner.capacityInputs.dao.entity.CapacityInputEntity;
 import com.zinier.capacity_planner.capacityInputs.repository.CapacityInputRepositoryV1;
-import com.zinier.capacity_planner.employee.dao.entity.EmployeeEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +30,11 @@ public class CapacityInputDaoImpV1 implements CapacityInputDaoV1 {
     public void deleteByEmployeeAndProject(Integer employeeId, Integer projectId) {
 
         capacityInputRepositoryV1.deleteByEmployeeIdAndProjectId(employeeId, projectId);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        capacityInputRepositoryV1.deleteById(id);
     }
 
     @Override

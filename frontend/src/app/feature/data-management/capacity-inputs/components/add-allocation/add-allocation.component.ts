@@ -45,6 +45,7 @@ export class AddAllocationComponent implements OnInit, OnChanges {
 
   isEditMode = false;
   validationError = '';
+  private originalNonZeroWeeks = new Set<string>();
 
   constructor(
     private fb: FormBuilder,
@@ -158,7 +159,7 @@ export class AddAllocationComponent implements OnInit, OnChanges {
     }
 
     const allocations = Object.entries(this.weekValues)
-      .filter(([, pct]) => pct > 0)
+      .filter(([date, pct]) => pct > 0 || (this.isEditMode && this.originalNonZeroWeeks.has(date)))
       .map(([weekStartDate, allocationPct]) => ({ weekStartDate, allocationPct }));
 
     if (allocations.length === 0) {
@@ -191,6 +192,7 @@ export class AddAllocationComponent implements OnInit, OnChanges {
   resetForm(): void {
     this.isEditMode = false;
     this.validationError = '';
+    this.originalNonZeroWeeks.clear();
     this.buildForm();
     this.selectedEmployee = null;
     this.generateQuarterWeeks();
@@ -205,10 +207,14 @@ export class AddAllocationComponent implements OnInit, OnChanges {
       projectId: String(projectId)
     });
 
-    // Pre-populate week values
+    // Pre-populate week values and track which weeks had non-zero data
+    this.originalNonZeroWeeks.clear();
     for (const [date, value] of Object.entries(weekData)) {
       if (this.weekValues.hasOwnProperty(date)) {
         this.weekValues[date] = value;
+        if (value > 0) {
+          this.originalNonZeroWeeks.add(date);
+        }
       }
     }
 

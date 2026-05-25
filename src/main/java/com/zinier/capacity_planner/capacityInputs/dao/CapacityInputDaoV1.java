@@ -15,6 +15,8 @@ public interface CapacityInputDaoV1 {
 
     void deleteByEmployeeAndProject(Integer employeeId, Integer projectId);
 
+    void deleteById(Long id);
+
     CapacityInputEntity findByEmployeeIdAndProjectIdAndWeekStartDate(Integer employeeId, Integer projectId, LocalDate weekStartDate);
 
     List<CapacityInputEntity> findByEmployeeIdAndProjectId(Integer employeeId, Integer projectId);

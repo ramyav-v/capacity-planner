@@ -33,7 +33,8 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
 
     @Query("""
        SELECT COUNT(DISTINCT c.employeeId)
-       FROM CapacityInputEntity c
+       FROM CapacityInputEntity c, EmployeeEntity e
+       WHERE c.employeeId = e.id AND e.isActive = true
        GROUP BY c.employeeId
        HAVING SUM(c.allocationPct) > 1.0
        """)
@@ -41,7 +42,8 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
 
     @Query("""
        SELECT COUNT(DISTINCT c.employeeId)
-       FROM CapacityInputEntity c
+       FROM CapacityInputEntity c, EmployeeEntity e
+       WHERE c.employeeId = e.id AND e.isActive = true
        GROUP BY c.employeeId
        HAVING SUM(c.allocationPct) < 0.5
        """)
@@ -61,6 +63,7 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
     SELECT e.role, SUM(c.allocationPct)
     FROM CapacityInputEntity c, EmployeeEntity e
     WHERE c.employeeId = e.id
+      AND e.isActive = true
       AND c.weekStartDate BETWEEN :start AND :end
     GROUP BY e.role
 """)
@@ -92,8 +95,10 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
 
     @Query("""
         SELECT DISTINCT c.employeeId
-        FROM CapacityInputEntity c
-        WHERE c.projectId = :projectId
+        FROM CapacityInputEntity c, EmployeeEntity e
+        WHERE c.employeeId = e.id
+          AND e.isActive = true
+          AND c.projectId = :projectId
           AND c.weekStartDate BETWEEN :start AND :end
     """)
     List<Integer> findDistinctEmployeeIdsByProjectAndDateRange(
@@ -127,6 +132,7 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
         SELECT c.projectId, e.role, SUM(c.allocationPct)
         FROM CapacityInputEntity c, EmployeeEntity e
         WHERE c.employeeId = e.id
+          AND e.isActive = true
           AND c.weekStartDate BETWEEN :start AND :end
         GROUP BY c.projectId, e.role
     """)
@@ -138,6 +144,7 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
         SELECT c.projectId, e.role, COUNT(DISTINCT c.employeeId)
         FROM CapacityInputEntity c, EmployeeEntity e
         WHERE c.employeeId = e.id
+          AND e.isActive = true
           AND c.weekStartDate BETWEEN :start AND :end
         GROUP BY c.projectId, e.role
     """)
@@ -149,6 +156,7 @@ public interface CapacityInputRepositoryV1 extends JpaRepository<CapacityInputEn
         SELECT c.projectId, e.role, SUM(c.allocationPct)
         FROM CapacityInputEntity c, EmployeeEntity e
         WHERE c.employeeId = e.id
+          AND e.isActive = true
         GROUP BY c.projectId, e.role
     """)
     List<Object[]> sumAllocationGroupedByProjectAndRole();

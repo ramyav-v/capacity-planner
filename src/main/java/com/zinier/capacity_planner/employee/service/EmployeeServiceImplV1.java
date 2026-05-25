@@ -1,5 +1,6 @@
 package com.zinier.capacity_planner.employee.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
     public EmployeeResponseModel create(EmployeeResponseModel model) {
         EmployeeEntity entity = toEntity(model);
         entity.setId(null);
-        entity.setIsActive(true);
+        entity.setIsActive(deriveIsActive(model.getEndDate()));
         return toModel(employeeDao.save(entity));
     }
 
@@ -62,6 +63,7 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
         existing.setRegion(Region.valueOf(model.getRegion()));
         existing.setStartDate(model.getStartDate());
         existing.setEndDate(model.getEndDate());
+        existing.setIsActive(deriveIsActive(model.getEndDate()));
 
         return toModel(employeeDao.save(existing));
     }
@@ -90,6 +92,10 @@ public class EmployeeServiceImplV1 implements EmployeeServiceV1 {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
+    }
+
+    private boolean deriveIsActive(LocalDate endDate) {
+        return endDate == null || endDate.isAfter(LocalDate.now());
     }
 
     private EmployeeEntity toEntity(EmployeeResponseModel model) {

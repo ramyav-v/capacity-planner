@@ -37,6 +37,15 @@
         <option value="">All Regions</option>
         <option *ngFor="let r of regions" [value]="r">{{ r }}</option>
       </select>
+      <select class="filter-select" [(ngModel)]="filterRole" (ngModelChange)="onFilterChange()">
+        <option value="">All Roles</option>
+        <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
     </div>
     <button class="btn btn-outline" (click)="onDownloadCsv()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
